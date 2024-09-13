@@ -1,0 +1,85 @@
+/* Estilo para la barra de navegación con degradado vertical */
+.navbar {
+    background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(40, 115, 214, 0.7)); /* Degradado vertical de transparente a azul con opacidad */
+    padding: 1rem 2rem; /* Ajusta el padding para un aspecto más aireado */
+}
+
+
+/* El resto de tus estilos se mantienen igual */
+
+.navbar-brand {
+    font-size: 1.8rem; /* Tamaño de fuente mayor para la marca */
+    font-weight: 700; /* Fuente en negrita */
+    color: #ffffff; /* Color de texto negro */
+    text-transform: uppercase; /* Transformar a mayúsculas */
+}
+
+.navbar-brand .text-primary {
+    color: #FFD700; /* Color dorado para el texto principal */
+}
+
+.navbar-brand .text-danger {
+    color: #FF4500; /* Color naranja intenso para el texto secundario */
+}
+
+.navbar-nav .nav-link {
+    color: #526de4; /* Color de texto azul */
+    font-size: 1rem;
+    margin-left: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #dbcf1f; /* Color dorado al pasar el ratón */
+    background-color: rgba(247, 247, 247, 0.1); /* Fondo semi-transparente */
+    border-radius: 5px; /* Bordes redondeados para el hover */
+}
+
+/* Dropdown estilos */
+.dropdown-menu {
+    background-color: #003366; /* Fondo oscuro del dropdown */
+    border: none; /* Sin borde para un look más limpio */
+    box-shadow: 0 4px 6px rgba(153, 21, 21, 0.1); /* Sombra similar a la barra de navegación */
+}
+
+.dropdown-item {
+    color: #fff; /* Color de texto blanco */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente al pasar el ratón */
+}
+
+/* Botón de filtro */
+.btn-outline-secondary {
+    border-color: #FFD700; /* Borde dorado */
+    color: #FFD700; /* Color de texto dorado */
+}
+
+.btn-outline-secondary:hover {
+    background-color: #FFD700; /* Fondo dorado al pasar el ratón */
+    color: #003366; /* Color de texto oscuro al pasar el ratón */
+}
+
+
+/* Estilo general de los enlaces de navegación */
+.navbar-nav .nav-link {
+    color: #ffffff; /* Color de texto azul */
+    font-size: 1rem;
+    margin-left: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+
+/* Elimina el recuadro transparente al pasar el ratón */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #FFD700; /* Color dorado al pasar el ratón */
+    background-color: transparent; /* Elimina el fondo transparente */
+    border-radius: 5px; /* Bordes redondeados para el hover */
+    outline: none; /* Elimina el contorno de enfoque por defecto */
+}

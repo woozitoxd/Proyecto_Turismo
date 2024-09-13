@@ -1,0 +1,43 @@
+/* Estilos adicionales para el header */
+#demoFont {
+    font-family: "Arial Black", sans-serif;
+    font-size: 5dvb;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #6BD1FF;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    }
+
+#demoParrafoFont {
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 25px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #6BD1FF;
+        font-weight: 400;
+        text-decoration: none solid rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+}
+
+/* Estilos para las cards */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+}
