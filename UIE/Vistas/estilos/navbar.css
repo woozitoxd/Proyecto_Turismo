@@ -1,29 +1,28 @@
-/* Estilo para la barra de navegación con degradado vertical */
+/* Barra de navegación con degradado */
 .navbar {
-    background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(40, 115, 214, 0.7)); /* Degradado vertical de transparente a azul con opacidad */
-    padding: 1rem 2rem; /* Ajusta el padding para un aspecto más aireado */
+    background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));
+    padding: 2rem 3rem;
 }
 
-
-/* El resto de tus estilos se mantienen igual */
-
+/* Estilos para la marca */
 .navbar-brand {
-    font-size: 1.8rem; /* Tamaño de fuente mayor para la marca */
-    font-weight: 700; /* Fuente en negrita */
-    color: #ffffff; /* Color de texto negro */
-    text-transform: uppercase; /* Transformar a mayúsculas */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
 .navbar-brand .text-primary {
-    color: #FFD700; /* Color dorado para el texto principal */
+    color: #FFD700;
 }
 
 .navbar-brand .text-danger {
-    color: #FF4500; /* Color naranja intenso para el texto secundario */
+    color: #FF4500;
 }
 
+/* Estilos de los links de navegación */
 .navbar-nav .nav-link {
-    color: #526de4; /* Color de texto azul */
+    color: #ffffff;
     font-size: 1rem;
     margin-left: 1rem;
     font-weight: 500;
@@ -32,54 +31,89 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #dbcf1f; /* Color dorado al pasar el ratón */
-    background-color: rgba(247, 247, 247, 0.1); /* Fondo semi-transparente */
-    border-radius: 5px; /* Bordes redondeados para el hover */
+    color: #FFD700;
+    background-color: transparent;
+    border-radius: 5px;
 }
 
-/* Dropdown estilos */
-.dropdown-menu {
-    background-color: #003366; /* Fondo oscuro del dropdown */
-    border: none; /* Sin borde para un look más limpio */
-    box-shadow: 0 4px 6px rgba(153, 21, 21, 0.1); /* Sombra similar a la barra de navegación */
+/* Estilos de los botones personalizados */
+.custom-btn-login, .custom-btn-register {
+    padding: 10px 20px;
+    background-color: #FFD700;
+    border: none;
+    color: #25ddfd;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown-item {
-    color: #fff; /* Color de texto blanco */
+.custom-btn-login:hover, .custom-btn-register:hover {
+    background-color: #003366;
+    color: #FFD700;
 }
 
-.dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente al pasar el ratón */
+.custom-btn-logout {
+    background-color: #FF4500;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
 }
 
-/* Botón de filtro */
-.btn-outline-secondary {
-    border-color: #FFD700; /* Borde dorado */
-    color: #FFD700; /* Color de texto dorado */
+.custom-btn-logout:hover {
+    background-color: #FF6347;
 }
 
-.btn-outline-secondary:hover {
-    background-color: #FFD700; /* Fondo dorado al pasar el ratón */
-    color: #003366; /* Color de texto oscuro al pasar el ratón */
+/* ------ Menú desplegable ------ */
+
+/* Botón menú hamburguesa */
+.custom-hamburger-btn {
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1.2rem;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.custom-hamburger-btn:hover {
+    background-color: #FFD700;
+    color: #000000;
+}
 
-/* Estilo general de los enlaces de navegación */
-.navbar-nav .nav-link {
-    color: #ffffff; /* Color de texto azul */
+/* Menú desplegable */
+.custom-dropdown {
+    background-color: #5953b3;
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+/* Estilo de los elementos dentro del menú */
+.custom-dropdown .dropdown-item {
+    color: #ffffff;
     font-size: 1rem;
-    margin-left: 1rem;
+    padding: 0.75rem 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
     font-weight: 500;
     text-transform: uppercase;
-    transition: color 0.3s ease, background-color 0.3s ease;
-    position: relative;
 }
 
-/* Elimina el recuadro transparente al pasar el ratón */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
-    color: #FFD700; /* Color dorado al pasar el ratón */
-    background-color: transparent; /* Elimina el fondo transparente */
-    border-radius: 5px; /* Bordes redondeados para el hover */
-    outline: none; /* Elimina el contorno de enfoque por defecto */
+/* Hover de los elementos del menú */
+.custom-dropdown .dropdown-item:hover {
+    background-color: #c23ddd;
+    color: #000000;
+    border-radius: 5px;
 }
+
+/* Bordes suavizados del menú cuando está abierto */
+.custom-dropdown.show {
+    background-color: #5858d9;
+    border-radius: 10px;
+}
+
+

@@ -1,3 +1,17 @@
+<?php
+    require_once("../Modelo/MOD_ClaseUsuario.php"); //se incluye los archivos
+    require_once("../Modelo/MOD_perfil.php");
+    require_once("../Controlador/CON_IniciarSesion.php");
+
+    $usuario_id = null;
+
+    if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
+        $usuario_id = $_SESSION['id']; // inicio de sesion, comprobacion de que la sesion haya sido iniciada
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,26 +35,42 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
-            </a>
+            <div class="dropdown">
+                <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bars"></i> MENÚ
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="hamburgerMenu">
+                    <li><a class="dropdown-item" href="#inicio">Inicio</a></li>
+                    <li><a class="dropdown-item" href="#favoritos">Favoritos</a></li>
+                    <?php //Fragmento de codigo PHP que trabaja con la muestra dinamica de botones en funcion del inicio de sesion
+                    if (isset($_SESSION['usuario'])) {
+                        // Usuario ha iniciado sesión, muestra "Ver Perfil" y "Cerrar Sesión"
+                        echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
+                        echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
+                    } else {
+                        // Usuario no ha iniciado sesión, muestra "Iniciar Sesión" y "Registrarse"
+                        echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
+                        echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
+                    }
+                    ?>
+                </ul>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active"  aria-current="page" href="#inicio">Inicio</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#favoritos">Favoritos</a>
                     </li>
                 </ul>
+                <a class="navbar-brand" href="#">
+                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
+                </a>
                 <form class="d-flex ms-3 search-form" role="search">
                     <input class="form-control custom-input me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
                     <div class="dropdown ms-2">
                         <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             FILTROS
@@ -51,19 +81,12 @@
                             <li><a class="dropdown-item" href="#">Gastronómico</a></li>
                         </ul>
                     </div>
+                    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
                 </form>
-                
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-secondary text-black shadow-none" data-bs-toggle="modal" href="#myModalInicio">
-                            <i class="bi bi-arrow-right-circle"></i> Iniciar Sesión
-                        </a>
-                        <a class="nav-link btn btn-secondary text-black shadow-none" data-bs-toggle="modal" href="#myModalRegistro">Registrarse</a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
+    
     
     
     <!-- Header con margen para no ser tapado por la navbar -->
@@ -73,80 +96,71 @@
     </header>
 
 
+    <!-- Estructura principal -->
+    <div class="estructura-principal">
+        <!-- Mapa (fijo a la izquierda) -->
+        <div class="zona-mapa-izquierda">
+            <div id="map"></div>
+            <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarmapa"></script>
+        </div>
 
-    
-    <!-- cards de bootstrap donde se mostrarían los lugares -->
-    <section class="container my-5">
-        <div id="map"></div>
-        <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarmapa"></script>
-        <hr>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" class="card-img-top" alt="Imagen de destino">
-                    <div class="card-body">
-                        <h5 class="card-title">Destino 1</h5>
-                        <p class="card-text">Descubre la belleza de este destino turístico con increíbles paisajes y actividades.</p>
-                        <a href="#" class="btn btn-primary">Ver mas</a>
-                    </div>
+        <!-- Cards de lugares turísticos (a la derecha) -->
+        <div class="bloque-lugares">
+            <!-- Primera tarjeta -->
+            <div class="tarjeta-turistica">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
+                <div class="contenido-tarjeta">
+                    <h5 class="titulo-lugar">Coliseo Romano</h5>
+                    <p class="descripcion-lugar">* Etiquetas *</p>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" class="card-img-top" alt="Imagen de destino">
-                    <div class="card-body">
-                        <h5 class="card-title">Destino 2</h5>
-                        <p class="card-text">Un lugar perfecto para relajarte y disfrutar de la tranquilidad.</p>
-                        <a href="#" class="btn btn-primary">Ver mas</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="https://lh3.googleusercontent.com/proxy/8vzhGVktTJqWgJBZZvcPnyzWp3oUFn10yJzoho_2Vqsb1lFcqxEhIVQGehLHOgnkF95dWmZxq3f5X6r75TSTLbu3GSdxAXgfxN1mxOWMQSsIq2P3JP6evP-LyWTVLpc6eGPr7qs" class="card-img-top" alt="Imagen de destino">
-                    <div class="card-body">
-                        <h5 class="card-title">Destino 3</h5>
-                        <p class="card-text">Una experiencia única llena de aventura y cultura.</p>
-                        <a href="#" class="btn btn-primary">Ver mas</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-        <!-- carrousel de fotos que se podria mostrar, agarrado de boostrap tambien -->
-    <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-        <!-- Indicators/dots -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            <!-- Segunda tarjeta -->
+            <div class="tarjeta-turistica">
+                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                <div class="contenido-tarjeta">
+                    <h5 class="titulo-lugar">Villa Fiorito</h5>
+                    <p class="descripcion-lugar">* Etiquetas *</p>
+                </div>
+            </div>
+
+            <!-- Segunda tarjeta -->
+            <div class="tarjeta-turistica">
+                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                <div class="contenido-tarjeta">
+                    <h5 class="titulo-lugar">Municipio Ezeiza</h5>
+                    <p class="descripcion-lugar">* Etiquetas *</p>
+                </div>
+            </div>
+
+
+            <!-- Segunda tarjeta -->
+            <div class="tarjeta-turistica">
+                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                <div class="contenido-tarjeta">
+                    <h5 class="titulo-lugar">Isidro Casanova</h5>
+                    <p class="descripcion-lugar">* Etiquetas *</p>
+                </div>
+            </div>
+
+
+            <!-- Segunda tarjeta -->
+            <div class="tarjeta-turistica">
+                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                <div class="contenido-tarjeta">
+                    <h5 class="titulo-lugar">Sitio Ejemplo</h5>
+                    <p class="descripcion-lugar">* Etiquetas *</p>
+                </div>
+            </div>
+
+            <!-- Más tarjetas pueden ir aquí -->
         </div>
-        
-        <!-- The slideshow/carousel -->
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://lh3.googleusercontent.com/proxy/8vzhGVktTJqWgJBZZvcPnyzWp3oUFn10yJzoho_2Vqsb1lFcqxEhIVQGehLHOgnkF95dWmZxq3f5X6r75TSTLbu3GSdxAXgfxN1mxOWMQSsIq2P3JP6evP-LyWTVLpc6eGPr7qs" alt="Los Angeles" class="d-block" style="width:100%">
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Chicago" class="d-block" style="width:100%">
-            </div>
-            <div class="carousel-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="New York" class="d-block" style="width:100%">
-            </div>
-            </div>
-            
-            <!-- Left and right controls/icons -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            </button>
-        </div>
-        
+    </div>
+
+
         <!---------------------------->
+        <!-- Modal Registro usuario -->
         <div class="modal fade" id="myModalRegistro" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -156,7 +170,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <!-- Modal Body -->
-                    <form action="" method="post">
+                    <form action="../Controlador/CON_RegistroUsuario.php" method="post">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="userName" class="form-label">Nombre de Usuario</label>
@@ -168,11 +182,16 @@
                             </div>
                             <div class="mb-3">
                                 <label for="contraseña" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="contraseña" required placeholder="Ingrese su contraseña" name="contraseña">
+                                <input type="password" class="form-control" id="registerPSW" required placeholder="Ingrese su contraseña" name="registerPSW">
                             </div>
                             <div class="mb-3">
                                 <label for="confirmarContraseña" class="form-label">Confirmar Contraseña</label>
                                 <input type="password" class="form-control" id="confirmarContraseña" required placeholder="Confirme su contraseña" name="confirmarContraseña">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha_Registro">Fecha de Nacimiento:</label>
+                                <input type="date" required class="form-control" id="fecha_Registro" name="fecha_Registro">
+                                <div class="invalid-feedback">Fecha de nacimiento inválida.</div>
                             </div>
                         </div>
                         <!-- Modal Footer -->
@@ -187,7 +206,7 @@
         
 
         <!-- ---------------------------------->
-    
+        <!-- Inicio de sesion -->
         <div class="modal fade" id="myModalInicio" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -197,7 +216,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <!-- Modal Body -->
-                    <form action="" method="post">
+                    <form action="../Controlador/CON_IniciarSesion.php" method="post">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="userName" class="form-label">Nombre de Usuario</label>
