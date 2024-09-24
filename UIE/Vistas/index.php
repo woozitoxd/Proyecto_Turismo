@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/botonesNav.css">
     <link rel="stylesheet" href="./estilos/inputBuscar.css">
+    <link rel="stylesheet" href="./estilos/cards.css">
     <script defer src="./javascript/navbar.js"></script>
     <script defer src="./javascript/mapa.js"></script>
     <script defer src="./javascript/maps.js"></script>
@@ -108,11 +109,19 @@
         <!-- Cards de lugares turísticos (a la derecha) -->
         <div class="bloque-lugares">
             <!-- Primera tarjeta -->
-            <div class="tarjeta-turistica">
+            <div class="tarjeta-turistica" data-bs-toggle="modal" data-bs-target="#modal1">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar">Coliseo Romano</h5>
+                    <p class="etiquetas-lugar">Etiquetas</p>
                     <p class="descripcion-lugar">* Etiquetas *</p>
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
                 </div>
             </div>
 
@@ -121,7 +130,15 @@
                 <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar">Villa Fiorito</h5>
+                    <p class="etiquetas-lugar">Etiquetas</p>
                     <p class="descripcion-lugar">* Etiquetas *</p>
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
                 </div>
             </div>
 
@@ -130,7 +147,16 @@
                 <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar">Municipio Ezeiza</h5>
+                    <p class="etiquetas-lugar">Etiquetas</p>
                     <p class="descripcion-lugar">* Etiquetas *</p>
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
+                    
                 </div>
             </div>
 
@@ -140,7 +166,15 @@
                 <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar">Isidro Casanova</h5>
+                    <p class="etiquetas-lugar">Etiquetas</p>
                     <p class="descripcion-lugar">* Etiquetas *</p>
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
                 </div>
             </div>
 
@@ -150,7 +184,16 @@
                 <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar">Sitio Ejemplo</h5>
+                    <p class="etiquetas-lugar">Etiquetas</p>
                     <p class="descripcion-lugar">* Etiquetas *</p>
+                     <!-- Sección de valoración -->
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
                 </div>
             </div>
 
@@ -240,6 +283,32 @@
                 </div>
             </div>
         </div>
-        
+                <!--Modal para tarjeta-->
+                <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Coliseo Romano</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen del Coliseo" class="card-img-top">
+                        <div class="d-flex align-content-start flex-wrap"><p class="categoria-lugar">Categoria</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p></div>
+                        <p>El Coliseo es un anfiteatro de la época del Imperio romano, situado en el centro de la ciudad de Roma. Este lugar es uno de los sitios más turísticos del mundo.</p>
+
+                     </div>
+                    <div class="modal-footer">
+                         <!-- Sección de valoración -->
+                    <div class="valoracion">
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                    </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
 </body>
 </html>
