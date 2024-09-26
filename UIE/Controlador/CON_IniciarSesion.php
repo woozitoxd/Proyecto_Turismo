@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $correo = $_POST["correo"];
         $password = $_POST["contraseña"];
         
-        
         // consulta para verificar si el usuario y la contraseña coinciden
         $usuario = new perfilUser("", "", "", "");
         $resultado = $usuario->consultar($nombre, $correo, $password); //almaceno en resultado lo devuelto por la funcion consultar
@@ -20,9 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id'] = $resultado['id'];
             $_SESSION['usuario'] = $correo;
             $_SESSION['password'] = $password;
-
             header('Location: ../Vistas/index.php'); //vuelvo al index
-        
+
         }else{
             echo "NO REGISTRADO";
             header('Location: ../Vistas/index.php'); 

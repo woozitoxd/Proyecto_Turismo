@@ -2,7 +2,7 @@
     require_once("../Modelo/MOD_ClaseUsuario.php"); //se incluye los archivos
     require_once("../Modelo/MOD_perfil.php");
     require_once("../Controlador/CON_IniciarSesion.php");
-
+    
     $usuario_id = null;
 
     if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
@@ -17,21 +17,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./estilos/menu.css">
     <link rel="stylesheet" href="./estilos/header.css">
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/maps.css">
-    <link rel="stylesheet" href="./estilos/botonesNav.css">
-    <link rel="stylesheet" href="./estilos/inputBuscar.css">
     <link rel="stylesheet" href="./estilos/cards.css">
-    <script defer src="./javascript/navbar.js"></script>
-    <script defer src="./javascript/mapa.js"></script>
     <script defer src="./javascript/maps.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <title>Inicio - Turismo</title>
 </head>
 <body>
@@ -89,226 +89,241 @@
     </nav>
     
     
+    <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
+        <header class="bg-light text-center py-5 mt-5">
+        </header>
     
-    <!-- Header con margen para no ser tapado por la navbar -->
-    <header class="bg-light text-center py-5 mt-5">
-        <div id="demoFont">BIENVENIDO A TURISMO</div>
-        <p id="demoParrafoFont">Explora nuestras opciones y descubre nuevos destinos.</p>
-    </header>
-
-
-    <!-- Estructura principal -->
-    <div class="estructura-principal">
-        <!-- Mapa (fijo a la izquierda) -->
-        <div class="zona-mapa-izquierda">
-            <div id="map"></div>
-            <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarmapa"></script>
-        </div>
-
-        <!-- Cards de lugares turísticos (a la derecha) -->
-        <div class="bloque-lugares">
-            <!-- Primera tarjeta -->
-            <div class="tarjeta-turistica" data-bs-toggle="modal" data-bs-target="#modal1">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Coliseo Romano</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
+    
+        <!-- Estructura principal -->
+        <div class="estructura-principal">
+            <!-- Mapa (fijo a la izquierda) -->
+            <div class="zona-mapa-izquierda">
+                <div id="map"></div>
+                <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarmapa"></script>
             </div>
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Villa Fiorito</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Municipio Ezeiza</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                    
-                </div>
-            </div>
-
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Isidro Casanova</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Sitio Ejemplo</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                     <!-- Sección de valoración -->
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Más tarjetas pueden ir aquí -->
-        </div>
-    </div>
-
-
-        <!---------------------------->
-        <!-- Modal Registro usuario -->
-        <div class="modal fade" id="myModalRegistro" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header bg-success text-white">
-                        <h4 class="modal-title">Registro de Usuario</h4>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <!-- Modal Body -->
-                    <form action="../Controlador/CON_RegistroUsuario.php" method="post">
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="userName" class="form-label">Nombre de Usuario</label>
-                                <input type="text" class="form-control" id="userName" name="userName" required placeholder="Ingrese su username">
-                            </div>
-                            <div class="mb-3">
-                                <label for="correo" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" name="correo">
-                            </div>
-                            <div class="mb-3">
-                                <label for="contraseña" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="registerPSW" required placeholder="Ingrese su contraseña" name="registerPSW">
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirmarContraseña" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" class="form-control" id="confirmarContraseña" required placeholder="Confirme su contraseña" name="confirmarContraseña">
-                            </div>
-                            <div class="mb-3">
-                                <label for="fecha_Registro">Fecha de Nacimiento:</label>
-                                <input type="date" required class="form-control" id="fecha_Registro" name="fecha_Registro">
-                                <div class="invalid-feedback">Fecha de nacimiento inválida.</div>
-                            </div>
+    
+            <!-- Cards de lugares turísticos (a la derecha) -->
+            <div class="bloque-lugares">
+                <!-- Primera tarjeta -->
+                <!-- Los dato son hardocdeados de la base de datos, el "data-sitio-id = 1, se usa para traer las coordenadas, y onlick llama a la funcion que recarga el mapa con las coord-->
+                <div class="tarjeta-turistica" data-bs-toggle="modal" data-sitio-id="1" data-bs-target="#modal1" onclick="cargarMapaDesdeTarjeta(this)">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
+                    <div class="contenido-tarjeta">
+                        <h5 class="titulo-lugar">Coliseo Romano</h5>
+                        <p class="etiquetas-lugar">Etiquetas</p>
+                        <p class="descripcion-lugar">* Etiquetas *</p>
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
                         </div>
-                        <!-- Modal Footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success">Registrarse</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
+    
+                <!-- Segunda tarjeta -->
+                <div class="tarjeta-turistica">
+                    <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                    <div class="contenido-tarjeta">
+                        <h5 class="titulo-lugar">Villa Fiorito</h5>
+                        <p class="etiquetas-lugar">Etiquetas</p>
+                        <p class="descripcion-lugar">* Etiquetas *</p>
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Segunda tarjeta -->
+                <div class="tarjeta-turistica">
+                    <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                    <div class="contenido-tarjeta">
+                        <h5 class="titulo-lugar">Municipio Ezeiza</h5>
+                        <p class="etiquetas-lugar">Etiquetas</p>
+                        <p class="descripcion-lugar">* Etiquetas *</p>
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        </div>
+                        
+                    </div>
+                </div>
+    
+    
+                <!-- Segunda tarjeta -->
+                <div class="tarjeta-turistica">
+                    <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                    <div class="contenido-tarjeta">
+                        <h5 class="titulo-lugar">Isidro Casanova</h5>
+                        <p class="etiquetas-lugar">Etiquetas</p>
+                        <p class="descripcion-lugar">* Etiquetas *</p>
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        </div>
+                    </div>
+                </div>
+    
+    
+                <!-- Segunda tarjeta -->
+                <div class="tarjeta-turistica">
+                    <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
+                    <div class="contenido-tarjeta">
+                        <h5 class="titulo-lugar">Sitio Ejemplo</h5>
+                        <p class="etiquetas-lugar">Etiquetas</p>
+                        <p class="descripcion-lugar">* Etiquetas *</p>
+                        <!-- Sección de valoración -->
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Más tarjetas pueden ir aquí -->
             </div>
         </div>
-        
-
-        <!-- ---------------------------------->
-        <!-- Inicio de sesion -->
-        <div class="modal fade" id="myModalInicio" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header bg-primary text-white">
-                        <h4 class="modal-title">Iniciar Sesión</h4>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    
+    
+            <!---------------------------->
+            <!-- Modal Registro usuario -->
+            <div class="modal fade" id="myModalRegistro" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-success text-white">
+                            <h4 class="modal-title">Registro de Usuario</h4>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal Body -->
+                        <form action="../Controlador/CON_RegistroUsuario.php" method="post">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">Nombre de Usuario</label>
+                                    <input type="text" class="form-control" id="userName" name="userName" required placeholder="Ingrese su username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" name="correo">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contraseña" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="registerPSW" required placeholder="Ingrese su contraseña" name="registerPSW">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmarContraseña" class="form-label">Confirmar Contraseña</label>
+                                    <input type="password" class="form-control" id="confirmarContraseña" required placeholder="Confirme su contraseña" name="confirmarContraseña">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha_Registro">Fecha de Nacimiento:</label>
+                                    <input type="date" required class="form-control" id="fecha_Registro" name="fecha_Registro">
+                                    <div class="invalid-feedback">Fecha de nacimiento inválida.</div>
+                                </div>
+                            </div>
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-success">Registrarse</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- Modal Body -->
-                    <form action="../Controlador/CON_IniciarSesion.php" method="post">
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="userName" class="form-label">Nombre de Usuario</label>
-                                <input type="text" class="form-control" id="userName" name="userName" autocomplete="email_registro" required placeholder="Ingrese su username">
-                            </div>
-                            <div class="mb-3">
-                                <label for="correo" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" autocomplete="correo" name="correo">
-                            </div>
-                            <div class="mb-3">
-                                <label for="contraseña" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="contraseña" required placeholder="Ingrese su contraseña" name="contraseña">
-                            </div>
-                        </div>
-                        <!-- Modal Footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
+            
+    
+            <!-- ---------------------------------->
+            <!-- Inicio de sesion -->
+            <div class="modal fade" id="myModalInicio" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header bg-primary text-white">
+                            <h4 class="modal-title">Iniciar Sesión</h4>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal Body -->
+                        <form action="../Controlador/CON_IniciarSesion.php" method="post">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">Nombre de Usuario</label>
+                                    <input type="text" class="form-control" id="userName" name="userName" autocomplete="email_registro" required placeholder="Ingrese su username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" autocomplete="correo" name="correo">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contraseña" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="contraseña" required placeholder="Ingrese su contraseña" name="contraseña">
+                                </div>
+                            </div>
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
                 <!--Modal para tarjeta-->
                 <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Coliseo Romano</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Coliseo Romano</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen del Coliseo" class="card-img-top">
+                            <div class="d-flex align-content-start flex-wrap"><p class="categoria-lugar">Categoria</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p></div>
+                            <p>El Coliseo es un anfiteatro de la época del Imperio romano, situado en el centro de la ciudad de Roma. Este lugar es uno de los sitios más turísticos del mundo.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- Sección de valoración -->
+                        <div class="valoracion">
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+                        </div>
+                        </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen del Coliseo" class="card-img-top">
-                        <div class="d-flex align-content-start flex-wrap"><p class="categoria-lugar">Categoria</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p></div>
-                        <p>El Coliseo es un anfiteatro de la época del Imperio romano, situado en el centro de la ciudad de Roma. Este lugar es uno de los sitios más turísticos del mundo.</p>
+                </div>
+    </main>
 
-                     </div>
-                    <div class="modal-footer">
-                         <!-- Sección de valoración -->
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                    </div>
-                    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://img.freepik.com/vector-gratis/fondo-plano-viaje-vintage_23-2148189177.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1727308800&semt=ais_hybrid" alt="logoTurismo" class="img-fluid" style="max-width: 100px;"> 
                 </div>
+                <div class="col-md-6 text-md-end mt-4 mt-md-0">
+                    <a href="#" target="_blank" class="text-white me-3"><i class="fab fa-twitter" style="font-size: 3.5rem;"></i></a>  
+                    <a href="#" target="_blank" class="text-white me-3"><i class="fab fa-instagram" style="font-size: 3.5rem;"></i></a>
+                    <a href="#" target="_blank" class="text-white"><i class="fab fa-facebook" style="font-size: 3.5rem;"></i></a>
                 </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
