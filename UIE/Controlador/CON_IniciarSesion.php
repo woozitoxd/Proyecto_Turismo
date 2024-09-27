@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Location: ../Vistas/index.php'); //vuelvo al index
 
         }else{
-            echo "NO REGISTRADO";
-            header('Location: ../Vistas/index.php'); 
+            echo "NO REGISTRADO"; //mostrar error en pantalla además de consola
+            header('Location: ../Vistas/index.php');  //devuelve al index
         exit();
         }
     }

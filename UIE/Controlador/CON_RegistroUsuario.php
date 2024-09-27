@@ -14,10 +14,10 @@
         $hashedPassword = password_hash(password: $password, algo: PASSWORD_DEFAULT);
 
         $usuario = new Usuario(id: "",correo: $correo, password: $hashedPassword, fechaNacimiento: $fecha_nacimiento, nombre: $nombre);
-        $resultado = $usuario->validaRequerido(nombre: $nombre, correo: $correo, fecha_nacimiento: $fecha_nacimiento);
+        $resultado = $usuario->validaRequerido(nombre: $nombre, correo: $correo, fecha_nacimiento: $fecha_nacimiento); //primero se validan los campos y se almacena en resultado
 
         if ($resultado !== true) {
-            echo 'Error: ' . $resultado;
+            echo 'Error: ' . $resultado; //Nota a futuro: imprimir el error en pantalla y no en consola.
             return false;
 
         } else {
@@ -25,7 +25,7 @@
 
             if ($resultado === true) {
 
-                header('Location: ../Vistas/index.html');
+                header('Location: ../Vistas/index.php'); //Devuelve al index.
                 exit();
             } else {
                 echo $resultado;
