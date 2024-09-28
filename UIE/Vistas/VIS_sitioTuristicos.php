@@ -1,5 +1,5 @@
 <?php foreach ($sitios as $sitio): ?>
-<div class="tarjeta-turistica" data-bs-toggle="modal" data-bs-target="#modal1">
+<div class="tarjeta-turistica" data-bs-toggle="modal" data-sitio-id="1" data-bs-target="#modal1" onclick="cargarMapaDesdeTarjeta(this)">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
                 <div class="contenido-tarjeta">
                     <h5 class="titulo-lugar"> <?= $sitio['nombre'] ?></h5>
