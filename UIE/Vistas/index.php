@@ -107,102 +107,17 @@
         </div>
 
         <!-- Cards de lugares turísticos (a la derecha) -->
+         <?php
+         ?>
         <div class="bloque-lugares">
-            <!-- Primera tarjeta -->
-            <div class="tarjeta-turistica" data-bs-toggle="modal" data-bs-target="#modal1">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Coliseo Romano</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Villa Fiorito</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Municipio Ezeiza</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                    
-                </div>
-            </div>
-
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Isidro Casanova</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Segunda tarjeta -->
-            <div class="tarjeta-turistica">
-                <img src="https://www.hola.com/imagenes/viajes/2014072572733/top-25-destinos-turisticos-mundo/0-281-707/a_Machu-Picch-a.jpg" alt="Imagen de destino">
-                <div class="contenido-tarjeta">
-                    <h5 class="titulo-lugar">Sitio Ejemplo</h5>
-                    <p class="etiquetas-lugar">Etiquetas</p>
-                    <p class="descripcion-lugar">* Etiquetas *</p>
-                     <!-- Sección de valoración -->
-                    <div class="valoracion">
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Más tarjetas pueden ir aquí -->
+            
+        <?php
+        require_once '../Controlador/CON_SitioTuristico.php';
+        $controlador = new SitioTuristicoContoller();
+        $controlador->MostrarSitiosTuristicos();
+         ?>
         </div>
-    </div>
 
-
-        <!---------------------------->
         <!-- Modal Registro usuario -->
         <div class="modal fade" id="myModalRegistro" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
