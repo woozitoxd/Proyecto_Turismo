@@ -41,3 +41,23 @@
     height: 250px;
     object-fit: cover;
 }
+
+body{ 
+
+    display: flex !important; 
+    flex-direction: column !important;
+    min-height: 100vh !important;
+
+    nav{
+        padding: 1rem !important;
+    }
+
+    main{
+        padding: 1rem !important;
+        flex:  1 !important;
+    }
+    footer{
+        padding: 1rem !important;
+        background-color: black;
+    }
+}

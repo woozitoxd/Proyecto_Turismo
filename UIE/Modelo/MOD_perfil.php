@@ -32,7 +32,7 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             $stmt->execute();
             
             $total = $stmt->fetchColumn();
-    
+
             // Si el total es mayor a 0, significa que el nombre ingresado ya existe
             return $total > 0;
         }else{
@@ -46,11 +46,9 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
         $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
         $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
-    
         $stmt->execute();
-    
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
         if ($usuario && password_verify($password, $usuario['password'])) { //Funcion password_verify para verificar si la contraseña coincide con la almacenada en la BBDD
             unset($usuario['password']); // Unset de la contraseña para no almacenarla en la sesion
             return $usuario;
