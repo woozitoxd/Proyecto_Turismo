@@ -110,8 +110,6 @@
                  $controlador = new SitioTuristicoContoller();
                  $controlador->MostrarSitiosTuristicos();
             ?>
-             
-    
                 <!-- Más tarjetas pueden ir aquí -->
             </div>
         </div>
@@ -200,32 +198,7 @@
             </div>
 
 
-                <!--Modal para tarjeta-->
-                <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Coliseo Romano</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEMyVXIyOLxdWLiC-oyvKW99nSX4hOum02_w&s" alt="Imagen del Coliseo" class="card-img-top">
-                            <div class="d-flex align-content-start flex-wrap"><p class="categoria-lugar">Categoria</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p><p class="etiquetas-lugar">Etiquetas</p></div>
-                            <p>El Coliseo es un anfiteatro de la época del Imperio romano, situado en el centro de la ciudad de Roma. Este lugar es uno de los sitios más turísticos del mundo.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <!-- Sección de valoración -->
-                        <div class="valoracion">
-                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-                        </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+                
     </main>
 
     <footer>

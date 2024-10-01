@@ -57,7 +57,6 @@ class SitioTuristico
         return $this->longitud;
     }
 
-    // Setters
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
@@ -94,23 +93,28 @@ class SitioTuristico
     }
     
     public static function ObtenerSitios()
-    {
-        if (!isset($GLOBALS['conn'])) {
-            require_once 'conexion_bbdd.php';
-        }
-        
-        /** @var \PDO $conn */
-        $conn = $GLOBALS['conn'];
-        $queryStr = "SELECT * FROM sitio_turistico";
-        $consulta = $conn->prepare($queryStr);
-        $consulta->execute();
-
-        $sitios = $consulta->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $sitios;
+{
+    if (!isset($GLOBALS['conn'])) {
+        require_once 'conexion_bbdd.php';
     }
+    
+    /** @var \PDO $conn */
+    $conn = $GLOBALS['conn'];
+    $queryStr = "
+        SELECT st.*, c.titulo AS titulo, i.bin_imagen 
+        FROM sitio_turistico st
+        JOIN categoria c ON st.id_categoria = c.id_categoria
+        LEFT JOIN imagen i ON st.id_sitio = i.id_sitio"; // Cambia 'sitio_turistico' a 'sitios_turistico' si es necesario
+    $consulta = $conn->prepare($queryStr);
+    $consulta->execute();
 
-    public static function obtenerDatosSitio($idSitio)
+    $sitios = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+
+    return $sitios;
+}
+
+
+    public static function obtenerCategoriaSitio($idSitio)
     {
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
@@ -118,7 +122,18 @@ class SitioTuristico
         
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
-        $queryStr = "SELECT * FROM sitios_turistico WHERE id_sitio = :idSitio";
+        $queryStr = "
+        SELECT 
+            sitios_turistico.*, 
+            categoria.nombre_categoria 
+        FROM 
+            sitios_turistico 
+        JOIN 
+            categoria 
+        ON 
+            sitios_turistico.id_categoria = categoria.id_categoria 
+        WHERE 
+            sitios_turistico.id_sitio = :idSitio";
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':idSitio', $idSitio);
         $consulta->execute();
