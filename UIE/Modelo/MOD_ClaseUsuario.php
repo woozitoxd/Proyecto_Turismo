@@ -95,6 +95,61 @@ require_once('MOD_perfil.php');
             }
         }
 
+        public function registrarConGoogle()
+        {
+    
+            $verificarNombre = new perfilUser('','','',''); //Instancio un objeto de mi clase perfil (que traje del modelo perfil.php)
+            // Validar que el correo no esté en uso
+            if ($this->verificarCorreoExistente($this->correo)) {
+                return "El correo ya está en uso."; 
+            }
+
+            // Registro del usuario, acá inserto a mi tabla usuario los datos que se llenaron en el registro.
+            $sqlUsuario = "INSERT INTO usuario(nombre, google_id, google_email) VALUES (:nombre, :googleID, :googleEMAIL)";
+            $stmtUsuario = $this->conexion->prepare($sqlUsuario); //Preparo la consulta que me inserta un usuario
+    
+            if (!$stmtUsuario) {
+                return "Error en la consulta SQL de usuario";
+            }
+
+            $stmtUsuario->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
+            $stmtUsuario->bindParam(':googleID', $this->id, PDO::PARAM_STR);
+            $stmtUsuario->bindParam(':googleEMAIL', $this->correo, PDO::PARAM_STR);
+    
+            try {
+                $this->conexion->beginTransaction();
+    
+                if ($stmtUsuario->execute()) {
+                    // aca obtengo el ID del usuario recién registrado
+                    $idUsuario = $this->conexion->lastInsertId();
+    
+                    // aca obtengo el ID del rol "usuario"
+                    $idRolUsuario = $this->obtenerIdRolUsuario();
+    
+                    // asigno automáticamente el rol "usuario" al usuario registrado
+                    $sqlAsignarRol = "UPDATE usuario SET id_rol = :idRolUsuario WHERE id = :idUsuario ";
+                    //UPDATE usuario SET id_rol = :idRolUsuario WHERE id = :idUsuario;
+                    $stmtAsignarRol = $this->conexion->prepare($sqlAsignarRol);
+                    $stmtAsignarRol->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+                    $stmtAsignarRol->bindParam(':idRolUsuario', $idRolUsuario, PDO::PARAM_INT);
+    
+                    if ($stmtAsignarRol->execute()) {
+                        $this->conexion->commit();  //Confirmo los cambios en la base de datos
+                        return true;
+                    } else {
+                        $this->conexion->rollBack();  //Si hay error, deshago los cambios que realicé en la consulta para evitar que se actualice la bbdd
+                        return "Error al asignar el rol al usuario";
+                    }
+                } else {
+                    $this->conexion->rollBack(); //Si hay error en el registro, deshago los cambios igualmente. esto para que no se guarden valores errores en la bbdd
+                    return "Error al registrar el usuario";
+                }
+            } catch (PDOException $e) {
+                $this->conexion->rollBack();
+                return "Error en la transacción: " . $e->getMessage();
+            }
+        }
+
         public function verificarCorreoExistente($correo)  //nomas verifico que el correo existe o no en mi base
         {
             $sql = "SELECT COUNT(*) as total FROM usuario WHERE email = :correo"; //Cuento el numero de registros donde la columna email sea igual a correo

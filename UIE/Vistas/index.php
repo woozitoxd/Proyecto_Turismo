@@ -2,6 +2,13 @@
     require_once("../Modelo/MOD_ClaseUsuario.php"); //se incluye los archivos
     require_once("../Modelo/MOD_perfil.php");
     require_once("../Controlador/CON_IniciarSesion.php");
+    require_once("../Controlador/CON_GoogleAuthSesion.php");
+
+    if (isset($client) && $client->getAccessToken()) {
+        // Obtener la información del usuario si está autenticado
+        $oauth2 = new Google_Service_Oauth2($client);
+        $userInfo = $oauth2->userinfo->get();
+    }
     
     $usuario_id = null;
 
@@ -40,20 +47,31 @@
         <div class="container">
             <div class="dropdown">
                 <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-bars"></i> MENÚ
+                    <?php
+                        if (isset($_SESSION['usuario'])) {
+                            // Usuario ha iniciado sesión, mostramos su cuenta en boton de menú desplegable
+                            echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">'.$_SESSION["usuario"].'</strong>';
+                        } else {
+                            // Usuario no ha iniciado sesión, mostramos un menú para gestionar sesión de cuenta
+                            echo '<i class="bi bi-person-fill"></i> CUENTA';
+                        }
+                    ?>
+                    <!-- <i class="fas fa-bars"></i> MENÚ -->
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="hamburgerMenu">
-                    <li><a class="dropdown-item" href="#inicio">Inicio</a></li>
-                    <li><a class="dropdown-item" href="#favoritos">Favoritos</a></li>
+                    <!-- <li><a class="dropdown-item" href="#inicio">Inicio</a></li> -->
+
                     <?php //Fragmento de codigo PHP que trabaja con la muestra dinamica de botones en funcion del inicio de sesion
                     if (isset($_SESSION['usuario'])) {
-                        // Usuario ha iniciado sesión, muestra "Ver Perfil" y "Cerrar Sesión"
+                        // Usuario ha iniciado sesión, muestra "Ver Perfil", "Favoritos" y "Cerrar Sesión"
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
+                        //echo '<li><a class="dropdown-item" href="#favoritos">Favoritos</a></li>';
                         echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
                     } else {
                         // Usuario no ha iniciado sesión, muestra "Iniciar Sesión" y "Registrarse"
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
+                        echo '<li><a class="dropdown-item" href='.$authUrl.'><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo">Ingresar con Google</a></li>';
                     }
                     ?>
                 </ul>
@@ -63,9 +81,12 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#favoritos">Favoritos</a>
-                    </li>
+                <?php //Fragmento de codigo PHP que trabaja con la muestra dinamica de botones en funcion del inicio de sesion
+                    if (isset($_SESSION['usuario'])) {
+                        // Usuario ha iniciado sesión, muestra "Sitios favoritos"
+                        echo '<li class="nav-item"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
+                    }
+                ?>
                 </ul>
                 <a class="navbar-brand" href="#">
                     <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
@@ -91,8 +112,8 @@
     
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
         <header class="bg-light text-center py-5 mt-5">
+            
         </header>
-    
     
         <!-- Estructura principal -->
         <div class="estructura-principal">

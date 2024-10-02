@@ -56,5 +56,21 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             return null;
         }
     }
+
+    public function consultarGoogleAuth($googleID, $googleEmail) //Consulta para trabajar con el inicio de sesion en funcion de los registros existentes en la base
+    {
+        $sql = "SELECT id, nombre, google_id, google_email FROM usuario WHERE google_id = :googleID AND google_email = :googleEMAIL";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bindParam(':googleID', $googleID, PDO::PARAM_STR);
+        $stmt->bindParam(':googleEMAIL', $googleEmail, PDO::PARAM_STR);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario) {
+            return $usuario;
+        } else {
+            return null;
+        }
+    }
 }
 ?>
