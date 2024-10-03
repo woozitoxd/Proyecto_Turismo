@@ -11,9 +11,12 @@
     }
     
     $usuario_id = null;
-
-    if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
+    $usuario_name = null;
+    $nombre_rol = null;
+    if (isset($_SESSION['usuario']) && $_SESSION['usuario'] && isset($_SESSION['nombre']) && $_SESSION['nombre'] && isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol']) {
         $usuario_id = $_SESSION['id']; // inicio de sesion, comprobacion de que la sesion haya sido iniciada
+        $usuario_name = $_SESSION['nombre']; // variable usuario name para que muestre dinamicamente el nombre en el navbar una vez que inicia sesion
+        $nombre_rol = $_SESSION['nombre_rol']; // Obtener el nombre rol de la sesión
     }
 
 ?>
@@ -42,55 +45,51 @@
     <title>Inicio - Turismo</title>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
         <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Botón de menú hamburguesa alineado a la izquierda, se despliegan los elementos y es responsive -->
             <div class="dropdown">
                 <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php
-                        if (isset($_SESSION['usuario'])) {
-                            // Usuario ha iniciado sesión, mostramos su cuenta en boton de menú desplegable
-                            echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">'.$_SESSION["usuario"].'</strong>';
-                        } else {
-                            // Usuario no ha iniciado sesión, mostramos un menú para gestionar sesión de cuenta
-                            echo '<i class="bi bi-person-fill"></i> CUENTA';
-                        }
+                    if (isset($_SESSION['usuario'])) {
+                        echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">'.$_SESSION["nombre"].'</strong>';
+                    } else {
+                        echo '<i class="bi bi-person-fill"></i> CUENTA';
+                    }
                     ?>
-                    <!-- <i class="fas fa-bars"></i> MENÚ -->
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="hamburgerMenu">
-                    <!-- <li><a class="dropdown-item" href="#inicio">Inicio</a></li> -->
-
-                    <?php //Fragmento de codigo PHP que trabaja con la muestra dinamica de botones en funcion del inicio de sesion
+                    <?php
                     if (isset($_SESSION['usuario'])) {
-                        // Usuario ha iniciado sesión, muestra "Ver Perfil", "Favoritos" y "Cerrar Sesión"
+                        if ($_SESSION['nombre_rol'] === 'administrador') {
+                            echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
+                        }
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
-                        //echo '<li><a class="dropdown-item" href="#favoritos">Favoritos</a></li>';
                         echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
                     } else {
-                        // Usuario no ha iniciado sesión, muestra "Iniciar Sesión" y "Registrarse"
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                        echo '<li><a class="dropdown-item" href='.$authUrl.'><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo">Ingresar con Google</a></li>';
+                        echo '<li><a class="dropdown-item" href="'.$authUrl.'"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo">Ingresar con Google</a></li>';
                     }
                     ?>
                 </ul>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <!-- Logo turismo alineado al centro -->
+            <a class="navbar-brand" href="#">
+                <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarNav"><!-- Resto de elementos del navbar -->
                 <ul class="navbar-nav me-auto">
-                <?php //Fragmento de codigo PHP que trabaja con la muestra dinamica de botones en funcion del inicio de sesion
+                    <?php
                     if (isset($_SESSION['usuario'])) {
-                        // Usuario ha iniciado sesión, muestra "Sitios favoritos"
                         echo '<li class="nav-item"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
                     }
-                ?>
+                    ?>
                 </ul>
-                <a class="navbar-brand" href="#">
-                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
-                </a>
                 <form class="d-flex ms-3 search-form" role="search">
                     <input class="form-control custom-input me-2" type="search" placeholder="Buscar" aria-label="Buscar">
                     <div class="dropdown ms-2">
@@ -108,8 +107,8 @@
             </div>
         </div>
     </nav>
-    
-    
+
+        
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
         <header class="bg-light text-center py-5 mt-5">
             
@@ -127,9 +126,9 @@
             <!-- Cards de lugares turísticos (a la derecha) -->
             <div class="bloque-lugares">
             <?php
-                 require_once '../Controlador/CON_SitioTuristico.php';
-                 $controlador = new SitioTuristicoContoller();
-                 $controlador->MostrarSitiosTuristicos();
+                require_once '../Controlador/CON_SitioTuristico.php';
+                $controlador = new SitioTuristicoContoller();
+                $controlador->MostrarSitiosTuristicos();
             ?>
                 <!-- Más tarjetas pueden ir aquí -->
             </div>
@@ -195,10 +194,6 @@
                         <!-- Modal Body -->
                         <form action="../Controlador/CON_IniciarSesion.php" method="post">
                             <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="userName" class="form-label">Nombre de Usuario</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" autocomplete="email_registro" required placeholder="Ingrese su username">
-                                </div>
                                 <div class="mb-3">
                                     <label for="correo" class="form-label">Correo Electrónico</label>
                                     <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" autocomplete="correo" name="correo">

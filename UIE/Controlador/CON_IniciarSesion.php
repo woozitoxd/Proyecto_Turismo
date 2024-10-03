@@ -5,27 +5,28 @@ session_start(); // Inicia la sesión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar que se enviaron datos y que no estén vacíos
-    if (isset($_POST["correo"]) && isset($_POST["userName"]) && isset($_POST["contraseña"]) && !empty($_POST["correo"]) && !empty($_POST["contraseña"])) {
-        $nombre = $_POST["userName"];
+    if (isset($_POST["correo"]) && isset($_POST["contraseña"]) && !empty($_POST["correo"]) && !empty($_POST["contraseña"])) {
         $correo = $_POST["correo"];
         $password = $_POST["contraseña"];
         
-        // consulta para verificar si el usuario y la contraseña coinciden
+        // Consulta para verificar si el usuario y la contraseña coinciden
         $usuario = new perfilUser("", "", "", "");
-        $resultado = $usuario->consultar($nombre, $correo, $password); //almaceno en resultado lo devuelto por la funcion consultar
+        $resultado = $usuario->consultar($correo, $password); // Almaceno en resultado lo devuelto por la función consultar
 
-        
-        if ($resultado != null) { //si obtuve algo en el valor devuelto, establezco los campos en la sesion para que se inicie 
+        if ($resultado != null) { // Si obtuve algo en el valor devuelto
             $_SESSION['id'] = $resultado['id'];
             $_SESSION['usuario'] = $correo;
-            $_SESSION['password'] = $password;
-            header('Location: ../Vistas/index.php'); //vuelvo al index
-
-        }else{
-            echo "NO REGISTRADO"; //mostrar error en pantalla además de consola
-            header('Location: ../Vistas/index.php');  //devuelve al index
-        exit();
+            $_SESSION['nombre'] = $resultado['nombre']; // Almacenar el nombre
+            $_SESSION['id_rol'] = $resultado['id_rol']; // Almacenar el id_rol
+            $_SESSION['nombre_rol'] = $resultado['nombre_rol']; // Almacenar el nombre del rol
+            header('Location: ../Vistas/index.php'); // Vuelvo al index
+            exit(); // Asegúrate de usar exit después de redirigir
+        } else {
+            echo "NO REGISTRADO"; // Mostrar error en pantalla además de consola
+            header('Location: ../Vistas/index.php');  // Devuelve al index
+            exit();
         }
     }
 }
+
 ?>

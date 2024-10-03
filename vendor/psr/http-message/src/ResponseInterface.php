@@ -27,6 +27,8 @@ interface ResponseInterface extends MessageInterface
      *
      * @return int Status code.
      */
+   //public function getStatusCode(): int;
+
     public function getStatusCode(): int;
 
     /**

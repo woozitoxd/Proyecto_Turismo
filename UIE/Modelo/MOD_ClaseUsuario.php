@@ -192,16 +192,6 @@ require_once('MOD_perfil.php');
                 return 'El campo nombre debe contener al menos dos palabras. ';
             }
 
-            foreach ($palabras as $palabra) {  //Valido el campo nombre para que las palabras no tengan numeros ni caracteres fuera del abecedario
-                if (!preg_match('/^[a-zA-ZáéíóúüÁÉÍÓÚÜ]+$/', $palabra)) {
-                    return 'Debe contener solo letras y tildes.';
-                }
-
-                $longitud = mb_strlen($nombre, 'UTF-8');
-                if ($longitud < 4 || $longitud > 60) {  //Valido el rango de caracteres de las palabras, uso entre 4 y 60, es decir, el nombre debe tener almenos 4 caracteres
-                    return 'Cada palabra debe tener entre 4 y 60 caracteres.';
-                }
-            }
             // Todas las validaciones pasaron
             return true; //Retorno verdadero porque el formato del campo nombre cumple las validaciones
         }

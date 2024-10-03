@@ -17,7 +17,7 @@ function iniciarmapa(coord) {
 
 // Función para manejar el clic en una tarjeta
 function cargarMapaDesdeTarjeta(tarjeta) {
-    var sitioID = tarjeta.getAttribute('data-sitio-id');  // Obtener el ID del sitio turístico (está hardocdeado, modificar en versiones futuras cuando se obtenga la id dinamicamente)
+    var sitioID = tarjeta.getAttribute('data-sitio-id');  // Obtener el ID del sitio turístico 
     cargarMapa(sitioID);  // Llamar a la función AJAX que carga las coordenadas
 }
 

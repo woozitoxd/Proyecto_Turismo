@@ -40,22 +40,22 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
         }
     }
 
-    public function consultar($nombre, $correo, $password) //Consulta para trabajar con el inicio de sesion en funcion de los registros existentes en la base
-    {
-        $sql = "SELECT id, nombre, email, fecha_nacimiento, password FROM usuario WHERE nombre = :nombre AND email = :correo";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+    public function consultar($correo, $password) {
+        $sql = "CALL SP_ConsultarUsuarioLOGIN(:correo)"; //uso el stored procedure que tengo en mi base de datos para traer los datos
+        $stmt = $this->conexion->prepare($sql);  //traigo los datos tales como; nombre, correo, contraseña, id del rol, nombre del rol
         $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($usuario && password_verify($password, $usuario['password'])) { //Funcion password_verify para verificar si la contraseña coincide con la almacenada en la BBDD
-            unset($usuario['password']); // Unset de la contraseña para no almacenarla en la sesion
-            return $usuario;
+    
+        if ($usuario && password_verify($password, $usuario['password'])) {
+            unset($usuario['password']); // Unset de la contraseña para no almacenarla en la sesión
+            return $usuario; // Retornar el usuario con el id_rol y el nombre del rol
         } else {
-            return null;
+            return null; // Usuario no encontrado o contraseña incorrecta
         }
     }
+    
+    
 
     public function consultarGoogleAuth($googleID, $googleEmail) //Consulta para trabajar con el inicio de sesion en funcion de los registros existentes en la base
     {

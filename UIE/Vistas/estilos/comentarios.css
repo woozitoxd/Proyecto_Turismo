@@ -1,0 +1,44 @@
+.caja-de-comentarios {
+    background-color: #4595e69e; /* Color de fondo oscuro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px 0; /* Margen superior e inferior */
+}
+
+.comentarios-container {
+    max-height: 200px; /* Altura máxima para el contenedor de comentarios */
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+}
+
+.comentario-item {
+    background-color: #6c757d; /* Color de fondo de los comentarios */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno */
+    margin-bottom: 15px; /* Margen inferior entre comentarios */
+    position: relative; /* Posición relativa para el botón de reportar */
+}
+
+.comentario-contenido {
+    position: relative; /* Posición relativa para el botón de reportar */
+}
+
+.fecha {
+    font-size: 0.9em; /* Tamaño de fuente más pequeño para la fecha */
+    color: #ccc; /* Color gris para la fecha */
+    margin-left: 10px; /* Espaciado a la izquierda */
+}
+
+.btn-reportar {
+    position: absolute; /* Posición absoluta para el botón de reportar */
+    top: 10px; /* Distancia desde la parte superior */
+    right: 10px; /* Distancia desde la derecha */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+}
+
+#mostrar-mas {
+    display: none; /* Inicialmente oculto */
+}
