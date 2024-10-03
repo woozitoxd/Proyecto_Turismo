@@ -20,12 +20,15 @@ $currentUrl = $scheme . "://" . $host . $requestUri;
 // Encontrar la posición de 'index.php' en la URL
 $indexPosition = strpos($currentUrl, 'index.php');
 
+$urlVariable = '';
+
 // Verificar si 'index.php' está presente y recortar la URL
 if ($indexPosition !== false) {
     $urlVariable = substr($currentUrl, 0, $indexPosition + strlen('index.php'));
 } else {
-    // Si 'index.php' no está en la URL, usar la URL completa
-    $urlVariable = $currentUrl;
+    // Si 'index.php' no está en la URL, usar la URL alternativa
+    $indexPosition = strpos($currentUrl, 'Vistas/');
+    $urlVariable = substr($currentUrl, 0, $indexPosition + strlen('Vistas/'));
 }
 
 // Configurar las credenciales de Google
