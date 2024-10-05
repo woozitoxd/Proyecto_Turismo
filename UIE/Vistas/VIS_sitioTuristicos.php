@@ -1,3 +1,4 @@
+
 <?php foreach ($sitios as $sitio):?>
 
 
@@ -7,6 +8,8 @@
 <div class="tarjeta-turistica" 
     data-bs-toggle="modal" 
     data-sitio-id="<?= $sitio['id_sitio'] ?>" 
+    data-nombre-sitio="<?= $sitio['nombre'] ?>"  
+    data-categoria="<?= $sitio['titulo'] ?>"
     data-bs-target="#modal<?= $sitio['id_sitio'] ?>" 
     onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
 

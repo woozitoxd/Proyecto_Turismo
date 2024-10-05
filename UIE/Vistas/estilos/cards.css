@@ -65,3 +65,11 @@
 .etiquetas-lugar:hover {
     background-color: darkorchid; 
 }
+.tarjeta-turistica {
+    display: block; /* Para las tarjetas visibles */
+    margin-bottom: 15px;
+}
+
+.tarjeta-turistica[style="display: none;"] {
+    display: none !important; /* Para las tarjetas ocultas */
+}

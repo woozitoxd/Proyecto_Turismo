@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/cards.css">
     <script defer src="./javascript/Ajax_APIGoogleMaps.js"></script>
+    <script src="./javascript/Ajax_BuscarSitios.js"></script>
     <!-- jQuery (opcional, solo si lo necesitas) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS más reciente -->
@@ -90,20 +91,21 @@
                     }
                     ?>
                 </ul>
-                <form class="d-flex ms-3 search-form" role="search">
-                    <input class="form-control custom-input me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                    <div class="dropdown ms-2">
-                        <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            FILTROS
-                        </button>
-                        <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Deportes</a></li>
-                            <li><a class="dropdown-item" href="#">Paisajístico</a></li>
-                            <li><a class="dropdown-item" href="#">Gastronómico</a></li>
-                        </ul>
-                    </div>
-                    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
-                </form>
+                <form class="d-flex ms-3 search-form" role="search" id="form-busqueda">
+    <input class="form-control custom-input me-2" id="buscador" type="search" placeholder="Buscar" aria-label="Buscar">
+    <div class="dropdown ms-2">
+        <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            FILTROS
+        </button>
+        <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item filtro" data-filtro="rural" href="#">Rural</a></li>
+            <li><a class="dropdown-item filtro" data-filtro="cultural" href="#">Cultural</a></li>
+        </ul>
+    </div>
+    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
+</form>
+
+
             </div>
         </div>
     </nav>
@@ -124,7 +126,7 @@
             </div>
     
             <!-- Cards de lugares turísticos (a la derecha) -->
-            <div class="bloque-lugares">
+            <div class="bloque-lugares" id="contenedor-tarjetas">
             <?php
                 require_once '../Controlador/CON_SitioTuristico.php';
                 $controlador = new SitioTuristicoContoller();
