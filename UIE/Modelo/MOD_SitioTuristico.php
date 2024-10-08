@@ -131,9 +131,9 @@ class SitioTuristico
         JOIN 
             categoria 
         ON 
-            sitios_turistico.id_categoria = categoria.id_categoria 
+            sitio_turistico.id_categoria = categoria.id_categoria 
         WHERE 
-            sitios_turistico.id_sitio = :idSitio";
+            sitio_turistico.id_sitio = :idSitio";
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':idSitio', $idSitio);
         $consulta->execute();

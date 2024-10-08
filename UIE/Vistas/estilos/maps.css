@@ -1,16 +1,17 @@
+/* ----- Estilos para el mapa ----- */
 #map {
     width: 100%;
     height: 100%;
 }
 
-/* Estructura principal */
+/* ----- Estructura principal ----- */
 .estructura-principal {
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* Mapa (fijo a la izquierda) */
+/* ----- Zona del mapa (fijo a la izquierda) ----- */
 .zona-mapa-izquierda {
     width: 50%; /* Ocupa la mitad izquierda de la pantalla */
     position: sticky;
@@ -18,7 +19,7 @@
     height: 100vh;
 }
 
-/* Bloque de lugares turísticos (cards) */
+/* ----- Bloque de lugares turísticos (tarjetas) ----- */
 .bloque-lugares {
     width: 50%; /* Ocupa la mitad derecha de la pantalla */
     overflow-y: auto; /* Permite el scroll vertical */
@@ -29,7 +30,7 @@
     background-color: #f4f4f9;
 }
 
-/* Tarjetas turísticas */
+/* ----- Tarjetas turísticas ----- */
 .tarjeta-turistica {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -59,7 +60,7 @@
     color: #555;
 }
 
-/* Ajustes para pantallas pequeñas */
+/* ----- Ajustes para pantallas pequeñas ----- */
 @media (max-width: 768px) {
     .estructura-principal {
         flex-direction: column;

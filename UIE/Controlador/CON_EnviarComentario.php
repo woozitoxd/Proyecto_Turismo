@@ -10,7 +10,7 @@ if (!Permisos::tienePermiso('Comentar Sitio', $usuarioID)) {//validamos que teng
     echo("error al comentar, no tiene permiso.");
     header('Location: ../Vistas/index.php'); //Si el usuario intento comentar y no tiene permiso, vuelvo al indice, mejorar en versiones futuras*
     exit();
-    }
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

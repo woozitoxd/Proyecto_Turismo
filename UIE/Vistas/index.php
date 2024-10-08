@@ -124,7 +124,7 @@
             <div class="zona-mapa-izquierda">
                 <div id="map"></div>
                 <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarmapa"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa"></script>
             </div>
     
             <!-- Cards de lugares turísticos (a la derecha) -->

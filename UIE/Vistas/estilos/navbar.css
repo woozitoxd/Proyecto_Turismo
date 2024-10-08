@@ -1,42 +1,18 @@
-/* Barra de navegación con degradado */
+/* ----- Barra de navegación con degradado ----- */
 .navbar {
     background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));
     padding: 2rem 3rem;
 }
-/* Estilos para la marca */
+
+/* ----- Estilos para la marca ----- */
 .navbar-brand {
     font-size: 1.8rem;
     font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
-}
-/* Alinear el botón de menú hamburguesa a la izquierda */
-.navbar-toggler {
-    margin-right: auto; /* botón hacia la izquierda */
-}
-
-/* Estilo para el navbar */
-.custom-navbar {
-    display: flex;                  /* Usar flexbox */
-    justify-content: space-between; /* Espacio entre elementos */
-    align-items: center;           /* Centrar verticalmente */
-}
-
-/* Alinear el logotipo al centro */
-.navbar-brand {
     position: absolute;           /* Posicionar de forma absoluta */
     left: 50%;                    /* Mover el logo al centro */
     transform: translateX(-50%);  /* Ajustar el desplazamiento para centrar */
-}
-
-/* Alinear el botón de menú hamburguesa a la izquierda */
-.navbar-toggler {
-    margin-right: auto;            /* Empujar el botón hacia la izquierda */
-}
-
-/* Alinear el resto del contenido a la derecha */
-.navbar-collapse {
-    margin-left: auto;             /* Empujar el contenido restante hacia la derecha */
 }
 
 .navbar-brand .text-primary {
@@ -47,7 +23,24 @@
     color: #FF4500;
 }
 
-/* Estilos de los links de navegación */
+/* ----- Estilo del botón de menú hamburguesa ----- */
+.navbar-toggler {
+    margin-right: auto;  /* Botón hacia la izquierda */
+}
+
+/* ----- Estilo del navbar ----- */
+.custom-navbar {
+    display: flex;                  /* Usar flexbox */
+    justify-content: space-between; /* Espacio entre elementos */
+    align-items: center;            /* Centrar verticalmente */
+}
+
+/* ----- Alinear el contenido de la barra ----- */
+.navbar-collapse {
+    margin-left: auto;  /* Empujar el contenido restante hacia la derecha */
+}
+
+/* ----- Estilos de los links de navegación ----- */
 .navbar-nav .nav-link {
     color: #ffffff;
     font-size: 1rem;
@@ -63,13 +56,13 @@
     border-radius: 5px;
 }
 
-.nav-link-activo{
+.nav-link-activo {
     color: #3b3b3b !important;
     background-color: transparent !important;
     border-radius: 5px;
 }
 
-/* Estilos de los botones personalizados */
+/* ----- Estilos de los botones personalizados ----- */
 .custom-btn-login, .custom-btn-register {
     padding: 10px 20px;
     background-color: #FFD700;
@@ -99,64 +92,79 @@
     background-color: #FF6347;
 }
 
-/* ----- Menú desplegable ----- */
+/* ----- Menú desplegable personalizado ----- */
 .custom-dropdown {
     background-color: #5953b3;
     border-radius: 10px;
     padding: 0.5rem 0;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     border: none;
-    width: auto; /* Ancho automático */
+    width: auto;
 }
 
-/* Estilo de los elementos dentro del menú */
 .custom-dropdown .dropdown-item {
-    padding: 0.5rem 1rem; /* Ajustar padding */
-    font-size: 0.9rem; /* Tamaño de fuente */
-    margin: 0; /* Sin márgenes */
-    display: flex; /* Flexbox para alinear elementos */
-    align-items: center; /* Alinear verticalmente */
-    font-weight: bold; /* Fuente en negrita */
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
 }
-
 
 .custom-dropdown .dropdown-item img {
-    width: 1.2rem; /* Ajustar tamaño de la imagen */
-    vertical-align: middle; /* Alinear verticalmente */
-    margin-right: 0.5rem; /* Espacio entre imagen y texto */
+    width: 1.2rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
 }
 
-/* Hover de los elementos del menú */
 .custom-dropdown .dropdown-item:hover {
     background-color: #c23ddd;
     color: #000000;
     border-radius: 5px;
 }
 
-/* Bordes suavizados del menú cuando está abierto */
 .custom-dropdown.show {
     background-color: #5858d9;
     border-radius: 10px;
 }
 
-/* Media query para pantallas pequeñas */
-@media (max-width: 576px) {
-    .custom-dropdown .dropdown-item {
-        font-size: 0.9rem; /* Ajusta el tamaño de fuente para dispositivos pequeños */
-        padding: 0.5rem 1rem; /* Reduce el padding en dispositivos pequeños */
-    }
-}
-
-
-
-
-
-/*Imagen de google mostrada en interfaz*/
-
+/* ----- Imagen de Google mostrada en la interfaz ----- */
 .google-logo {
     max-width: 1.5rem !important;
     margin-right: 0.5rem !important;
 }
 
+/* ----- Media queries para pantallas pequeñas ----- */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;  /* Ajustar tamaño del logo */
+    }
 
+    .custom-btn-login, .custom-btn-register {
+        padding: 8px 16px;  /* Ajustar padding de los botones */
+    }
 
+    .navbar-nav .nav-link {
+        font-size: 0.9rem;  /* Ajustar tamaño de fuente de los enlaces */
+        margin-left: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        padding: 1.5rem 2rem;  /* Ajustar padding en dispositivos pequeños */
+    }
+
+    .navbar-toggler {
+        font-size: 0.9rem;
+    }
+
+    .custom-dropdown .dropdown-item {
+        font-size: 0.85rem;  /* Ajusta el tamaño de fuente */
+        padding: 0.4rem 0.8rem;  /* Reducir el padding en dispositivos pequeños */
+    }
+
+    .custom-btn-login, .custom-btn-register, .custom-btn-logout {
+        padding: 8px 15px;  /* Ajustar padding en dispositivos pequeños */
+    }
+}
