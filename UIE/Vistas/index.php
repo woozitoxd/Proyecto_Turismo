@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="./estilos/cards.css">
     <script defer src="./javascript/Ajax_APIGoogleMaps.js"></script>
     <script src="./javascript/Ajax_BuscarSitios.js"></script>
+    <script defer src="./javascript/ContenidoSeccion.js"></script>
     <!-- jQuery (opcional, solo si lo necesitas) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS más reciente -->
@@ -79,7 +80,7 @@
                 </ul>
             </div>
             <!-- Logo turismo alineado al centro -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
                 <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
             </a>
 
@@ -88,6 +89,7 @@
                     <?php
                     if (isset($_SESSION['usuario'])) {
                         echo '<li class="nav-item"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
                     }
                     ?>
                 </ul>
@@ -112,8 +114,8 @@
 
         
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
-        <header class="bg-light text-center py-5 mt-5">
-            
+        <header class="bg-light text-center pt-5 mt-5 d-flex flex-row justify-content-end">
+            <h3 id="section-title" class="w-50 text-primary fst-italic">Descubre nuevos sitios turísticos</h3>
         </header>
     
         <!-- Estructura principal -->
@@ -126,7 +128,7 @@
             </div>
     
             <!-- Cards de lugares turísticos (a la derecha) -->
-            <div class="bloque-lugares" id="contenedor-tarjetas">
+            <div class="bloque-lugares align-content-start" id="contenedor-tarjetas">
             <?php
                 require_once '../Controlador/CON_SitioTuristico.php';
                 $controlador = new SitioTuristicoContoller();

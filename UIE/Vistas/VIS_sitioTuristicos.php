@@ -1,11 +1,12 @@
+<?php require_once("../Controlador/CON_IniciarSesion.php");?>
 
-<?php foreach ($sitios as $sitio):?>
-
-
-    
+<script defer src="../Vistas/javascript/Favoritos.js"></script>
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
-<div class="tarjeta-turistica" 
+
+<?php foreach ($sitios as $sitio):?>
+    
+<div class="tarjeta-turistica card" 
     data-bs-toggle="modal" 
     data-sitio-id="<?= $sitio['id_sitio'] ?>" 
     data-nombre-sitio="<?= $sitio['nombre'] ?>"  
@@ -13,7 +14,7 @@
     data-bs-target="#modal<?= $sitio['id_sitio'] ?>" 
     onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
 
-<img src="<?= 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) ?>" alt="Imagen de destino" class="img-fluid">
+<img src="<?= 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) ?>" alt="Imagen de destino" class="card-img-top">
     <div class="contenido-tarjeta">
         <h5 class="titulo-lugar"><?= $sitio['nombre'] ?></h5>
         <p class="etiquetas-lugar"><?= $sitio['titulo'] ?></p>
@@ -36,10 +37,39 @@
                 <h5 class="modal-title" id="exampleModalLabel<?= $sitio['id_sitio'] ?>"><?= $sitio['nombre'] ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <img src="<?= 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) ?>" alt="Imagen del lugar" class="card-img-top">
-                <div class="d-flex align-content-start flex-wrap">
+            <div class="modal-body d-flex flex-column">
+                <img src="<?= 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) ?>" alt="Imagen del lugar" class="img-fluid">
+                <div class="my-3 d-flex align-content-start flex-wrap justify-content-between">
                     <p class="categoria-lugar"><?= $sitio['titulo'] ?></p>
+
+                    <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']) { ?>
+
+                        <form method="POST" class="d-flex flex-column justify-content-center fav-form" data-postid="<?= $sitio['id_sitio'] ?>">
+                                
+                            <input type="hidden" name="id_sitio" value="<?= $sitio['id_sitio'] ?>">
+
+                            <?php
+
+                            if(SitioTuristico::VerificarSitioFavorito($sitio['id_sitio'], $_SESSION['id'])){ 
+                                
+                                echo '<button type="submit" data-fav-btn'.$sitio["id_sitio"].' class="btn btn-outline-danger rounded favorito-activo">
+                                Eliminar de favoritos <i class="bi bi-heart-fill"></i>
+                                </button>'; 
+                                
+                            }else{
+                                
+                                echo '<button type="submit" data-fav-btn'.$sitio["id_sitio"].' class="btn btn-outline-danger rounded">
+                                Guardar en favoritos <i class="bi bi-heart-fill"></i>
+                                </button>'; 
+                                
+                            }
+
+                            ?>
+                            
+                        </form>
+
+                    <?php } ?>
+
                 </div>
                 <p><?= $sitio['descripcion'] ?></p>
                 <hr>

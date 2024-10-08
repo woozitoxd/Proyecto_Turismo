@@ -8,21 +8,29 @@
     height: 100%;
 }
 
+.tarjeta-turistica{
+    max-height: 20rem;
+}
+
 .tarjeta-turistica:hover {
     transform: scale(1.05); 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border: 1px solid #007bff;
+    cursor: pointer;
 }
 
 .tarjeta-turistica img {
-    width: 100%;
-    height: auto;
+    width: 100%; /* La imagen ocupará todo el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    max-height: 10rem; /* Limita la altura máxima de la imagen */
+    object-fit: cover; /* Recorta la imagen si es necesario para que no se deforme */
+    object-position: center; /* Centra la imagen recortada dentro del contenedor */
     transition: transform 0.3s ease;
 }
 
-.tarjeta-turistica:hover img {
+/* .tarjeta-turistica:hover img {
     transform: scale(1.1); 
-}
+} */
 
 /* Estilo para las estrellas */
 .valoracion {
@@ -72,4 +80,9 @@
 
 .tarjeta-turistica[style="display: none;"] {
     display: none !important; /* Para las tarjetas ocultas */
+}
+
+.favorito-activo{
+    background-color: #dc3545 !important;
+    color: #fff !important;
 }

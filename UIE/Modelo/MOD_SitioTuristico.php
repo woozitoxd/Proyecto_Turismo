@@ -140,8 +140,166 @@ class SitioTuristico
         $sitio = $consulta->fetch(\PDO::FETCH_ASSOC);
         return $sitio;
     }
+
+    public static function ObtenerSitiosPropios($ID_Usuario)
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+
+        $queryStr = "
+            SELECT DISTINCT sitio_turistico.*, categoria.*, imagen.*
+            FROM sitio_turistico
+            JOIN favorito ON favorito.id_sitio = sitio_turistico.id_sitio
+            JOIN imagen ON imagen.id_sitio = sitio_turistico.id_sitio
+            JOIN categoria ON categoria.id_categoria = sitio_turistico.id_categoria
+            WHERE sitio_turistico.id_usuario = :ID_Usuario";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+        $consulta->execute();
+
+        $listaDeSitios = [];
+
+        while ($sitio = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            // Convertir la imagen en base64
+            if (isset($sitio['bin_imagen'])) {
+                $sitio['bin_imagen'] = base64_encode($sitio['bin_imagen']);
+            }
+            // Añadir la publicación al array de publicaciones
+            $listaDeSitios[] = $sitio;
+        }
+
+        return $listaDeSitios;
+    }
+
+    public static function ObtenerSitiosFavoritos($ID_Usuario)
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+
+        $queryStr = "
+            SELECT DISTINCT 
+                sitio_turistico.*, categoria.*, imagen.* 
+            FROM 
+                sitio_turistico 
+            JOIN 
+                favorito 
+            ON 
+                favorito.id_sitio = sitio_turistico.id_sitio 
+            JOIN 
+                imagen 
+            ON 
+                imagen.id_sitio = sitio_turistico.id_sitio 
+            JOIN 
+                categoria 
+            ON 
+                categoria.id_categoria = sitio_turistico.id_categoria 
+            WHERE 
+                favorito.id_usuario = :ID_Usuario";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+        $consulta->execute();
+
+        $listaDeSitios = [];
+
+        while ($sitio = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            // Convertir la imagen en base64
+            if (isset($sitio['bin_imagen'])) {
+                $sitio['bin_imagen'] = base64_encode($sitio['bin_imagen']);
+            }
+            // Añadir la publicación al array de publicaciones
+            $listaDeSitios[] = $sitio;
+        }
+
+        return $listaDeSitios;
+    }
+
+    public static function VerificarSitioFavorito($ID_Sitio, $ID_Usuario){
+
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "
+            SELECT 
+                favorito.id_favorito 
+            FROM 
+                favorito 
+            JOIN 
+                sitio_turistico 
+            ON 
+                favorito.id_sitio = sitio_turistico.id_sitio 
+            WHERE 
+                favorito.id_sitio = :ID_Sitio
+            AND
+                favorito.id_usuario = :ID_Usuario";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+        $consulta->execute();
+
+        $campos = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (count($campos) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function GuardarFavorito($ID_Sitio, $ID_Usuario){
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+
+        $queryStr = "INSERT INTO favorito(id_sitio, id_usuario) VALUES (:ID_Sitio, :ID_Usuario)";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+
+        if ($consulta->execute()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static function EliminarFavorito($ID_Sitio, $ID_Usuario){
+
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+
+        $queryStr = "DELETE FROM favorito WHERE id_sitio = :ID_Sitio AND id_usuario = :ID_Usuario";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+        
+        if ($consulta->execute()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 ?>
-
-
-
