@@ -7,7 +7,7 @@
 /* ----- Estructura principal ----- */
 .estructura-principal {
     display: flex;
-    height: 100vh;
+    height: 75vh;
     overflow: hidden;
 }
 

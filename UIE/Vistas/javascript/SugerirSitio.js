@@ -89,6 +89,23 @@ function LimpiarEtiquetas(){
     AgregarSelect();
 }
 
+function validarCoordenadas() {     //funcion que se usará al comento de validar el form
+    const latitud = document.getElementById('Latitud').value;
+    const longitud = document.getElementById('Longitud').value;
+
+    if (latitud < -90 || latitud > 90) {
+        alert('La latitud debe estar entre -90 y 90.');
+        return false;
+    }
+
+    if (longitud < -180 || longitud > 180) {
+        alert('La longitud debe estar entre -180 y 180.');
+        return false;
+    }
+    return true;
+}
+
+
 document.addEventListener('DOMContentLoaded', (event) => {
     // Llamar a AgregarSelect una vez cuando la página cargue
     AgregarSelect();

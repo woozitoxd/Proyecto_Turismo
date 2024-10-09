@@ -98,7 +98,7 @@
     <input class="form-control custom-input me-2" id="buscador" type="search" placeholder="Buscar" aria-label="Buscar">
     <div class="dropdown ms-2">
         <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            FILTROS
+            Descubrir
         </button>
         <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item filtro" data-filtro="rural" href="#">Rural</a></li>
@@ -115,7 +115,7 @@
 
         
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
-        <header class="bg-light text-center pt-5 mt-5 d-flex flex-row justify-content-end">
+        <header class="bg-light text-center pt-5 mt-2 d-flex flex-row justify-content-end">
             <h3 id="section-title" class="w-50 text-primary fst-italic">Descubre nuevos sitios turísticos</h3>
         </header>
     

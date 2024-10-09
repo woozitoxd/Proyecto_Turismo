@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/Proyecto_Turismo/UIE/Vistas/estilos/SugerirSitio.css">
     <script src="/Proyecto_Turismo/UIE/Vistas/javascript/SugerirSitio.js" defer></script>
+
     <!-- Bootstrap JS más reciente -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
@@ -14,7 +15,7 @@
     
     <title>Sugerir Sitio - Turismo</title>
 </head>
-<body>
+<body >
     <header style="background-color: aqua; height: 75px;">
         <br>
         <p class="text-center">header</p>
@@ -55,7 +56,7 @@
 
         <div class="mb-2 col-lg-6">
             <div class="mb-3">
-                <label for="ImagenSitio" class=" h5 form-label">Imagenes de Sitio Turistico</label>
+                <label  class=" h5 form-label">Imagenes de Sitio Turistico</label>
                 <input type="file" id="ImagenSitio" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
             </div>
         </div>
@@ -66,20 +67,42 @@
             </div>
         </div>
         
-        <div class="mb-2 col-lg-6"><label for="Latitud" class="form-label h5">Latitud & Longitud</label>
-            <div class="input-group mb-1 MenorMargen">
-                <input type="number" class="form-control" ID="Latitud" placeholder="Latitud" name="Latitud" >
+        <div class="mb-2 col-lg-6">
+            <label for="Latitud" class="form-label h5">Latitud & Longitud</label>
+            <div class="input-group mb-1">
+                <!-- Campo de Latitud: rango permitido -90 a 90, con 6 decimales -->
+                <input type="number" class="form-control" id="Latitud" placeholder="Latitud ej. -34.853546" name="Latitud" min="-90" max="90" step="0.000001" required>
                 <span class="input-group-text">&</span>
-                <input type="number" class="form-control" ID="Longitud" placeholder="Longitud" name="Longitud">
+                <!-- Campo de Longitud: rango permitido -180 a 180, con 6 decimales -->
+                <input type="number" class="form-control" id="Longitud" placeholder="Longitud ej. -58.523937" name="Longitud" min="-180" max="180" step="0.000001" required>
             </div>
         </div>
+
+        <div class="mb-2 col-lg-6">
+            <p class="mt-4">mapa</p>
+        </div>
+
+        <div class="ms-4 mb-3 col-lg-6 mt-2 form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault"> Es arancelado?</label>
+        </div>
+
         <hr>
 
-        <div class="position-relative mt-2">
+
+
+
+        <div class="position-relative mt-3 mb-3 p-2">
             <div class="position-absolute top-0 start-50 translate-middle">
                 <button type="submit" class="btn btn-outline-primary "  id="btn-ss" >Publicar</button>
             </div>
         </div>
+        
+
+
+
+
+
     </div>
 </form>
 
