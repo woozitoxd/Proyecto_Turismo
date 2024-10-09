@@ -1,6 +1,3 @@
-
-
-
 //pequeño codigo para mostrar la vista previa de una nueva foto de perfil
 function previewImages(event) {
     console.log("Función previewImages llamada");
@@ -25,9 +22,7 @@ function previewImages(event) {
         });
     }
 }
-function MiFuncionAlerta()  {
-    alert('ESTO ES UNA ALERTAAAAAAAAAAAAsdq21AAA');
-}
+
 
 
 function actualizarCategoria() {
@@ -37,9 +32,8 @@ function actualizarCategoria() {
     // Actualiza el texto del párrafo con la categoría seleccionada
     categoriaSeleccionada.textContent = valorSeleccionado;
 }
-var contadorSelect = 0;
 
-var contadorSelect = 0;
+var contadorSelect = 0; //variable
 
 function AgregarSelect() {
     const contenedor = document.getElementById("IDContenedorSelectEtiquetas");
