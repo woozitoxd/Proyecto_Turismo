@@ -1,0 +1,41 @@
+#Descripcion{
+    height: 230px !important;
+    resize: none;
+
+
+}
+
+.EstilosCategorias {
+    font-size: 12px;
+    display: inline-block;/**/
+    background-color: #3687a0;
+    border: 1px solid 
+    rgb(0, 0, 0); /* anade un borde blanco de 2px */
+    padding: 7px 8px; /* padding interno */
+    border-radius: 30px; /* bordes redondeados */
+    text-align: center;
+    white-space: nowrap;/**par amantener alineado con los demas elementos*/
+    color: white;
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* transicion suave para cambios */
+}
+
+.EstilosEstiquetas{
+    font-size: 12px;
+    display: inline-block;/**/
+    background-color: #5cbad6;
+    border: 1px solid 
+    rgb(0, 0, 0); /* anade un borde blanco de 2px */
+    padding: 7px 8px; /* padding interno */
+    border-radius: 30px; /* bordes redondeados */
+    text-align: center;
+    white-space: nowrap;/**par amantener alineado con los demas elementos*/
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* transicion suave para cambios */
+
+}
+
+
+#imagePreviewContainer{
+
+    display: flex; flex-wrap: wrap; gap: 10px;
+}

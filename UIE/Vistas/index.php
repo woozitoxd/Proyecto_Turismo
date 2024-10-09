@@ -70,6 +70,7 @@
                             echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
                         }
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
+                        echo '<li><a class="dropdown-item" href="/Proyecto_Turismo/SugerirSitio.php">Sugerir Nuevo Sitio</a></li>';
                         echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
                     } else {
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
