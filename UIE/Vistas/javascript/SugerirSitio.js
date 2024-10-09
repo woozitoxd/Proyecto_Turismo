@@ -33,34 +33,39 @@ function actualizarCategoria() {
     categoriaSeleccionada.textContent = valorSeleccionado;
 }
 
-var contadorSelect = 0; //variable
+var contadorSelect = 1; //variable
 
 function AgregarSelect() {
-    const contenedor = document.getElementById("IDContenedorSelectEtiquetas");
-
+    const contenedorSelectEtiquetas = document.getElementById("IDContenedorSelectEtiquetas");
+    //const contenedorNombreEtiquetas = document.getElementById("IDContenedorNombreEtiquetas");
     // Crear un contenedor único para cada select y su botón
-    const fragmentoHTML = `
-        <div id="selectContainer${contadorSelect}" class="mb-2">
-            <select id="SelectEtiqueta${contadorSelect}" class="form-select mt-2 d-inline" onchange="AgregarEtiqueta(${contadorSelect})">
-                <option value="">Selecciona Etiquetas!</option>
-                <option value="Etiqueta1${contadorSelect}" name="Etiqueta1${contadorSelect}">Etiqueta 1</option>
-                <option value="Etiqueta2${contadorSelect}" name="Etiqueta2${contadorSelect}">Etiqueta 2</option>
-            </select>
-            <button class="btn btn-danger mt-2 d-inline" onclick="EliminarSelect(${contadorSelect})">Eliminar</button>
+    const fragmentocontenedorSelectEtiquetasHTML = `
+    <div id="selectContainer${contadorSelect}" class="mb-2 d-flex align-items-center col-6">
+        <button class="btn btn-danger me-2" onclick="EliminarSelect(${contadorSelect})">-</button>
+        <select id="SelectEtiqueta${contadorSelect}" class="form-select mt-2 d-inline" onchange="AgregarEtiqueta(${contadorSelect})">
+            <option value="">Selecciona Etiquetas!</option>
+            <option value="Etiqueta1${contadorSelect}" name="Etiqueta1${contadorSelect}">Etiqueta 1</option>
+            <option value="Etiqueta2${contadorSelect}" name="Etiqueta2${contadorSelect}">Etiqueta 2</option>
+        </select>
+    </div>
+    <div id="nombreEtiqueta${contadorSelect}" class="mt-3 col-6">
             <p class="d-inline EstilosEstiquetas" id="pEtiqueta${contadorSelect}"> EtiquetaSeleccionada</p>
-        </div>`;
-    
+        </div>
+    `;
+
     // Insertar el HTML generado en el contenedor
-    contenedor.innerHTML += fragmentoHTML;  
+    contenedorSelectEtiquetas.innerHTML += fragmentocontenedorSelectEtiquetasHTML;
     contadorSelect += 1;  // Incrementar el contador para crear ids únicos
 }
 
 function EliminarSelect(id) {
     // Seleccionamos el contenedor del select que queremos eliminar
     const selectContainer = document.getElementById(`selectContainer${id}`);
+    const nombreEtiqueta = document.getElementById(`nombreEtiqueta${id}`);
     // Si el contenedor existe, lo eliminamos
     if (selectContainer) {
         selectContainer.remove();
+        nombreEtiqueta.remove();
     }
 }
 
@@ -76,6 +81,12 @@ function AgregarEtiqueta(id){
         const valorSeleccionado = select.options[select.selectedIndex].text;
         EtiquetaSeleccionada.textContent = valorSeleccionado;
     }
+}
+
+function LimpiarEtiquetas(){
+    const selectContainer = document.getElementById(`IDContenedorSelectEtiquetas`);;
+    selectContainer.innerHTML= '';
+    AgregarSelect();
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
