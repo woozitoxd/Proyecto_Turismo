@@ -47,5 +47,32 @@ class Comentarios
             return "Error: " . $e->getMessage();
         }
     }
+
+
+    public function ReportarComentario($idDenuncia, $idComentario, $usuarioID, $observacion)
+    {
+        try {
+            $sql = "INSERT INTO reporte_comentario (id_comentario, id_usuarioreporta, id_razon, fecha_reporte, observacion) 
+                    VALUES (:idComentario, :usuarioID, :idDenuncia, CURRENT_TIMESTAMP, :observacion)";
+            $stmt = $this->conexion->prepare($sql);
+    
+            // Vincular todos los parámetros correctamente
+            $stmt->bindParam(':idComentario', $idComentario, PDO::PARAM_INT);
+            $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
+            $stmt->bindParam(':idDenuncia', $idDenuncia, PDO::PARAM_INT);
+            $stmt->bindParam(':observacion', $observacion, PDO::PARAM_STR);
+    
+            if ($stmt->execute()) {
+                return true; // La inserción fue exitosa
+            } else {
+                return "Error al insertar el reporte: " . implode(", ", $stmt->errorInfo()); // Mensaje de error detallado
+            }
+        } catch (PDOException $e) {
+            return "Error de base de datos: " . $e->getMessage(); // Mensaje de error para depuración
+        }
+    }
+    
+    
+    
 }
 ?>

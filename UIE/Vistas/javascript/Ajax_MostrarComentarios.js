@@ -46,6 +46,11 @@ function cargarComentario(idSitio) {
 
                     // Agregar texto al botón
                     denunciaButton.appendChild(document.createTextNode(" Reportar")); // Texto del botón
+                    // Añadir evento para redirigir a la página de denuncia
+                    denunciaButton.addEventListener("click", function() {
+                        const idComentario = comentario.idComentario; // O el ID del comentario que desees pasar
+                        window.open(`../Vistas/VIS_DenunciaComentario.php?idComentario=${idComentario}`, '_blank'); // Cambia la URL según tu estructura
+                    });
 
                     // Agregar el botón al comentario
                     li.appendChild(denunciaButton);

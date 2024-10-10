@@ -103,7 +103,7 @@
                     </div>
 
 
-                    <!-- Lista de Comentarios -->
+                    <!-- Lista de Comentarios que los trae mediante AJAX -->
                     <div id="seccion-comentarios-<?= $sitio['id_sitio'] ?>" class="row mt-4">
                         <div class="col-md-8 mx-auto card">
                             <h3 class="text-left">Recientes</h3>
@@ -111,11 +111,11 @@
                                 <ul id="lista-comentarios-<?= $sitio['id_sitio'] ?>" class="list-unstyled">
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
+                
         
         </div>
     </div>

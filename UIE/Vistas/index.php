@@ -18,7 +18,6 @@
         $usuario_name = $_SESSION['nombre']; // variable usuario name para que muestre dinamicamente el nombre en el navbar una vez que inicia sesion
         $nombre_rol = $_SESSION['nombre_rol']; // Obtener el nombre rol de la sesión
     }
-
 ?>
 
 
@@ -95,20 +94,18 @@
                     ?>
                 </ul>
                 <form class="d-flex ms-3 search-form" role="search" id="form-busqueda">
-    <input class="form-control custom-input me-2" id="buscador" type="search" placeholder="Buscar" aria-label="Buscar">
-    <div class="dropdown ms-2">
-        <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Descubrir
-        </button>
-        <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item filtro" data-filtro="rural" href="#">Rural</a></li>
-            <li><a class="dropdown-item filtro" data-filtro="cultural" href="#">Cultural</a></li>
-        </ul>
-    </div>
-    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
-</form>
-
-
+                    <input class="form-control custom-input me-2" id="buscador" type="search" placeholder="Buscar" aria-label="Buscar">
+                    <div class="dropdown ms-2">
+                        <button class="btn custom-filter-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Descubrir
+                        </button>
+                        <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item filtro" data-filtro="rural" href="#">Rural</a></li>
+                            <li><a class="dropdown-item filtro" data-filtro="cultural" href="#">Cultural</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn custom-search-btn" type="submit">BUSCAR</button>
+                </form>
             </div>
         </div>
     </nav>
@@ -127,7 +124,6 @@
                 <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa"></script>
             </div>
-    
             <!-- Cards de lugares turísticos (a la derecha) -->
             <div class="bloque-lugares align-content-start" id="contenedor-tarjetas">
             <?php
@@ -135,11 +131,9 @@
                 $controlador = new SitioTuristicoContoller();
                 $controlador->MostrarSitiosTuristicos();
             ?>
-                <!-- Más tarjetas pueden ir aquí -->
+            <!-- Más tarjetas pueden ir aquí -->
             </div>
         </div>
-    
-    
             <!---------------------------->
             <!-- Modal Registro usuario -->
             <div class="modal fade" id="myModalRegistro" data-bs-backdrop="static">
@@ -184,9 +178,7 @@
                     </div>
                 </div>
             </div>
-            
-    
-            <!-- ---------------------------------->
+            <!------------------------------------>
             <!-- Inicio de sesion -->
             <div class="modal fade" id="myModalInicio" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered">
@@ -217,9 +209,6 @@
                     </div>
                 </div>
             </div>
-
-
-                
     </main>
 
     <footer>
