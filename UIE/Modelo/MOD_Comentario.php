@@ -25,16 +25,18 @@ class Comentarios
         }
     }
 
-    public function AgregarComentario($UsuarioID, $descripcion, $IdSitio)
+    public function AgregarComentario($UsuarioID, $descripcion, $IdSitio, $fechaYHora)
     {
         try {
-            $sql = "INSERT INTO comentario (id_usuario, id_sitio, comentario, fechaPublicacion) VALUES (:UsuarioID, :IdSitio, :Descripcion, CURRENT_TIMESTAMP)";
+            $sql = "INSERT INTO comentario (id_usuario, id_sitio, comentario, fechaPublicacion) VALUES (:UsuarioID, :IdSitio, :Descripcion, :FechaYHoraActual)";
             $stmt = $this->conexion->prepare($sql);
     
             if ($stmt) {
                 $stmt->bindParam(':UsuarioID', $UsuarioID, PDO::PARAM_INT);
                 $stmt->bindParam(':IdSitio', $IdSitio, PDO::PARAM_INT); // Vincula el id_sitio
                 $stmt->bindParam(':Descripcion', $descripcion, PDO::PARAM_STR);
+                $stmt->bindParam(':FechaYHoraActual', $fechaYHora, PDO::PARAM_STR);
+
                 if ($stmt->execute()) {
                     return true;
                 } else {

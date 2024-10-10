@@ -43,6 +43,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/> -->
     <title>Inicio - Turismo</title>
 </head>
 <body>
@@ -211,16 +215,39 @@
             </div>
     </main>
 
-    <footer>
+    <footer class="py-5" style="background: linear-gradient(to bottom, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="https://img.freepik.com/vector-gratis/fondo-plano-viaje-vintage_23-2148189177.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1727308800&semt=ais_hybrid" alt="logoTurismo" class="img-fluid" style="max-width: 100px;"> 
+            <div class="row justify-content-between">
+                <div class="col-md-2">
+                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
+                    <p>© Proyecto Turismo 2024</p>
                 </div>
-                <div class="col-md-6 text-md-end mt-4 mt-md-0">
-                    <a href="#" target="_blank" class="text-white me-3"><i class="fab fa-twitter" style="font-size: 3.5rem;"></i></a>  
-                    <a href="#" target="_blank" class="text-white me-3"><i class="fab fa-instagram" style="font-size: 3.5rem;"></i></a>
-                    <a href="#" target="_blank" class="text-white"><i class="fab fa-facebook" style="font-size: 3.5rem;"></i></a>
+
+                <div class="col-md-4">
+                <h5 class="font-weight-bold mb-2">Contactanos</h5>
+                    <p class="mb-4">ejemplo@gmail.com</p>
+                    <p class="mb-4">ejemplo@hotmail.com</p>
+                </div>
+
+                <div class="col-md-2">
+                
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-linkedin"></i>Linkedin</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-facebook"></i>Facebook</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-instagram"></i>Instagram</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-youtube"></i>Youtube</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-twitter"></i>Twitter</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

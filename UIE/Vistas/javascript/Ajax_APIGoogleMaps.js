@@ -23,15 +23,29 @@ function cargarMapaDesdeTarjeta(tarjeta) {
 
 // Función AJAX para obtener las coordenadas
 function cargarMapa(sitioID) {
-    $.ajax({
-        url: 'http://localhost/Proyecto_DesarrolloSoftware/Proyecto_Turismo/UIE/Modelo/CON_ObtenerCoordenadas.php',  // Archivo PHP que devuelve las coordenadas
-        type: 'POST', 
-        data: { id: sitioID },  // Envía el ID del sitio turístico
-        success: handleResponse,  // Maneja la respuesta en una función separada
-        error: function(xhr, status, error) {
-            console.error(`Error al obtener las coordenadas: ${xhr.status} - ${error}`);
-        }
-    });
+
+    let urlActual = window.location.href;
+    let palabraClave = "UIE/";
+
+    // Encuentra el índice de la palabra "UIE/" en la URL
+    let indice = urlActual.indexOf(palabraClave);
+
+    // Si la palabra "UIE/" se encuentra en la URL
+    if (indice !== -1) {
+
+        // Guarda la URL desde el inicio hasta la palabra "UIE/"
+        let urlCortada = urlActual.substring(0, indice + palabraClave.length);
+
+        $.ajax({
+            url: urlCortada + 'Modelo/CON_ObtenerCoordenadas.php',  // Archivo PHP que devuelve las coordenadas
+            type: 'POST', 
+            data: { id: sitioID },  // Envía el ID del sitio turístico
+            success: handleResponse,  // Maneja la respuesta en una función separada
+            error: function(xhr, status, error) {
+                console.error(`Error al obtener las coordenadas: ${xhr.status} - ${error}`);
+            }
+        });
+    }
 }
 
 // Manejo de la respuesta del servidor

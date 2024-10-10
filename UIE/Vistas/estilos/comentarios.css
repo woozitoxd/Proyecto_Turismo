@@ -6,11 +6,16 @@
 }
 
 .comentarios-container {
-    max-height: 200px; /* Altura máxima para el contenedor de comentarios */
+    max-height: 20rem; /* Altura máxima para el contenedor de comentarios */
     overflow-y: auto; /* Permite desplazamiento vertical */
     background-color: #ffffff; /* Color de fondo del contenedor */
     border-radius: 5px; /* Bordes redondeados */
     padding: 10px; /* Espaciado interno */
+}
+
+.comentarios-container p{
+    overflow-wrap: break-word; /* Forzar ajuste de palabras largas */
+    white-space: normal; /* Permite que el texto se ajuste en varias líneas */
 }
 
 .comentario-item {
