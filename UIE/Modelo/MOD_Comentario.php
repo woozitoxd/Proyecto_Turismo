@@ -38,12 +38,13 @@ class Comentarios
                 $stmt->bindParam(':FechaYHoraActual', $fechaYHora, PDO::PARAM_STR);
 
                 if ($stmt->execute()) {
-                    return true;
+                    $idComentario = $this->conexion->lastInsertId();
+                    return $idComentario;
                 } else {
-                    return false;
+                    return null;
                 }
             } else {
-                return false;
+                return null;
             }
         } catch (PDOException $e) {
             return "Error: " . $e->getMessage();

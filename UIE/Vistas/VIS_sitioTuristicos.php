@@ -98,10 +98,10 @@
                                 <!-- Formulario para agregar comentarios -->
                                 <form method="post" class="comentarios-form">
                                     <div class="form-group">
-                                        <textarea class="form-control" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="Publica tu opinión" data-inputpublicacion<?= $sitio['id_sitio'] ?> required></textarea>
+                                        <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="Publica tu opinión" data-inputpublicacion<?= $sitio['id_sitio'] ?> required></textarea>
                                     </div>
                                     <input type="hidden" name="id_sitio" value="<?= $sitio['id_sitio'] ?>"> <!-- Campo oculto para el id_sitio -->
-                                    <div class="my-3 d-flex flex-row justify-content-between"> <!-- Alinea el botón a la derecha -->
+                                    <div class="my-3 d-flex flex-row justify-content-between">
                                         <p class="ms-3" data-contadorchar<?= $sitio['id_sitio'] ?>>Límite de caracteres: 0/255</p>
                                         <button type="submit" class="btn btn-primary">Publicar</button>
                                     </div>

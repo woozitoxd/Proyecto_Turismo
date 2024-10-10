@@ -22,15 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ComentObj = new Comentarios("", "", "", "");  //instancio objeto de clase comentario
     $resultado = $ComentObj->AgregarComentario($usuarioID, $coment, $id_sitio, $fechaYHoraActual->format('Y-m-d H:i:s')); //invocom etodo que agrega los comentarios pasandole por parametro los datos
 
-    if ($resultado === true) { //si se pudo comentar, devuelvo los datos del nuevo comentario al front
+    if (!empty($resultado) && is_numeric($resultado)) { //si se pudo comentar, devuelvo los datos del nuevo comentario al front
+        
         // Devuelve el JSON con el header correcto
         header('Content-Type: application/json');
+        
         echo json_encode([
             'id_sitio' => $id_sitio,
             'nombre' => $nombreUsuario,
             'fechaPublicacion' => $fechaYHoraActual->format('Y-m-d H:i:s'),
-            'comentario' => $coment
+            'comentario' => $coment,
+            'id_comentario' => $resultado
         ]);
+
     }else{
         echo "Error al publicar comentario";
     }
