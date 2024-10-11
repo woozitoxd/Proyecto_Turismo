@@ -1,4 +1,10 @@
-<?php require_once("../Controlador/CON_IniciarSesion.php");?>
+<?php require_once("../Controlador/CON_IniciarSesion.php");
+
+if (isset($_SESSION['mensaje'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['mensaje'] . '</div>'; // Mensaje de éxito
+    unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
+}
+?>
 
 <script defer src="../Vistas/javascript/Favoritos.js"></script>
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>

@@ -11,9 +11,8 @@ if (!Permisos::tienePermiso('Denunciar Comentario', $usuarioID)) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST); // Para ver todos los datos que se están recibiendo
-    // Resto de la lógica...
-
+    // Quitar var_dump($_POST); 
+    
     $idDenuncia = isset($_POST['listaRazones']) ? $_POST['listaRazones'] : null;
     $idComentario = isset($_POST['comentarioId']) ? $_POST['comentarioId'] : null;
     $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : null;
@@ -23,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $usuarioID = $_SESSION['id'];
     $ComentObj = new Comentarios("", "", "", "");
     
     // Se reporta el comentario
@@ -31,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($resultado === true) {
         // Enviar respuesta de éxito
-        echo json_encode(['success' => true, 'message' => 'Denuncia enviada correctamente.']);
+        echo json_encode(['success' => true, 'message' => 'Denuncia enviada correctamente. Gracias por usar nuestro sistema de denuncias.']);
     } else {
         // Enviar respuesta de error
         echo json_encode(['error' => $resultado]); // Mostrar el error si no fue exitoso

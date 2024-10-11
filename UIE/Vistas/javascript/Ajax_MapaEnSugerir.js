@@ -1,4 +1,3 @@
-// Inicializa el mapa con coordenadas predeterminadas
 function iniciarmapa(coord) {
     const map = new google.maps.Map(document.getElementById('map'), {
         center: coord,
@@ -6,46 +5,44 @@ function iniciarmapa(coord) {
         mapId: '82945df34136974b',
     });
 
+    // Escuchar el evento de clic en el mapa
     map.addListener('click', (event) => {
         const clickedLocation = {
             lat: event.latLng.lat(),
             lng: event.latLng.lng()
         };
-        console.log("Coordenadas del clic:", clickedLocation);
-
-        // Crear un nuevo marcador en la ubicación clickeada
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-            map,
-            position: clickedLocation, // Usar la ubicación clickeada
-        });
-        // Aquí puedes hacer lo que necesites con las coordenadas
-        hideContextMenu(); // Ocultar menú contextual en clic normal
+        mostrarCoordenadas(clickedLocation); // Muestra las coordenadas en la página
     });
 
+    initAutocomplete(map); // Pasa el objeto `map` aquí
+}
 
+function initAutocomplete(map) {
+    const input = document.getElementById("place_input");
+    const autocomplete = new google.maps.places.Autocomplete(input);
 
-    map.addListener('rightclick', (event) => {
-        event.stop(); // Detiene la acción del menú contextual predeterminado
-        const clickedLocation = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-        console.log("Coordenadas del clic derecho:", clickedLocation);
-        showContextMenu(event); // Mostrar menú contextual en clic derecho
+    // Vincula el autocompletado al mapa
+    autocomplete.bindTo('bounds', map);
+
+    // Evento que se dispara cuando se selecciona un lugar
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+            const marker = new google.maps.marker.AdvancedMarkerElement({
+                map,
+                position: place.geometry.location,
+            });
+        } else {
+            console.log("No hay detalles disponibles para el lugar seleccionado.");
+        }
     });
 }
 
-// Para prevenir el menú contextual en el mapa
-function showContextMenu(event) {
-    const contextMenu = document.getElementById('context-menu');
-    contextMenu.style.display = 'block';
-    contextMenu.style.left = `${event.pixel.x}px`;
-    contextMenu.style.top = `${event.pixel.y}px`;
-}
-
-function hideContextMenu() {
-    const contextMenu = document.getElementById('context-menu');
-    contextMenu.style.display = 'none';
+function mostrarCoordenadas(location) {
+    const coordenadasDiv = document.getElementById('coordenadas');
+    coordenadasDiv.textContent = `Coordenadas: Latitud ${location.lat}, Longitud ${location.lng}`;
 }
 
 // Función para manejar el clic en una tarjeta
@@ -82,7 +79,6 @@ function cargarMapa(sitioID) {
 // Manejo de la respuesta del servidor
 function handleResponse(response) {
     console.log("Respuesta del servidor:", response);  // Para ver qué se recibe del servidor
-    
     try {
         const data = JSON.parse(response);  // Intenta parsear la respuesta JSON
         

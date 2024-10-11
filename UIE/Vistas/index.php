@@ -30,13 +30,9 @@
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/cards.css">
-    <script defer src="./javascript/Ajax_APIGoogleMaps.js"></script>
-    <script src="./javascript/Ajax_BuscarSitios.js"></script>
-    <script defer src="./javascript/ContenidoSeccion.js"></script>
-    <!-- jQuery (opcional, solo si lo necesitas) -->
+
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS más reciente -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CSS -->
@@ -44,11 +40,16 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/> -->
+    <!-- Bootstrap JS más reciente -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../Vistas/javascript/Ajax_BuscarSitios.js"></script>
+    <script defer src="../Vistas/javascript/Ajax_APIGoogleMaps.js"></script>
+    <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
+
     <title>Inicio - Turismo</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
         <div class="container">
@@ -73,7 +74,7 @@
                             echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
                         }
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
-                        echo '<li><a class="dropdown-item" href="/Proyecto_Turismo/SugerirSitio.php">Sugerir Nuevo Sitio</a></li>';
+                        echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
                         echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
                     } else {
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
@@ -125,8 +126,8 @@
             <!-- Mapa (fijo a la izquierda) -->
             <div class="zona-mapa-izquierda">
                 <div id="map"></div>
-                <script src="./javascript/maps.js"></script> <!-- API de google maps, mejorar para futuro -->
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa"></script>
+                <!--<script src="./javascript/maps.js"></script> API de google maps, mejorar para futuro -->
+                <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=marker"></script>
             </div>
             <!-- Cards de lugares turísticos (a la derecha) -->
             <div class="bloque-lugares align-content-start" id="contenedor-tarjetas">
@@ -225,8 +226,8 @@
 
                 <div class="col-md-4">
                 <h5 class="font-weight-bold mb-2">Contactanos</h5>
-                    <p class="mb-4">ejemplo@gmail.com</p>
-                    <p class="mb-4">ejemplo@hotmail.com</p>
+                    <p class="mb-4">SomosTuristas@gmail.com.ar</p>
+                    <p class="mb-4">SomosTuristas@hotmail.com.ar</p>
                 </div>
 
                 <div class="col-md-2">
