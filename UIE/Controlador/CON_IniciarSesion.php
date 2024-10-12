@@ -5,9 +5,9 @@ session_start(); // Inicia la sesión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar que se enviaron datos y que no estén vacíos
-    if (isset($_POST["correo"]) && isset($_POST["contraseña"]) && !empty($_POST["correo"]) && !empty($_POST["contraseña"])) {
-        $correo = $_POST["correo"];
-        $password = $_POST["contraseña"];
+    if (isset($_POST["correo_login"]) && isset($_POST["contraseña_login"]) && !empty($_POST["correo_login"]) && !empty($_POST["contraseña_login"])) {
+        $correo = $_POST["correo_login"];
+        $password = $_POST["contraseña_login"];
         
         // Consulta para verificar si el usuario y la contraseña coinciden
         $usuario = new perfilUser("", "", "", "");

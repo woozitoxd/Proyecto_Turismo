@@ -1,5 +1,6 @@
 // Crear una ventana de información para compartir entre los marcadores
-const infoWindow = new google.maps.InfoWindow();
+
+//const infoWindow = new google.maps.InfoWindow();
 
 function iniciarmapa() {
     // Obtener la URL actual y crear la URL cortada para la petición

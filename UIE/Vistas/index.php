@@ -199,11 +199,11 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="correo" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" autocomplete="correo" name="correo">
+                                    <input type="email" class="form-control" id="correo_login" required placeholder="Ingrese su email" autocomplete="correo" name="correo_login">
                                 </div>
                                 <div class="mb-3">
                                     <label for="contraseña" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contraseña" required placeholder="Ingrese su contraseña" name="contraseña">
+                                    <input type="password" class="form-control" id="contraseña_login" required placeholder="Ingrese su contraseña" name="contraseña_login">
                                 </div>
                             </div>
                             <!-- Modal Footer -->
