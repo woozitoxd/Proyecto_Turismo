@@ -10,13 +10,12 @@
         $userInfo = $oauth2->userinfo->get();
     }
     
-    $usuario_id = null;
+    // Comprobar si la sesión del usuario está iniciada y almacenar la información
     $usuario_name = null;
     $nombre_rol = null;
-    if (isset($_SESSION['usuario']) && $_SESSION['usuario'] && isset($_SESSION['nombre']) && $_SESSION['nombre'] && isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol']) {
-        $usuario_id = $_SESSION['id']; // inicio de sesion, comprobacion de que la sesion haya sido iniciada
-        $usuario_name = $_SESSION['nombre']; // variable usuario name para que muestre dinamicamente el nombre en el navbar una vez que inicia sesion
-        $nombre_rol = $_SESSION['nombre_rol']; // Obtener el nombre rol de la sesión
+    if (isset($_SESSION['usuario']) && isset($_SESSION['nombre']) && isset($_SESSION['nombre_rol'])) {
+        $usuario_name = $_SESSION['nombre'];
+        $nombre_rol = $_SESSION['nombre_rol'];
     }
 ?>
 
@@ -70,7 +69,7 @@
                 <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="hamburgerMenu">
                     <?php
                     if (isset($_SESSION['usuario'])) {
-                        if ($_SESSION['nombre_rol'] === 'administrador') {
+                        if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
                             echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
                         }
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
@@ -79,7 +78,7 @@
                     } else {
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
                         echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                        echo '<li><a class="dropdown-item" href="'.$authUrl.'"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo">Ingresar con Google</a></li>';
+                        echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
                     }
                     ?>
                 </ul>
@@ -127,8 +126,10 @@
             <div class="zona-mapa-izquierda">
                 <div id="map"></div>
                 <!--<script src="./javascript/maps.js"></script> API de google maps, mejorar para futuro -->
-                <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=marker"></script>
-            </div>
+                <!--<script defer src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarmapa&v=weekly"></script>-->
+                <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly"></script>
+
+                </div>
             <!-- Cards de lugares turísticos (a la derecha) -->
             <div class="bloque-lugares align-content-start" id="contenedor-tarjetas">
             <?php

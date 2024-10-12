@@ -3,7 +3,6 @@
 require 'conexion_bbdd.php';
 
 
-// Verificar si se recibió el ID (data-sitio-id="1"), modificar a futuro para que trabaje dinamicamente y no de manera hardcodeada
 if (isset($_POST['id'])) {
     $sitioID = (int) $_POST['id']; // Asegúrate de convertir el ID a un entero para evitar inyecciones SQL
     
