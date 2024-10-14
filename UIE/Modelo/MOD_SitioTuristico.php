@@ -140,7 +140,20 @@ class SitioTuristico
         $sitio = $consulta->fetch(\PDO::FETCH_ASSOC);
         return $sitio;
     }
-
+    public static function obtenerTodasLasCategorias(){
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "SELECT titulo FROM categoria";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->execute();
+        $categorias = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+        return $categorias;
+    }
+    
     public static function ObtenerSitiosPropios($ID_Usuario)
     {
         if (!isset($GLOBALS['conn'])) {

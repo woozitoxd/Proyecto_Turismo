@@ -11,5 +11,11 @@ class SitioTuristicoContoller
         require '../Vistas/VIS_sitioTuristicos.php';
     }
 
+    public function TraerCategorias(){
+        require_once '../Modelo/MOD_SitioTuristico.php';
+        $categorias =SitioTuristico::obtenerTodasLasCategorias();
+        require '../Vistas/VIS_BuscadorSitios.php';
+    }
+
 }
 ?>
