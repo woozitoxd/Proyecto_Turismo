@@ -12,7 +12,7 @@
 
 /* ----- Estilos para tarjetas turísticas ----- */
 .tarjeta-turistica {
-    max-height: 20rem;
+    height: auto !important;
     display: block; /* Tarjetas visibles */
     margin-bottom: 15px;
 }

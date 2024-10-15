@@ -37,7 +37,9 @@
         
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
         <header class="bg-light text-center pt-5 mt-2 d-flex flex-row justify-content-end">
-            <h3 id="section-title" class="w-50 text-primary fst-italic">Descubre nuevos sitios turísticos</h3>
+            <div id="section-title" class="w-50 text-primary fst-italic fs-3 fw-medium">
+                Descubre nuevos sitios turísticos
+            </div>
         </header>
     
         <!-- Estructura principal -->

@@ -54,47 +54,190 @@ function verificarSeccion(){
 
 };
 
-function manejarContenido(seccion){
-
-    const TituloSeccion = document.getElementById("section-title");
-
-    switch (seccion) {
-   
-        case '#favoritos':
-
-            TituloSeccion.textContent = "Mis sitios favoritos";
-            
-            obtenerSitiosFavoritos();
-            
-            adaptarNavHeader("#favoritos");
-        break;
-            
-        case '#MisSitios':
-                
-            TituloSeccion.textContent = "Mis sitios publicados";
-
-            obtenerPublicacionesPropias();
-
-            adaptarNavHeader("#MisSitios");
-        break;
-
-        default:
-        
-            location.reload(true);
-
-            adaptarNavHeader("#");
-
-        break;
-    }
-}
-
 let URL = window.location.href;
 let path = "UIE/";
 
 // Encuentra el índice de la palabra "UIE/" en la URL
 let indiceDePath = URL.indexOf(path);
 
-function obtenerSitiosFavoritos(){
+async function manejarContenido(seccion){
+
+    const HeaderSeccion = document.getElementById("section-title");
+
+    HeaderSeccion.innerHTML = ``;
+
+    const DropdownMenu = document.createElement('div');
+        DropdownMenu.classList.add('btn-group', 'dropdown', 'ms-2');
+
+    const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn fs-3 fst-italic text-primary fw-medium dropdown-toggle";
+            button.id = "dropdownSeccionFiltro";
+            button.setAttribute("data-bs-toggle", "dropdown");
+            button.setAttribute("aria-expanded", "false");
+
+    const ul = document.createElement("ul");
+        ul.className = "dropdown-menu w-100 text-center fs-5 border border-primary-subtle";
+        ul.setAttribute("aria-labelledby", "dropdownSeccionFiltro");
+
+        ul.innerHTML = ``;
+
+    if (seccion == "#favoritos") {
+        button.textContent = "Mis sitios favoritos";
+
+            DropdownMenu.appendChild(button);
+
+            ul.innerHTML += `<li><a class="dropdown-item filtro-seccion text-primary" data-filtro="todos" href="#">Todos</a></li>`;
+
+            if (indiceDePath !== -1) {
+                // Guarda la URL desde el inicio hasta la palabra "UIE/"
+                let urlCortada = URL.substring(0, indiceDePath + path.length);
+        
+                await fetch(urlCortada + "Controlador/CON_ObtenerCategorias.php", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(async res => {
+        
+                    // Verifico si la respuesta fue exitosa
+                    if (!res.ok) {
+                        throw new Error('Error en la solicitud: ' + response.status);
+                    }
+        
+                    // Verifico si hay contenido en la respuesta
+                    if (res.headers.get('content-length') === '0') {
+                        return null; // No hay contenido
+                    }
+        
+                    // Convierto a JSON
+                    return await res.json();
+                })
+                .then(data => {
+        
+                    console.log('Resultados encontrados:', data);
+        
+                    data.forEach( (e) => {
+                        ul.innerHTML += `<li><a class="dropdown-item filtro-seccion text-primary overflow-hidden" data-filtro="${e.titulo}" href="#">${e.titulo}</a></li>`;
+                    });
+        
+                })
+                .catch(error => {
+                    // Manejo los errores en caso de que la solicitud o el fetch falle
+                    console.error('Error:', error);
+                });
+        
+            } else {
+                console.log("La palabra 'UIE/' no se encontró en la URL.");
+            }
+
+            DropdownMenu.appendChild(ul);
+
+            HeaderSeccion.appendChild(DropdownMenu);
+            
+            await obtenerSitiosFavoritos();
+            
+            adaptarNavHeader("#favoritos");
+
+            const dropdownItems = document.querySelectorAll(".filtro-seccion");
+            const tarjetas = document.querySelectorAll(".tarjeta-turistica");
+
+            // Filtrar por categoría desde el dropdown
+            dropdownItems.forEach(item => {
+                item.addEventListener("click", function(event) {
+                    event.preventDefault();
+
+                    dropdownItems.forEach( (e) => {
+                        e.classList.remove("active");
+                        e.classList.remove("text-white");
+                    });
+                    
+                    event.target.classList.add("active");
+                    event.target.classList.add("text-white");
+
+                    const filtro = item.getAttribute("data-filtro").toLowerCase();
+
+                    tarjetas.forEach(tarjeta => {
+
+                        // Validar si la categoría del sitio está definida
+                        const categoriaSitio = tarjeta.dataset.categoria ? tarjeta.dataset.categoria.toLowerCase() : '';
+
+                        // Muestra u oculta la publicación según el filtro seleccionado
+
+                        if (filtro == "todos" || categoriaSitio.includes(filtro) ) {
+                            tarjeta.style.display = "block"; // Mostrar tarjeta si coincide con el filtro
+                        } else {
+                            tarjeta.style.display = "none"; // Ocultar tarjeta si no coincide
+                        }
+                    });
+                });
+            });
+
+    }else if(seccion == "#MisSitios"){
+
+        button.textContent = "Mis sitios publicados";
+
+            DropdownMenu.appendChild(button);
+
+            ul.innerHTML += `<li><a class="dropdown-item filtro-seccion text-primary" data-filtro="todos" href="#">Todos</a></li>`;
+            ul.innerHTML += `<li><a class="dropdown-item filtro-seccion text-primary" data-filtro="aprobados" href="#">Aprobados</a></li>`;
+            ul.innerHTML += `<li><a class="dropdown-item filtro-seccion text-primary" data-filtro="pendientes" href="#">En revisión</a></li>`;
+
+            DropdownMenu.appendChild(ul);
+
+            HeaderSeccion.appendChild(DropdownMenu);
+
+            await obtenerPublicacionesPropias();
+
+            adaptarNavHeader("#MisSitios");
+
+            const dropdownItems = document.querySelectorAll(".filtro-seccion");
+            const tarjetas = document.querySelectorAll(".tarjeta-turistica");
+
+            // Filtrar por categoría desde el dropdown
+            dropdownItems.forEach(item => {
+
+                item.addEventListener("click", function(event) {
+                    event.preventDefault();
+
+                    dropdownItems.forEach( (e) => {
+                        e.classList.remove("active");
+                        e.classList.remove("text-white");
+                    });
+                    
+                    event.target.classList.add("active");
+                    event.target.classList.add("text-white");
+
+                    const filtro = item.getAttribute("data-filtro").toLowerCase();
+
+                    tarjetas.forEach(tarjeta => {
+
+                        // Validar si el estado del sitio está definida
+                        const estadoSitioPublicado = tarjeta.dataset.estado ? tarjeta.dataset.estado.toLowerCase() : '';
+
+                        // Muestra u oculta la publicación según el filtro seleccionado
+
+                        if (filtro == "todos" || estadoSitioPublicado.includes(filtro) ) {
+                            tarjeta.style.display = "block"; // Mostrar tarjeta si coincide con el filtro
+                        } else {
+                            tarjeta.style.display = "none"; // Ocultar tarjeta si no coincide
+                        }
+                    });
+                });
+            });
+
+    }else{
+
+        location.reload(true);
+
+        adaptarNavHeader("#");
+    }
+
+    
+}
+
+async function obtenerSitiosFavoritos(){
 
     const ContenedorSitios = document.querySelector(".bloque-lugares");
 
@@ -112,13 +255,13 @@ function obtenerSitiosFavoritos(){
         // Guarda la URL desde el inicio hasta la palabra "UIE/"
         let urlCortada = URL.substring(0, indiceDePath + path.length);
 
-        fetch(urlCortada + "Controlador/CON_SitiosFavoritos.php", {
+        await fetch(urlCortada + "Controlador/CON_SitiosFavoritos.php", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(res => {
+        .then( async res => {
 
             // Verifico si la respuesta fue exitosa
             if (!res.ok) {
@@ -131,9 +274,9 @@ function obtenerSitiosFavoritos(){
             }
 
             // Convierto a JSON
-            return res.json();
+            return await res.json();
         })
-        .then(data => {
+        .then( async data => {
 
             if (Array.isArray(data) && data.length > 0) {
 
@@ -145,6 +288,7 @@ function obtenerSitiosFavoritos(){
                             data-bs-toggle="modal" 
                             data-sitio-id="${e.id_sitio}" 
                             data-bs-target="#modal${e.id_sitio}" 
+                            data-categoria="${e.titulo}" 
                             onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
     
                             <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen de destino" class="card-img-top">
@@ -178,7 +322,7 @@ function obtenerSitiosFavoritos(){
     }
 }
 
-function obtenerPublicacionesPropias(){
+async function obtenerPublicacionesPropias(){
 
     const ContenedorSitios = document.querySelector(".bloque-lugares");
 
@@ -196,13 +340,13 @@ function obtenerPublicacionesPropias(){
         // Guarda la URL desde el inicio hasta la palabra "UIE/"
         let urlCortada2 = URL.substring(0, indiceDePath + path.length);
 
-        fetch(urlCortada2 + "Controlador/CON_SitiosPropios.php", {
+        await fetch(urlCortada2 + "Controlador/CON_SitiosPropios.php", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(res => {
+        .then(async res => {
             // Verifico si la respuesta fue exitosa
             if (!res.ok) {
                 throw new Error('Error en la solicitud: ' + response.status);
@@ -214,9 +358,9 @@ function obtenerPublicacionesPropias(){
             }
 
             // Convierto a JSON
-            return res.json();
+            return await res.json();
         })
-        .then(data => {
+        .then(async data => {
 
             if (Array.isArray(data) && data.length > 0) {
 
@@ -227,6 +371,7 @@ function obtenerPublicacionesPropias(){
                         <div class="tarjeta-turistica card" 
                             data-bs-toggle="modal" 
                             data-sitio-id="${e.id_sitio}" 
+                            data-estado="${e.estado == 0 ?'aprobados' :'pendientes'}" 
                             data-bs-target="#modal${e.id_sitio}" 
                             onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
     
@@ -234,6 +379,7 @@ function obtenerPublicacionesPropias(){
                             <div class="contenido-tarjeta">
                                 <h5 class="titulo-lugar">${e.nombre}</h5>
                                 <p class="etiquetas-lugar">${e.titulo}</p>
+                                <p class="etiquetas-lugar rounded-pill text-white m-0 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
                                 <p class="descripcion-lugar">${e.descripcion}</p>
                                 <div class="valoracion">
                                     <span class="estrella">&#9733;</span> <!-- Estrella llena -->
