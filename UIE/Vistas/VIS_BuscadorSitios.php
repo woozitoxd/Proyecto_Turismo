@@ -38,7 +38,7 @@
                     <?php
                     if (isset($_SESSION['usuario'])) {
                         if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
-                            echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
+                            echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
                         }
                         echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
                         echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';

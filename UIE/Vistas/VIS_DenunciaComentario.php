@@ -22,13 +22,24 @@ $idComentario = $_GET['idComentario'] ?? null;
     <title>Denunciar Comentario</title>
     <link rel="stylesheet" href="./estilos/header.css">
     <link rel="stylesheet" href="./estilos/navbar.css">
-    <script defer src="./javascript/AJAX_MensajeDenuncia.js"></script>
-    <script defer src="./javascript/Ajax_CargarRazones.js"></script>
+    <script defer src="./javascript/AJAX_MensajesErrorDenuncia.js"></script>
+    <script defer src="./javascript/AJAX_CargarRazonesDenuncia.js"></script>
+    <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> <!-- Iconos -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./estilos/SugerirSitio.css">
+    <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
+    <link rel="stylesheet" href="./estilos/navbar.css">
+    <link rel="stylesheet" href="./estilos/header.css">
+
+    <!-- Bootstrap JS más reciente -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap CSS más reciente -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -53,7 +64,7 @@ $idComentario = $_GET['idComentario'] ?? null;
                         <?php
                         if (isset($_SESSION['usuario'])) {
                             if ($_SESSION['nombre_rol'] === 'administrador') {
-                                echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
+                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
                             }
                             echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
                             echo '<li><a class="dropdown-item" href="/Proyecto_Turismo/SugerirSitio.php">Sugerir Nuevo Sitio</a></li>';
@@ -101,11 +112,12 @@ $idComentario = $_GET['idComentario'] ?? null;
                         </div>
                         <div class="form-group">
                             <label for="observacion">Observación:</label>
-                            <textarea id="observacion" name="observacion" class="form-control" rows="3" required></textarea>
+                            <textarea id="observacion" name="observacion" class="form-control" rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn btn-danger">Denunciar</button>
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php';">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='index.php';">Volver al inicio</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.close();">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="window.close();">Volver</button>
+
 
                     </form>
                 </div>

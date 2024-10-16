@@ -48,7 +48,7 @@ function cargarComentario(idSitio) {
                                             <span><b>${comentario.nombre}</b></span>
                                             <p class="ms-3 mb-0 text-secondary">${comentario.fechaPublicacion}</p>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="abrirVentanaReporte(${comentario.idComentario})">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="openPopup(${comentario.idComentario})">
                                             <i class="fas fa-flag"></i> Reportar
                                         </button>
                                 </div>
@@ -148,7 +148,7 @@ document.addEventListener("submit", function (e){
                                 <span><b>${data.nombre}</b></span>
                                 <p class="ms-3 mb-0 text-secondary">${data.fechaPublicacion}</p>
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="abrirVentanaReporte(${data.id_comentario})">
+                            <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="openPopup(${data.id_comentario})">
                                 <i class="fas fa-flag"></i> Reportar
                             </button>
                         </div>
@@ -168,6 +168,13 @@ document.addEventListener("submit", function (e){
     }
 });
 
+
+/*
 function abrirVentanaReporte(idComentario) {
     window.open(`../Vistas/VIS_DenunciaComentario.php?idComentario=${idComentario}`, '_blank');
+}*/
+
+
+function openPopup(idComentario) {
+    window.open(`../Vistas/VIS_DenunciaComentario.php?idComentario=${idComentario}`, 'Denunciar Comentario', 'width=800,height=600,scrollbars=yes');
 }

@@ -1,7 +1,4 @@
-
-
-
-            document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
                 // Cargar razones (similar a tu código existente)
                 let urlActual = window.location.href;
                 let palabraClave = "UIE/";

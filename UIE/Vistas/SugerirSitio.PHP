@@ -17,7 +17,7 @@ if (isset($client) && $client->getAccessToken()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./estilos/SugerirSitio.css">
-    <script src="./javascript/SugerirSitio.js" defer></script>
+    <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/header.css">
 
@@ -52,7 +52,7 @@ if (isset($client) && $client->getAccessToken()) {
                         <?php
                         if (isset($_SESSION['usuario'])) {
                             if ($_SESSION['nombre_rol'] === 'administrador') {
-                                echo '<li><a class="dropdown-item" href="panelControlADM.html">Panel de Control</a></li>';
+                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.ph">Panel de Control</a></li>';
                             }
                             echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
                             echo '<li><a class="dropdown-item" href="/Proyecto_Turismo/SugerirSitio.php">Sugerir Nuevo Sitio</a></li>';
