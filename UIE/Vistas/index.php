@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/cards.css">
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
@@ -16,23 +15,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <!-- Bootstrap JS más reciente -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="../Vistas/javascript/Ajax_BuscarSitios.js"></script>
     <script defer src="../Vistas/javascript/Ajax_APIGoogleMaps.js"></script>
     <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
-
     <title>Inicio - Turismo</title>
 </head>
 
 <body>
 
     <?php
-                require_once '../Controlador/CON_SitioTuristico.php';
-                $controlador = new SitioTuristicoContoller();
-                $controlador->TraerCategorias();
+        require_once '../Controlador/CON_SitioTuristico.php';
+        $controlador = new SitioTuristicoContoller();
+        $controlador->TraerCategorias();
     ?>
         
     <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
@@ -41,7 +37,7 @@
                 Descubre nuevos sitios turísticos
             </div>
         </header>
-    
+
         <!-- Estructura principal -->
         <div class="estructura-principal">
             <!-- Mapa (fijo a la izquierda) -->
@@ -50,7 +46,6 @@
                 <!--<script src="./javascript/maps.js"></script> API de google maps, mejorar para futuro -->
                 <!--<script defer src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarmapa&v=weekly"></script>-->
                 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly"></script>
-
                 </div>
             <!-- Cards de lugares turísticos (a la derecha) -->
             <div class="bloque-lugares align-content-start" id="contenedor-tarjetas">
@@ -138,7 +133,6 @@
                 </div>
             </div>
     </main>
-
     <footer class="py-5" style="background: linear-gradient(to bottom, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));">
         <div class="container">
             <div class="row justify-content-between">
@@ -146,15 +140,12 @@
                     <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
                     <p>© Proyecto Turismo 2024</p>
                 </div>
-
                 <div class="col-md-4">
                 <h5 class="font-weight-bold mb-2">Contactanos</h5>
                     <p class="mb-4">SomosTuristas@gmail.com.ar</p>
                     <p class="mb-4">SomosTuristas@hotmail.com.ar</p>
                 </div>
-
                 <div class="col-md-2">
-                
                     <ul class="list-unstyled">
                         <li class="mb-2">
                             <a href="#" class="text-decoration-none"><i class="fab fa-linkedin"></i>Linkedin</a>

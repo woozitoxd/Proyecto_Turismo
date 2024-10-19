@@ -20,21 +20,17 @@ $idComentario = $_GET['idComentario'] ?? null;
 <head>
     <meta charset="UTF-8">
     <title>Denunciar Comentario</title>
-    <link rel="stylesheet" href="./estilos/header.css">
+    <link rel="stylesheet" href="./estilos/SugerirSitio.css">
     <link rel="stylesheet" href="./estilos/navbar.css">
+    <link rel="stylesheet" href="./estilos/header.css">
     <script defer src="./javascript/AJAX_MensajesErrorDenuncia.js"></script>
     <script defer src="./javascript/AJAX_CargarRazonesDenuncia.js"></script>
     <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> <!-- Iconos -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" href="./estilos/SugerirSitio.css">
-    <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
-    <link rel="stylesheet" href="./estilos/navbar.css">
-    <link rel="stylesheet" href="./estilos/header.css">
-
     <!-- Bootstrap JS más reciente -->
+    <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,59 +38,12 @@ $idComentario = $_GET['idComentario'] ?? null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-
 <hr>
-<nav class="navbar navbar-expand-lg fixed-top custom-navbar">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- Botón de menú hamburguesa alineado a la izquierda, se despliegan los elementos y es responsive -->
-                <div class="dropdown">
-                    <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">'.$_SESSION["nombre"].'</strong>';
-                        } else {
-                            echo '<i class="bi bi-person-fill"></i> CUENTA';
-                        }
-                        ?>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="hamburgerMenu">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            if ($_SESSION['nombre_rol'] === 'administrador') {
-                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
-                            }
-                            echo '<li><a class="dropdown-item" href="#">Ver Perfil</a></li>';
-                            echo '<li><a class="dropdown-item" href="/Proyecto_Turismo/SugerirSitio.php">Sugerir Nuevo Sitio</a></li>';
-                            echo '<li><a class="dropdown-item" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
-                        } else {
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                            echo '<li><a class="dropdown-item" href="'.$authUrl.'"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo">Ingresar con Google</a></li>';
-                        }
-                        ?>
-                    </ul>
-                </div>
-                <!-- Logo turismo alineado al centro -->
-                <a class="navbar-brand" href="index.php">
-                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
-                </a>
-
-                <div class="collapse navbar-collapse" id="navbarNav"><!-- Resto de elementos del navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            echo '<li class="nav-item"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
-                        }
-                        ?>
-                    </ul>
-            </div>
-        </div>
-    </nav>
-        
+    <?php
+        require_once '../Controlador/CON_SitioTuristico.php';
+        $controlador = new SitioTuristicoContoller();
+        $controlador->TraerCategorias();
+    ?>
     <main>
         <div class="container mt-5">
             <h1 class="text-center">Denunciar Comentario</h1>

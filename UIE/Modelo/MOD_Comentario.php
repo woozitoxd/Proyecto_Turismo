@@ -74,6 +74,37 @@ class Comentarios
             return "Error de base de datos: " . $e->getMessage(); // Mensaje de error para depuración
         }
     }
+
+    public function eliminarComentario($idComentario, $usuarioID) {
+        try {
+            $sql = "DELETE FROM comentario WHERE id_comentario = :id_comentario AND id_usuario = :usuarioID";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':id_comentario', $idComentario);
+            $stmt->bindParam(':usuarioID', $usuarioID);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function actualizarComentario($idComentario, $nuevoComentario, $usuarioID) {
+        try {
+            // Actualizar el comentario en la base de datos
+            $stmt = $this->conexion->prepare("UPDATE comentario SET comentario = :nuevoComentario WHERE id_comentario = :idComentario AND id_usuario = :id");
+            $stmt->bindParam(':nuevoComentario', $nuevoComentario);
+            $stmt->bindParam(':idComentario', $idComentario);
+            $stmt->bindParam(':id', $usuarioID);
+    
+            if ($stmt->execute()) {
+                return ['success' => true];
+            } else {
+                return ['success' => false, 'message' => 'Error al actualizar el comentario.'];
+            }
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+    
     
     
     

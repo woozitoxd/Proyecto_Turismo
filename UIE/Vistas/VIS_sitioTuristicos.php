@@ -5,9 +5,9 @@ if (isset($_SESSION['mensaje'])) {
     unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
 }
 ?>
-
 <script defer src="../Vistas/javascript/Favoritos.js"></script>
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>
+<script defer src="../Vistas//javascript/AJAX_EliminarComentario.js"></script>
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
 
 <?php foreach ($sitios as $sitio):?>
@@ -111,6 +111,11 @@ if (isset($_SESSION['mensaje'])) {
                                         <p class="ms-3" data-contadorchar<?= $sitio['id_sitio'] ?>>Límite de caracteres: 0/255</p>
                                         <button type="submit" class="btn btn-primary">Publicar</button>
                                     </div>
+                                    
+                                    <script>
+                                        var idUsuarioLogueado = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 'null'; ?>;
+                                        console.log('ID Usuario Logueado:', idUsuarioLogueado);
+                                    </script>
                                 </form>
                             </div>
                         </div>
@@ -119,6 +124,10 @@ if (isset($_SESSION['mensaje'])) {
 
                     <div class="comentarios-container border-top">
                         <ul id="lista-comentarios-<?= $sitio['id_sitio'] ?>" class="list-unstyled"></ul>
+                        <?php
+                        // Verificar si el comentario pertenece al usuario actual
+                        
+                        ?>
                     </div>
                 </div>
             </div>

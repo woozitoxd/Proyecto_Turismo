@@ -196,4 +196,3 @@ require_once('MOD_perfil.php');
             return true; //Retorno verdadero porque el formato del campo nombre cumple las validaciones
         }
     }
-?>

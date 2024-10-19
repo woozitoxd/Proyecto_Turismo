@@ -56,7 +56,6 @@
             <a class="navbar-brand" href="index.php">
                 <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
             </a>
-
             <div class="collapse navbar-collapse" id="navbarNav"><!-- Resto de elementos del navbar -->
                 <ul class="navbar-nav me-auto">
                     <?php

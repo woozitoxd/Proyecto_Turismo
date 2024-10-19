@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Content-Type: application/json');
         
         echo json_encode([
+            'id_usuario' => $usuarioID,
             'id_sitio' => $id_sitio,
             'nombre' => $nombreUsuario,
             'fechaPublicacion' => $fechaYHoraActual->format('Y-m-d H:i:s'),
