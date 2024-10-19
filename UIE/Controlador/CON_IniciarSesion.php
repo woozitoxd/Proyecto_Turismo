@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['nombre'] = $resultado['nombre']; // Almacenar el nombre
             $_SESSION['id_rol'] = $resultado['id_rol']; // Almacenar el id_rol
             $_SESSION['nombre_rol'] = $resultado['nombre_rol']; // Almacenar el nombre del rol
+            $_SESSION['fecha_nacimiento'] = $resultado['fecha_nacimiento'];
             header('Location: ../Vistas/index.php'); // Vuelvo al index
             exit(); // Asegúrate de usar exit después de redirigir
         } else {
