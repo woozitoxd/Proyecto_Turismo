@@ -12,7 +12,7 @@ if (isset($_SESSION['mensaje'])) {
 
 <?php foreach ($sitios as $sitio):?>
     
-<div class="tarjeta-turistica card" 
+    <div class="tarjeta-turistica card" 
     data-bs-toggle="modal" 
     data-sitio-id="<?= $sitio['id_sitio'] ?>" 
     data-nombre-sitio="<?= $sitio['nombre'] ?>"  

@@ -14,6 +14,7 @@ class SitioTuristicoContoller
     public function TraerCategorias(){
         require_once '../Modelo/MOD_SitioTuristico.php';
         $categorias =SitioTuristico::obtenerTodasLasCategorias();
+        $localidades = SitioTuristico::obtenerTodasLasLocalidades();
         require '../Vistas/VIS_BuscadorSitios.php';
     }
 
