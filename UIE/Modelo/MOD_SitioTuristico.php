@@ -254,6 +254,34 @@ class SitioTuristico
         return $listaDeSitios;
     }
 
+    public static function ObtenerValoracionPromedioSitio($ID_Sitio){
+
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "
+            SELECT 
+                AVG(valoracion) 
+            AS 
+                valoracion_promedio 
+            FROM 
+                comentario 
+            WHERE 
+                id_sitio = :ID_Sitio";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
+        $consulta->execute();
+
+        $valoracion = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        return $valoracion;
+    
+    }
+
     public static function VerificarSitioFavorito($ID_Sitio, $ID_Usuario){
 
         if (!isset($GLOBALS['conn'])) {

@@ -25,16 +25,17 @@ class Comentarios
         }
     }
 
-    public function AgregarComentario($UsuarioID, $descripcion, $IdSitio, $fechaYHora)
+    public function AgregarComentario($UsuarioID, $descripcion, $valoracion, $IdSitio, $fechaYHora)
     {
         try {
-            $sql = "INSERT INTO comentario (id_usuario, id_sitio, comentario, fechaPublicacion) VALUES (:UsuarioID, :IdSitio, :Descripcion, :FechaYHoraActual)";
+            $sql = "INSERT INTO comentario (id_usuario, id_sitio, comentario, valoracion, fechaPublicacion) VALUES (:UsuarioID, :IdSitio, :Descripcion, :Valoracion, :FechaYHoraActual)";
             $stmt = $this->conexion->prepare($sql);
     
             if ($stmt) {
                 $stmt->bindParam(':UsuarioID', $UsuarioID, PDO::PARAM_INT);
                 $stmt->bindParam(':IdSitio', $IdSitio, PDO::PARAM_INT); // Vincula el id_sitio
                 $stmt->bindParam(':Descripcion', $descripcion, PDO::PARAM_STR);
+                $stmt->bindParam(':Valoracion', $valoracion, PDO::PARAM_STR);
                 $stmt->bindParam(':FechaYHoraActual', $fechaYHora, PDO::PARAM_STR);
 
                 if ($stmt->execute()) {
@@ -48,6 +49,78 @@ class Comentarios
             }
         } catch (PDOException $e) {
             return "Error: " . $e->getMessage();
+        }
+    }
+
+    public function VerificarComentarioExistente($ID_Sitio, $ID_Usuario){
+
+        try {
+            $sql = "SELECT 
+                comentario.id_comentario 
+            FROM 
+                comentario 
+            WHERE 
+                comentario.id_sitio = :ID_Sitio
+            AND
+                comentario.id_usuario = :ID_Usuario";
+                
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bindParam(':ID_Sitio', $ID_Sitio, PDO::PARAM_INT);
+                $stmt->bindParam(':ID_Usuario', $ID_Usuario, PDO::PARAM_INT);
+
+                if ($stmt->execute()) {
+
+                    $campos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+                    if (count($campos) > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+            } else {
+                
+                return null;
+
+            }
+        } catch (PDOException $e) {
+            return "Error: " . $e->getMessage();
+        }
+
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "
+            SELECT 
+                favorito.id_favorito 
+            FROM 
+                favorito 
+            JOIN 
+                sitio_turistico 
+            ON 
+                favorito.id_sitio = sitio_turistico.id_sitio 
+            WHERE 
+                favorito.id_sitio = :ID_Sitio
+            AND
+                favorito.id_usuario = :ID_Usuario";
+
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
+        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
+        $consulta->execute();
+
+        $campos = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (count($campos) > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -26,15 +26,15 @@ function cargarComentario(idSitio) {
                         li.innerHTML = `
                         <div class="d-flex flex-column border-bottom mt-2 pb-2" id="comentario-${comentario.idComentario}">
                             <div class="d-flex flex-row justify-content-between">
-                                <div class="d-flex flex-row">
-                                    <span><b>${comentario.nombre}</b></span>
+                                <div class="d-flex flex-row align-items-end">
+                                    <span class="info-comment-${comentario.idComentario}"><b>${comentario.nombre}</b></span>
                                     <p class="ms-3 mb-0 text-secondary">${comentario.fechaPublicacion}</p>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="openPopup(${comentario.idComentario})">
                                     <i class="fas fa-flag"></i> Reportar
                                 </button>
                             </div>
-                            <p class="comentario-text" id="comentario-text-${comentario.idComentario}">${comentario.Comentario}</p>
+                            <p class="mt-2" id="comentario-text-${comentario.idComentario}">${comentario.Comentario}</p>
                             
                             ${comentario.idUsuario === idUsuarioLogueado ? `
                                 <button type="button" class="btn btn-sm btn-outline-warning mt-2" onclick="habilitarEdicion(${comentario.idComentario})">
@@ -45,9 +45,31 @@ function cargarComentario(idSitio) {
                                 </button>
                             ` : ''}
                         </div>
-                    `;
-                    
-                    listaComentarios.appendChild(li);
+                        `;
+
+                        const ContenedorValoracion = document.createElement("div");
+
+                        ContenedorValoracion.className = "mx-2 d-flex flex-row";
+
+                        for (let index = 1; index <= 5; index++) {
+
+                            const estrella = document.createElement("span");
+
+                            estrella.innerHTML = "&#9733;";
+
+                            if (index <= comentario.valoracion) {
+                                estrella.className = "estrella hover fs-5"
+                            }else{
+                                estrella.className = "estrella fs-5";
+                            }
+
+                            ContenedorValoracion.appendChild(estrella);
+
+                        }
+                        
+                        listaComentarios.appendChild(li);
+
+                        document.querySelector(".info-comment-"+comentario.idComentario).insertAdjacentElement("afterend", ContenedorValoracion);
                     
                     });
                 }
@@ -189,38 +211,68 @@ document.addEventListener("submit", function (e){
             .then(data => {
                 console.log(data);
 
-                const CajaComentariosDeSitio = document.getElementById(`lista-comentarios-${data.id_sitio}`);
+                if (data.success == true) {
 
-                const li = document.createElement('li');
-                li.classList.add('list-group-item');
-                li.innerHTML = `
-                <div class="d-flex flex-column border-bottom mt-2 pb-2" id="comentario-${data.id_comentario}">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div class="d-flex flex-row">
-                            <span><b>${data.nombre}</b></span>
-                            <p class="ms-3 mb-0 text-secondary">${data.fechaPublicacion}</p>
+                    const CajaComentariosDeSitio = document.getElementById(`lista-comentarios-${data.id_sitio}`);
+    
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item');
+                    li.innerHTML = `
+                    <div class="d-flex flex-column border-bottom mt-2 pb-2" id="comentario-${data.id_comentario}">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row">
+                                <span class="info-comment-${data.id_comentario}"><b>${data.nombre}</b></span>
+                                <p class="ms-3 mb-0 text-secondary">${data.fechaPublicacion}</p>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="openPopup(${data.id_comentario})">
+                                <i class="fas fa-flag"></i> Reportar
+                            </button>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline-danger" name="report" onclick="openPopup(${data.id_comentario})">
-                            <i class="fas fa-flag"></i> Reportar
-                        </button>
+                        <p class="comentario-text" id="comentario-text-${data.id_comentario}">${data.comentario}</p>
+                        
+                        ${data.id_usuario === idUsuarioLogueado ? `
+                            <button type="button" class="btn btn-sm btn-outline-warning mt-2" onclick="habilitarEdicion(${data.id_comentario})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="eliminarComentario(${data.id_comentario}, ${data.id_sitio})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        ` : ''}
                     </div>
-                    <p class="comentario-text" id="comentario-text-${data.id_comentario}">${data.comentario}</p>
+                    `;
+    
+                    const ContenedorValoracion = document.createElement("div");
+    
+                    ContenedorValoracion.className = "mx-2";
+    
+                    for (let index = 1; index <= 5; index++) {
+    
+                        const estrella = document.createElement("span");
+    
+                        estrella.innerHTML = "&#9733;";
+    
+                        if (index <= data.valoracion) {
+                            estrella.className = "estrella hover fs-5"
+                        }else{
+                            estrella.className = "estrella fs-5";
+                        }
+    
+                        ContenedorValoracion.appendChild(estrella);
+    
+                    }
+    
+    
+                
+                    CajaComentariosDeSitio.prepend(li);
                     
-                    ${data.id_usuario === idUsuarioLogueado ? `
-                        <button type="button" class="btn btn-sm btn-outline-warning mt-2" onclick="habilitarEdicion(${data.id_comentario})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="eliminarComentario(${data.id_comentario}, ${data.id_sitio})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ` : ''}
-                </div>
-            `;
-            
-            CajaComentariosDeSitio.prepend(li);
-            
-                document.querySelector(`[data-inputpublicacion${data.id_sitio}]`).value = '';
-                document.querySelector(`[data-contadorchar${data.id_sitio}]`).textContent = 'Límite de caracteres: 0/255';
+                    document.querySelector(".info-comment-" + data.id_comentario).insertAdjacentElement("afterend", ContenedorValoracion);
+                    document.querySelector(`[data-inputpublicacion${data.id_sitio}]`).value = '';
+                    document.querySelector(`[data-contadorchar${data.id_sitio}]`).textContent = 'Límite de caracteres: 0/255';
+                    document.getElementById("comment-error-msg" + data.id_sitio).textContent = '';
+
+                }else{
+                    document.getElementById("comment-error-msg" + data.id_sitio).textContent = data.message;
+                }
             });
         } else {
             console.log("La palabra 'UIE/' no se encontró en la URL.");
@@ -231,4 +283,48 @@ document.addEventListener("submit", function (e){
 
 function openPopup(idComentario) {
     window.open(`../Vistas/VIS_DenunciaComentario.php?idComentario=${idComentario}`, 'Denunciar Comentario', 'width=800,height=600,scrollbars=yes');
+}
+
+//Listener para las estrellas de un sitio clickeado por el usuario
+document.querySelectorAll(".tarjeta-turistica").forEach( (e) => {
+
+    e.addEventListener("click", function (){
+
+        const Estrellas = document.querySelectorAll('.estrella-sitio' + e.dataset.sitioId);
+        const ratingValue = document.querySelector('.valoracion-sitio' + e.dataset.sitioId);
+        let currentRating = 0;
+
+        Estrellas.forEach(estrella => {
+
+            estrella.addEventListener('mouseover', function() {
+                resetEstrellas(Estrellas);
+                iluminarEstrellas(this.dataset.value, Estrellas);
+            });
+
+            estrella.addEventListener('mouseout', function() {
+                resetEstrellas(Estrellas);
+                if (currentRating) iluminarEstrellas(currentRating, Estrellas);
+            });
+
+            estrella.addEventListener('click', function() {
+                currentRating = this.dataset.value;
+                ratingValue.value = currentRating;
+                iluminarEstrellas(currentRating, Estrellas);
+            });
+        });
+    });
+
+    
+});
+
+function iluminarEstrellas(rating, Estrellas) {
+    for (let i = 0; i < rating; i++) {
+        Estrellas[i].classList.add('hover');
+    }
+}
+
+function resetEstrellas(Estrellas) {
+    Estrellas.forEach(estrella => {
+        estrella.classList.remove('hover');
+    });
 }

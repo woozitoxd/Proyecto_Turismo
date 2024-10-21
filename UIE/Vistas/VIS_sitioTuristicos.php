@@ -11,6 +11,8 @@ if (isset($_SESSION['mensaje'])) {
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
 
 <?php foreach ($sitios as $sitio):?>
+
+    <?php $ValoracionDeSitio = SitioTuristico::ObtenerValoracionPromedioSitio($sitio['id_sitio'])['valoracion_promedio']; ?>
     
     <div class="tarjeta-turistica card" 
     data-bs-toggle="modal" 
@@ -25,12 +27,23 @@ if (isset($_SESSION['mensaje'])) {
         <h5 class="titulo-lugar"><?= $sitio['nombre'] ?></h5>
         <p class="etiquetas-lugar"><?= $sitio['titulo'] ?></p>
         <p class="descripcion-lugar"><?= $sitio['descripcion'] ?></p>
-        <div class="valoracion">
-            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-            <span class="estrella">&#9733;</span> <!-- Estrella llena -->
-            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
-            <span class="estrella">&#9734;</span> <!-- Estrella vacía -->
+
+        <div class="valoracion d-flex flex-row mx-2 align-items-center">
+
+            <?php
+                for ($i = 1; $i <= 5; $i++) { 
+                    if ($i <= floor($ValoracionDeSitio)) {
+                        ?><span class="star full"></span><?php
+                    }else if($i == ceil($ValoracionDeSitio) && $ValoracionDeSitio - floor($ValoracionDeSitio) > 0){
+                        ?><span class="star half"></span><?php
+                    }else{
+                        ?><span class="star"></span><?php
+                    }
+                }
+            ?>
+
+            <span class="text-secondary ms-2"><?php echo number_format($ValoracionDeSitio, 1) ?></span>
+                            
         </div>
     </div>
 </div>
@@ -47,13 +60,22 @@ if (isset($_SESSION['mensaje'])) {
                 <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
                     <div>
                         <h3 class="ms-2 modal-title" id="exampleModalLabel<?= $sitio['id_sitio'] ?>"><?= $sitio['nombre'] ?></h3>
-                        <div class="valoracion mx-2">
-                            <span class="estrella">&#9733;</span>
-                            <span class="estrella">&#9733;</span>
-                            <span class="estrella">&#9733;</span>
-                            <span class="estrella">&#9734;</span>
-                            <span class="estrella">&#9734;</span>
-                            <span class="text-secondary">3,0</span>
+
+                        <div class="valoracion d-flex flex-row mx-2 align-items-center">
+
+                            <?php
+                                for ($i = 1; $i <= 5; $i++) { 
+                                    if ($i <= floor($ValoracionDeSitio)) {
+                                        ?><span class="star full"></span><?php
+                                    }else if($i == ceil($ValoracionDeSitio) && $ValoracionDeSitio - floor($ValoracionDeSitio) > 0){
+                                        ?><span class="star half"></span><?php
+                                    }else{
+                                        ?><span class="star"></span><?php
+                                    }
+                                }
+                            ?>
+                            <span class="text-secondary ms-2"><?php echo number_format($ValoracionDeSitio, 1) ?></span>
+
                         </div>
                     </div>
 
@@ -101,15 +123,29 @@ if (isset($_SESSION['mensaje'])) {
                     <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']) { ?>
                         <div class="row">
                             <div class="col-md-8 mx-auto">
+                                <span class="text-danger" id="comment-error-msg<?= $sitio['id_sitio'] ?>"></span>
                                 <!-- Formulario para agregar comentarios -->
                                 <form method="post" class="comentarios-form">
                                     <div class="form-group">
-                                        <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="Publica tu opinión" data-inputpublicacion<?= $sitio['id_sitio'] ?> required></textarea>
+
+                                        
+
+                                        <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion<?= $sitio['id_sitio'] ?> required></textarea>
                                     </div>
                                     <input type="hidden" name="id_sitio" value="<?= $sitio['id_sitio'] ?>"> <!-- Campo oculto para el id_sitio -->
-                                    <div class="my-3 d-flex flex-row justify-content-between">
-                                        <p class="ms-3" data-contadorchar<?= $sitio['id_sitio'] ?>>Límite de caracteres: 0/255</p>
-                                        <button type="submit" class="btn btn-primary">Publicar</button>
+                                    <div class="my-1 d-flex flex-row justify-content-between align-items-center">
+                                        <div class="valoracion" data-value="0">
+                                            <span class="estrella estrella-sitio<?= $sitio['id_sitio'] ?>" data-value="1">&#9733;</span>
+                                            <span class="estrella estrella-sitio<?= $sitio['id_sitio'] ?>" data-value="2">&#9733;</span>
+                                            <span class="estrella estrella-sitio<?= $sitio['id_sitio'] ?>" data-value="3">&#9733;</span>
+                                            <span class="estrella estrella-sitio<?= $sitio['id_sitio'] ?>" data-value="4">&#9733;</span>
+                                            <span class="estrella estrella-sitio<?= $sitio['id_sitio'] ?>" data-value="5">&#9733;</span>
+                                        </div>
+                                        <input type="hidden" name="valoracion" class="valoracion-sitio<?= $sitio['id_sitio'] ?>" value="0">
+                                        <p class="ms-3 m-0" data-contadorchar<?= $sitio['id_sitio'] ?>>Límite de caracteres: 0/255</p>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
                                     </div>
                                     
                                     <script>
