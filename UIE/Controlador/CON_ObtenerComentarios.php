@@ -20,6 +20,7 @@ try {
     // Recorrer los resultados
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $comentarios[] = [
+            'idUsuario' => $row['id_usuario'],
             'idComentario' => $row['id_comentario'],  //id del comentario
             'nombre' => $row['nombre_usuario'],  // Nombre del usuario
             'fechaPublicacion' => $row['fechaPublicacion'], //fecha del comentario

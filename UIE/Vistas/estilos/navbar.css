@@ -1,18 +1,27 @@
-/* ----- Barra de navegación con degradado ----- */
-.navbar {
+.nav-decoracion{
+    list-style: none;
+}
+
+.botones-filtros{
+align-items: center;
+}
+.navbar-color {
     background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));
     padding: 2rem 3rem;
 }
-
-/* ----- Estilos para la marca ----- */
+.navbar-nav .nav-link {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-left: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
 .navbar-brand {
-    font-size: 1.8rem;
+    font-size: 4rem;
     font-weight: 700;
     color: #ffffff;
     text-transform: uppercase;
-    position: absolute;           /* Posicionar de forma absoluta */
-    left: 50%;                    /* Mover el logo al centro */
-    transform: translateX(-50%);  /* Ajustar el desplazamiento para centrar */
 }
 
 .navbar-brand .text-primary {
@@ -22,47 +31,6 @@
 .navbar-brand .text-danger {
     color: #FF4500;
 }
-
-/* ----- Estilo del botón de menú hamburguesa ----- */
-.navbar-toggler {
-    margin-right: auto;  /* Botón hacia la izquierda */
-}
-
-/* ----- Estilo del navbar ----- */
-.custom-navbar {
-    display: flex;                  /* Usar flexbox */
-    justify-content: space-between; /* Espacio entre elementos */
-    align-items: center;            /* Centrar verticalmente */
-}
-
-/* ----- Alinear el contenido de la barra ----- */
-.navbar-collapse {
-    margin-left: auto;  /* Empujar el contenido restante hacia la derecha */
-}
-
-/* ----- Estilos de los links de navegación ----- */
-.navbar-nav .nav-link {
-    color: #ffffff;
-    font-size: 1rem;
-    margin-left: 1rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #3b3b3b;
-    background-color: transparent;
-    border-radius: 5px;
-}
-
-.nav-link-activo {
-    color: #3b3b3b !important;
-    background-color: transparent !important;
-    border-radius: 5px;
-}
-
-/* ----- Estilos de los botones personalizados ----- */
 .custom-btn-login, .custom-btn-register {
     padding: 10px 20px;
     background-color: #FFD700;

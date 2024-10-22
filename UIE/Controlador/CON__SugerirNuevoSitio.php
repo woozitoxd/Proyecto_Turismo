@@ -12,7 +12,7 @@
     <title>Sugerir Sitio - Turismo</title>
 </head>
 <body>
-    <header style="">
+    <header>
 
 
     </header>

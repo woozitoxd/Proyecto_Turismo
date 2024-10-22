@@ -1,4 +1,3 @@
-            // Definir la URL base según la estructura de tu proyecto
             document.addEventListener("DOMContentLoaded", function() {
 
             let urlActual = window.location.href;

@@ -17,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idComentario = isset($_POST['comentarioId']) ? $_POST['comentarioId'] : null;
     $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : null;
 
-    if (!$idDenuncia || !$idComentario || !$observacion) {
-        echo json_encode(['error' => 'Faltan campos en la solicitud.']);
+    if (!$idDenuncia || !$idComentario) {
+        echo json_encode(['error' => 'Falta seleccionar una razón en la solicitud.']);
         exit();
     }
 

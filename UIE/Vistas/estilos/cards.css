@@ -43,15 +43,6 @@
     text-align: left;
 }
 
-.estrella {
-    font-size: 20px;
-    color: gold; 
-}
-
-.estrella:hover {
-    cursor: pointer;
-}
-
 /* ----- Estilos para las etiquetas de lugar ----- */
 .etiquetas-lugar {
     display: inline-block;
@@ -86,4 +77,21 @@
 .favorito-activo {
     background-color: #dc3545 !important;
     color: #fff !important;
+}
+
+/* Estrellas mostradas en tarjetas de sitio (pudiendo imprimir media estrella dependiendo del promedio de valoración)*/
+
+.star {
+    width: 20px;
+    height: 20px;
+    background-color: #ababab;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.full {
+    background-color: rgb(255, 165, 0);
+}
+
+.half {
+    background: linear-gradient(to right, rgb(255, 165, 0) 50%, #ababab 50%);
 }

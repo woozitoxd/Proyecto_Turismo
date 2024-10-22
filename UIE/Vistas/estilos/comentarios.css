@@ -48,3 +48,17 @@
     display: none; /* Inicialmente oculto */
 }
 
+/* Estilos para estrellas usadas en opiniones */
+
+.estrella {
+    font-size: 30px;
+    color: #ababab;
+}
+
+.estrella.hover, .estrella.selected {
+    color: rgb(255, 165, 0);
+}
+
+.valoracion{
+    cursor: pointer;
+}
