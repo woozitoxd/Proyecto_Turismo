@@ -23,6 +23,7 @@
     <script src="../Vistas/javascript/Ajax_BuscarSitios.js"></script>
     <script defer src="../Vistas/javascript/Ajax_APIGoogleMaps.js"></script>
     <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
+    <script defer src="../Vistas/javascript/validaciones.js"></script>
 
     <title>Inicio - Turismo</title>
 </head>
@@ -73,28 +74,32 @@
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                         </div>
                         <!-- Modal Body -->
-                        <form action="../Controlador/CON_RegistroUsuario.php" method="post">
+                        <form action="../Controlador/CON_RegistroUsuario.php" method="post" id="formulario-registro">
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="userName" class="form-label">Nombre de Usuario</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" required placeholder="Ingrese su username">
+                                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Ingrese su username">
+                                    <div class="invalid-feedback" id="errorUserName"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="correo" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="correo" required placeholder="Ingrese su email" name="correo">
+                                    <input type="text" class="form-control" id="correo" placeholder="Ingrese su email" name="correo">
+                                    <div class="invalid-feedback" id="errorCorreoRegistro"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="contraseña" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="registerPSW" required placeholder="Ingrese su contraseña" name="registerPSW">
+                                    <label for="registerPSW" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="registerPSW" placeholder="Ingrese su contraseña" name="registerPSW">
+                                    <div class="invalid-feedback" id="errorRegisterPSW"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="confirmarContraseña" class="form-label">Confirmar Contraseña</label>
-                                    <input type="password" class="form-control" id="confirmarContraseña" required placeholder="Confirme su contraseña" name="confirmarContraseña">
+                                    <input type="password" class="form-control" id="confirmarContraseña" placeholder="Confirme su contraseña" name="confirmarContraseña">
+                                    <div class="invalid-feedback" id="errorConfirmarPSW"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="fecha_Registro">Fecha de Nacimiento:</label>
-                                    <input type="date" required class="form-control" id="fecha_Registro" name="fecha_Registro">
-                                    <div class="invalid-feedback">Fecha de nacimiento inválida.</div>
+                                    <label for="fecha_Registro" class="form-label">Fecha de Nacimiento:</label>
+                                    <input type="date" class="form-control" id="fecha_Registro" name="fecha_Registro">
+                                    <div class="invalid-feedback" id="errorFechaNacimiento">Fecha de nacimiento inválida.</div>
                                 </div>
                             </div>
                             <!-- Modal Footer -->
@@ -106,6 +111,26 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal de Éxito -->
+            <!-- Modal de Éxito -->
+            <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white"> <!-- Cambia 'bg-success' por el color que desees -->
+                            <h5 class="modal-title" id="modalExitoLabel">Registro Exitoso</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Usuario registrado con éxito!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!------------------------------------>
             <!-- Inicio de sesion -->
             <div class="modal fade" id="myModalInicio" data-bs-backdrop="static">
@@ -117,18 +142,22 @@
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                         </div>
                         <!-- Modal Body -->
-                        <form action="../Controlador/CON_IniciarSesion.php" method="post">
+                        <form action="../Controlador/CON_IniciarSesion.php" method="post" id="formulario-login">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="correo" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="correo_login" required placeholder="Ingrese su email" autocomplete="correo" name="correo_login">
+                                    <label for="correo_login" class="form-label">Correo Electrónico</label>
+                                    <input type="text" class="form-control" id="correo_login" placeholder="Ingrese su email"
+                                        autocomplete="correo" name="correo_login">
+                                    <div class="invalid-feedback" id="errorCorreo"></div><!-- div para el mensaje de error del correo -->
                                 </div>
                                 <div class="mb-3">
-                                    <label for="contraseña" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contraseña_login" required placeholder="Ingrese su contraseña" name="contraseña_login">
+                                    <label for="contraseña_login" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="contraseña_login"
+                                        placeholder="Ingrese su contraseña" name="contraseña_login">
+                                    <div class="invalid-feedback" id="errorClave"></div> <!-- div para el mensaje de error del correo -->
                                 </div>
                             </div>
-                            <!-- Modal Footer -->
+                    <!-- Modal Footer -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Enviar</button>
