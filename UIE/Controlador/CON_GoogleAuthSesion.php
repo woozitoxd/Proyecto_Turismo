@@ -31,9 +31,13 @@ if ($indexPosition !== false) {
     $urlVariable = substr($currentUrl, 0, $indexPosition + strlen('Vistas/'));
 }
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
 // Configurar las credenciales de Google
-$clientID = '49729066974-97qa5fd317ka00n89ue41hr8843at580.apps.googleusercontent.com';
-$clientSecret = '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';
+$clientID = $_ENV["GOOGLE_clientID"];
+$clientSecret = $_ENV["GOOGLE_clientSecret"];
+
 //$redirectUri = '';
 
 $client = new Google_Client();

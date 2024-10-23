@@ -1,12 +1,19 @@
 <?php
+
+require '../../vendor/autoload.php';
+
 //consulta para conectarme a mi base de datos
 function conectar_db()
 {
-    $servername = "127.0.0.1"; //establezco los campos del servidor, el usuario, y demás, no cambiar. son lo que trabaja con xampp
-    $username = "root";
-    $password = "";
-    $port = 3306;
-    $db = "basededatos_turismo_ps";  //nombre de nuestra base
+
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+    $dotenv->load();
+
+    $servername = $_ENV['servername'];
+    $username = $_ENV['username'];
+    $password = $_ENV['password'];
+    $port = $_ENV['port'];
+    $db = $_ENV['db'];
 
     try {
         $newConnection = new \PDO(dsn: "mysql:host=$servername;port=$port;dbname=" . $db . ";charset=utf8", username: $username, password: $password);
