@@ -184,7 +184,6 @@ class SitioTuristico
         $queryStr = "
             SELECT DISTINCT sitio_turistico.*, categoria.*, imagen.*
             FROM sitio_turistico
-            JOIN favorito ON favorito.id_sitio = sitio_turistico.id_sitio
             JOIN imagen ON imagen.id_sitio = sitio_turistico.id_sitio
             JOIN categoria ON categoria.id_categoria = sitio_turistico.id_categoria
             WHERE sitio_turistico.id_usuario = :ID_Usuario";
