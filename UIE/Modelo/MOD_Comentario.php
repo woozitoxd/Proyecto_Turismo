@@ -90,38 +90,6 @@ class Comentarios
             return "Error: " . $e->getMessage();
         }
 
-        if (!isset($GLOBALS['conn'])) {
-            require_once 'conexion_bbdd.php';
-        }
-        
-        /** @var \PDO $conn */
-        $conn = $GLOBALS['conn'];
-        $queryStr = "
-            SELECT 
-                favorito.id_favorito 
-            FROM 
-                favorito 
-            JOIN 
-                sitio_turistico 
-            ON 
-                favorito.id_sitio = sitio_turistico.id_sitio 
-            WHERE 
-                favorito.id_sitio = :ID_Sitio
-            AND
-                favorito.id_usuario = :ID_Usuario";
-
-        $consulta = $conn->prepare($queryStr);
-        $consulta->bindParam(':ID_Sitio', $ID_Sitio);
-        $consulta->bindParam(':ID_Usuario', $ID_Usuario);
-        $consulta->execute();
-
-        $campos = $consulta->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (count($campos) > 0) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
