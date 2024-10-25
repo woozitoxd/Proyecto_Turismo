@@ -101,6 +101,11 @@ align-items: center;
     max-width: 1.5rem !important;
     margin-right: 0.5rem !important;
 }
+.active-filter {
+    background-color: #ffcc00; /* Color de fondo cuando el filtro está activo */
+    color: #fff; /* Cambiar el color del texto */
+}
+
 
 /* ----- Media queries para pantallas pequeñas ----- */
 @media (max-width: 768px) {

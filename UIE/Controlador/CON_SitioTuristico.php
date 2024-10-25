@@ -15,6 +15,7 @@ class SitioTuristicoContoller
         require_once '../Modelo/MOD_SitioTuristico.php';
         $categorias =SitioTuristico::obtenerTodasLasCategorias();
         $localidades = SitioTuristico::obtenerTodasLasLocalidades();
+        $etiquetas = SitioTuristico::obtenerTodasLasEtiquetas();
         require '../Vistas/VIS_BuscadorSitios.php';
     }
 

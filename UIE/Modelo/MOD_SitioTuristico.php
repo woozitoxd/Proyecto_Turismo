@@ -100,11 +100,7 @@ class SitioTuristico
     
     /** @var \PDO $conn */
     $conn = $GLOBALS['conn'];
-    $queryStr = "
-        SELECT st.*, c.titulo AS titulo, i.bin_imagen 
-        FROM sitio_turistico st
-        JOIN categoria c ON st.id_categoria = c.id_categoria
-        LEFT JOIN imagen i ON st.id_sitio = i.id_sitio"; // Cambia 'sitio_turistico' a 'sitios_turistico' si es necesario
+    $queryStr = "CALL SP_TraerSitiosTuristicos()";
     $consulta = $conn->prepare($queryStr);
     $consulta->execute();
 
@@ -112,34 +108,6 @@ class SitioTuristico
 
     return $sitios;
 }
-
-
-    public static function obtenerCategoriaSitio($idSitio)
-    {
-        if (!isset($GLOBALS['conn'])) {
-            require_once 'conexion_bbdd.php';
-        }
-        
-        /** @var \PDO $conn */
-        $conn = $GLOBALS['conn'];
-        $queryStr = "
-        SELECT 
-            sitios_turistico.*, 
-            categoria.nombre_categoria 
-        FROM 
-            sitios_turistico 
-        JOIN 
-            categoria 
-        ON 
-            sitio_turistico.id_categoria = categoria.id_categoria 
-        WHERE 
-            sitio_turistico.id_sitio = :idSitio";
-        $consulta = $conn->prepare($queryStr);
-        $consulta->bindParam(':idSitio', $idSitio);
-        $consulta->execute();
-        $sitio = $consulta->fetch(\PDO::FETCH_ASSOC);
-        return $sitio;
-    }
     public static function obtenerTodasLasCategorias(){
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
@@ -147,7 +115,7 @@ class SitioTuristico
         
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
-        $queryStr = "SELECT titulo FROM categoria";
+        $queryStr = "CALL SP_ObtenerTodasLasCategorias()";
         $consulta = $conn->prepare($queryStr);
         $consulta->execute();
         $categorias = $consulta->fetchAll(\PDO::FETCH_ASSOC);
@@ -163,7 +131,7 @@ class SitioTuristico
         $conn = $GLOBALS['conn'];
     
         // Consulta para obtener todas las localidades
-        $queryStr = "SELECT * FROM localidad";
+        $queryStr = "CALL SP_ObtenerTodasLasLocalidades()";
         $consulta = $conn->prepare($queryStr);
         $consulta->execute();
     
@@ -171,6 +139,25 @@ class SitioTuristico
         $localidades = $consulta->fetchAll(\PDO::FETCH_ASSOC);
     
         return $localidades;
+    }
+    public static function obtenerTodasLasEtiquetas()
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+    
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+    
+        // Consulta para obtener todas las localidades
+        $queryStr = "CALL SP_ObtenerTodasLasEtiquetas()";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->execute();
+    
+        // Obtenemos todas las localidades
+        $etiquetas = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+    
+        return $etiquetas;
     }
     public static function ObtenerSitiosPropios($ID_Usuario)
     {
