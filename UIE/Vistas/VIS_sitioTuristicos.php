@@ -20,13 +20,20 @@ if (isset($_SESSION['mensaje'])) {
     data-nombre-sitio="<?= $sitio['nombre'] ?>"  
     data-categoria="<?= $sitio['titulo'] ?>"
     data-bs-target="#modal<?= $sitio['id_sitio'] ?>" 
+    data-etiqueta="<?= $sitio['etiqueta'] ?>"
+    data-descripcion-lugar="<?= $sitio['descripcion'] ?>"
+    data-localidad="<?= $sitio['localidad'] ?>"
     onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
 
 <img src="<?= 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) ?>" alt="Imagen de destino" class="card-img-top">
     <div class="contenido-tarjeta">
         <h5 class="titulo-lugar"><?= $sitio['nombre'] ?></h5>
-        <p class="etiquetas-lugar"><?= $sitio['titulo'] ?></p>
-        <p class="descripcion-lugar"><?= $sitio['descripcion'] ?></p>
+        <p class="categoria-lugar"><?= $sitio['titulo'] ?></p>
+        
+  <!-- Mostrar la etiqueta solo si existe -->
+            <?php if (!empty($sitio['etiqueta'])): ?>
+                <p class="etiqueta-lugar"><?= $sitio['etiqueta'] ?></p>
+            <?php endif; ?><p class="descripcion-lugar"><?= $sitio['descripcion'] ?></p>
 
         <div class="valoracion d-flex flex-row mx-2 align-items-center">
 
@@ -112,7 +119,7 @@ if (isset($_SESSION['mensaje'])) {
                     <p class="categoria-lugar"><?= $sitio['titulo'] ?></p>
                 </div>
                 <p class="ms-2"><?= $sitio['descripcion'] ?></p>
-                <p class="ms-2">Direccion</p>
+                <p class="ms-2">Direccion: <?= $sitio['localidad'] ?></p>
             </div>
 
             <div id="seccion-comentarios-<?= $sitio['id_sitio'] ?>" class="w-100">

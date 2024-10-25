@@ -44,7 +44,7 @@
 }
 
 /* ----- Estilos para las etiquetas de lugar ----- */
-.etiquetas-lugar {
+.categoria-lugar {
     display: inline-block;
     background-color: purple;
     color: white;
@@ -53,8 +53,17 @@
     font-size: 12px;
     margin: 5px 5px 0 0;
 }
+.etiqueta-lugar {
+    display: inline-block;
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 5px 5px 0 0;
+}
 
-.etiquetas-lugar:hover {
+.categoria-lugar:hover {
     background-color: darkorchid; 
 }
 
@@ -94,4 +103,17 @@
 
 .half {
     background: linear-gradient(to right, rgb(255, 165, 0) 50%, #ababab 50%);
+}
+
+.highlight {
+    background-color: yellow; /* Color de fondo para el resaltado */
+    font-weight: bold; /* Opcional: hacer el texto resaltado en negrita */
+}
+.active-filter {
+    background-color: #ffcc00; /* Color de fondo cuando el filtro está activo */
+    color: #fff; /* Cambiar el color del texto */
+}
+.dropdown-active {
+    background-color: #ffcc00; /* Color de fondo para resaltar */
+    border: 1px solid #007bff; /* Cambia el borde para resaltarlo */
 }
