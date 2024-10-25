@@ -1,5 +1,5 @@
-// Función principal para validar el formulario
-function validarFormLogin(e) {
+// Función para manejar la validación y el envío del formulario de login
+async function validarFormLogin(e) {
     e.preventDefault(); // Evitamos el envío del formulario por defecto
 
     // Seleccionamos los elementos necesarios
@@ -7,43 +7,78 @@ function validarFormLogin(e) {
     const campoCorreo = document.getElementById('correo_login');
     const campoContraseña = document.getElementById('contraseña_login');
     const errorCorreo = document.getElementById('errorCorreo');
+    const errorClave = document.getElementById('errorClave');
 
     // Limpiar clases y mensajes de error previos
-    campoCorreo.classList.remove('is-invalid');
-    campoContraseña.classList.remove('is-invalid');
-    errorCorreo.innerHTML = '';
-    errorClave.innerHTML = '';  // Limpiamos el mensaje de error de contraseña
-
+    limpiarErrores(campoCorreo, errorCorreo);
+    limpiarErrores(campoContraseña, errorClave);
     let esValido = true;
 
     // Validar el campo de correo
     if (campoCorreo.value.trim() === '') {
-        campoCorreo.classList.add('is-invalid');
-        errorCorreo.innerHTML = 'El campo correo no puede estar vacío.'; // Mensaje de error
+        mostrarError(campoCorreo, errorCorreo, 'El campo correo no puede estar vacío.');
         esValido = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(campoCorreo.value.trim())) {
-        campoCorreo.classList.add('is-invalid');
-        errorCorreo.innerHTML = 'Por favor, ingrese un correo electrónico válido.'; // Mensaje de error
+        mostrarError(campoCorreo, errorCorreo, 'Por favor, ingrese un correo electrónico válido.');
         esValido = false;
     }
 
     // Validar el campo de contraseña
     if (campoContraseña.value.trim() === '') {
-        campoContraseña.classList.add('is-invalid');
-        errorClave.innerHTML = 'La contraseña no puede estar vacía.'; // Mensaje de error
+        mostrarError(campoContraseña, errorClave, 'La contraseña no puede estar vacía.');
         esValido = false;
     }
 
-    // Si es válido, se envia el formulario
+    // Si es válido, procedemos con la petición AJAX
     if (esValido) {
-        formulario.submit();
+        try {
+            // Construimos los datos para enviar
+            const datos = new FormData(formulario);
+            const response = await fetch('../Controlador/CON_IniciarSesion.php', {
+                method: 'POST',
+                body: datos,
+            });
+
+            const resultado = await response.json(); // Procesamos la respuesta como JSON
+
+            if (resultado.success) {
+                window.location.href = '../Vistas/index.php'; // Redirigir en caso de éxito
+            } else {
+                mostrarErrorGlobal(resultado.message); // Mostrar el mensaje de error en caso de fallo
+            }
+        } catch (error) {
+            console.log('Error en la petición:', error);
+            mostrarErrorGlobal('Ocurrió un problema al iniciar sesión.');
+        }
     }
 }
 
+// Función para mostrar errores en campos específicos
+function mostrarError(campo, mensajeElemento, mensaje) {
+    campo.classList.add('is-invalid'); // Añadir la clase de error al campo
+    mensajeElemento.innerHTML = mensaje; // Mostrar el mensaje de error
+}
+// Funciones para mostrar errores globales
+function mostrarErrorGlobal(mensaje) {
+    const errorGlobal = document.getElementById('errorGlobal');
+    errorGlobal.classList.remove('d-none');
+    errorGlobal.innerHTML = mensaje;
+}
+
+// Función para limpiar mensajes de error
+function limpiarErrores(campo, mensajeElemento) {
+    campo.classList.remove('is-invalid');
+    mensajeElemento.innerHTML = '';
+}
+// Función para mostrar mensajes de éxito
+function mostrarMensajeExito(mensaje) {
+    const mensajeExito = document.getElementById('mensajeExito'); // Asegúrate de que este ID existe en tu HTML
+    mensajeExito.classList.remove('d-none');
+    mensajeExito.innerHTML = mensaje;
+}
 // Función principal para validar el formulario de registro
-function validarFormRegistro(e) {
+async function validarFormRegistro(e) {
     e.preventDefault(); // Evitamos el envío del formulario por defecto
-    // Seleccionamos los elementos necesarios
     const formulario = document.getElementById('formulario-registro');
     const userName = document.getElementById('userName');
     const correo = document.getElementById('correo');
@@ -57,93 +92,102 @@ function validarFormRegistro(e) {
     const errorFechaNacimiento = document.getElementById('errorFechaNacimiento');
 
     // Limpiar clases y mensajes de error previos
-    userName.classList.remove('is-invalid');
-    correo.classList.remove('is-invalid');
-    registerPSW.classList.remove('is-invalid');
-    confirmarContraseña.classList.remove('is-invalid');
-    fechaRegistro.classList.remove('is-invalid');
-    errorUserName.innerHTML = '';
-    errorCorreoRegistro.innerHTML = '';
-    errorRegisterPSW.innerHTML = '';
-    errorConfirmarPSW.innerHTML = '';
-    errorFechaNacimiento.innerHTML = '';
+    limpiarErrores(userName, errorUserName);
+    limpiarErrores(correo, errorCorreoRegistro);
+    limpiarErrores(registerPSW, errorRegisterPSW);
+    limpiarErrores(confirmarContraseña, errorConfirmarPSW);
+    limpiarErrores(fechaRegistro, errorFechaNacimiento);
 
     let esValido = true;
 
     // Validar que los campos no estén vacíos
-    let expresionRegular = /^[a-zA-Z0-9áéíóúÁÉÍÓÚ ]+$/;
+    const expresionRegular = /^[a-zA-Z0-9áéíóúÁÉÍÓÚ ]+$/;
     if (userName.value.trim() === '') {
-        userName.classList.add('is-invalid');
-        errorUserName.innerHTML = 'El nombre de usuario no puede estar vacío.';
+        mostrarError(userName, errorUserName, 'El nombre de usuario no puede estar vacío.');
         esValido = false;
-    } else if (!expresionRegular.test(userName.value.trim())) {  //validar que no puedan existir caracteres especiales
-        userName.classList.add('is-invalid');
-        errorUserName.innerHTML = 'No se permiten caracteres especiales.';
+    } else if (!expresionRegular.test(userName.value.trim())) {
+        mostrarError(userName, errorUserName, 'No se permiten caracteres especiales.');
         esValido = false;
     }
 
     if (correo.value.trim() === '') {
-        correo.classList.add('is-invalid');
-        errorCorreoRegistro.innerHTML = 'El correo no puede estar vacío.';
+        mostrarError(correo, errorCorreoRegistro, 'El correo no puede estar vacío.');
         esValido = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim())) {
-        correo.classList.add('is-invalid');
-        errorCorreoRegistro.innerHTML = 'Por favor, ingrese un correo electrónico válido.';
+        mostrarError(correo, errorCorreoRegistro, 'Por favor, ingrese un correo electrónico válido.');
         esValido = false;
     }
 
     if (registerPSW.value.trim() === '') {
-        registerPSW.classList.add('is-invalid');
-        errorRegisterPSW.innerHTML = 'La contraseña no puede estar vacía.';
+        mostrarError(registerPSW, errorRegisterPSW, 'La contraseña no puede estar vacía.');
         esValido = false;
-    } else if (registerPSW.value.length < 8) {     // Validar la contraseña (mínimo 8 caracteres)
-        registerPSW.classList.add('is-invalid');
-        errorRegisterPSW.innerHTML = 'La contraseña debe tener al menos 8 caracteres.';
+    } else if (registerPSW.value.length < 8) {
+        mostrarError(registerPSW, errorRegisterPSW, 'La contraseña debe tener al menos 8 caracteres.');
         esValido = false;
     }
 
     if (confirmarContraseña.value.trim() === '') {
-        confirmarContraseña.classList.add('is-invalid');
-        errorConfirmarPSW.innerHTML = 'Debes confirmar tu contraseña.';
+        mostrarError(confirmarContraseña, errorConfirmarPSW, 'Debes confirmar tu contraseña.');
         esValido = false;
-    }
-    // Validar que las contraseñas coincidan
-    if (registerPSW.value !== confirmarContraseña.value) {
-        confirmarContraseña.classList.add('is-invalid');
-        errorConfirmarPSW.innerHTML = 'Las contraseñas no coinciden.';
+    } else if (registerPSW.value !== confirmarContraseña.value) {
+        mostrarError(confirmarContraseña, errorConfirmarPSW, 'Las contraseñas no coinciden.');
         esValido = false;
     }
 
     if (fechaRegistro.value.trim() === '') {
-        fechaRegistro.classList.add('is-invalid');
-        errorFechaNacimiento.innerHTML = 'La fecha de nacimiento no puede estar vacía.';
+        mostrarError(fechaRegistro, errorFechaNacimiento, 'La fecha de nacimiento no puede estar vacía.');
         esValido = false;
+    } else {
+        const fechaNacimiento = new Date(fechaRegistro.value);
+        const fechaActual = new Date();
+        let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = fechaActual.getMonth() - fechaNacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && fechaActual.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+        if (edad < 16) {
+            mostrarError(fechaRegistro, errorFechaNacimiento, 'Debes tener al menos 16 años.');
+            esValido = false;
+        }
     }
 
-    // Validar la fecha de nacimiento (mínimo 16 años)
-    const fechaNacimiento = new Date(fechaRegistro.value);
-    const fechaActual = new Date();
-    let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
-    const mes = fechaActual.getMonth() - fechaNacimiento.getMonth();
-    if (mes < 0 || (mes === 0 && fechaActual.getDate() < fechaNacimiento.getDate())) {
-        edad--;
-    }
-    if (edad < 16) {
-        fechaRegistro.classList.add('is-invalid');
-        errorFechaNacimiento.innerHTML = 'Debes tener al menos 16 años.';
-        esValido = false;
-    }
-
-    // Si es válido, se envía el formulario
+    // Si es válido, procedemos con la petición AJAX
     if (esValido) {
-        // Mostrar el modal de éxito
-        const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
-        modalExito.show();
-        // Enviar el formulario después de un breve retraso
-        setTimeout(() => {
-            formulario.submit();
-        }, 2500); // 1.5 segundos de retraso
+        try {
+            const datos = new FormData(formulario);
+            const response = await fetch('../Controlador/CON_RegistroUsuario.php', {
+                method: 'POST',
+                body: datos,
+            });
+
+            const resultado = await response.json(); // Procesamos la respuesta como JSON
+            console.log(resultado); // Verifica la respuesta del servidor
+
+            if (resultado.status === 'success') {
+                // Mostrar el modal de éxito
+                const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
+                modalExito.show();
+                // Redirigir en caso de éxito después de un breve retraso
+                setTimeout(() => {
+                    window.location.href = '../Vistas/index.php'; // Redirigir a la página de éxito
+                }, 2500); // 2.5 segundos de retraso
+            } else if (resultado.status === 'error') {
+                mostrarErrorReg(resultado.messages); // Mostrar los errores en caso de fallo
+            }
+        } catch (error) {
+            mostrarErrorReg([`Ocurrió un problema al registrarse. Detalles: ${error.message}`]);
+            //mostrarErrorReg('Ocurrió un problema al registrarse. Detalles: ' + error.message);
+        }
     }
+}
+// Función para mostrar errores en el formulario de registro
+function mostrarErrorReg(mensajes) {
+    const errorRegistro = document.getElementById('errorRegistro'); // Accedemos directamente al id 'errorRegistro'
+    errorRegistro.classList.remove('d-none'); // Muestra el contenedor de error
+
+    // Construimos el HTML con viñetas
+    const listaErrores = mensajes.map(error => `<li>${error}</li>`).join('');
+    errorRegistro.innerHTML = `<ul>${listaErrores}</ul>`; // Establece el mensaje de error como una lista
 }
 
 // Función de inicio que agrega el evento 'submit' al formulario

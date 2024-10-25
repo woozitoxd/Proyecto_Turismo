@@ -45,9 +45,15 @@
             <div class="row mt-4">
                 <div class="col-md-2">
                     <div class="dropdown">
-                        <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">Wendy Rivero</strong>
-                        </button>
+                    <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php
+                    if (isset($_SESSION['usuario'])) {
+                        echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary">'.$_SESSION["nombre"].'</strong>';
+                    } else {
+                        echo '<i class="bi bi-person-fill"></i> CUENTA';
+                    }
+                    ?>
+                </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <?php
                             if (isset($_SESSION['usuario'])) {

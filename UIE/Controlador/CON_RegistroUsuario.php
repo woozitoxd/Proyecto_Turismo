@@ -1,35 +1,98 @@
 <?php
-    require_once('../Modelo/MOD_ClaseUsuario.php');
+// Incluir el archivo de conexión a la base de datos
+require_once('../Modelo/conexion_bbdd.php');
+require_once('../Modelo/MOD_ClaseUsuario.php');
+require_once('../Modelo/MOD_perfil.php');
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = isset($_POST["userName"]) ? $_POST["userName"] : NULL;
-        $correo = isset($_POST["correo"]) ? $_POST["correo"] : NULL;
-        $password = isset($_POST["registerPSW"]) ? $_POST["registerPSW"] : NULL;
-        $fecha_nacimiento = isset($_POST["fecha_Registro"]) ? $_POST["fecha_Registro"] : NULL;
 
-        
-        if (empty($_POST["name_registro"]) || empty($_POST["email_registro"]) || empty($_POST["passwordRegistro"]) || empty($_POST["fecha_Registro"])) {
-            echo "Por favor, completa todos los campos para registrar el nuevo usuario de forma exitosa.";
-        }//verifico que todos los campos estén completos.
-        $hashedPassword = password_hash(password: $password, algo: PASSWORD_DEFAULT);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Capturamos los datos del formulario
+    $nombre = isset($_POST["userName"]) ? trim($_POST["userName"]) : null;
+    $correo = isset($_POST["correo"]) ? trim($_POST["correo"]) : null;
+    $password = isset($_POST["registerPSW"]) ? trim($_POST["registerPSW"]) : null;
+    $confirmarPassword = isset($_POST["confirmarContraseña"]) ? trim($_POST["confirmarContraseña"]) : null; // Capturamos la contraseña de confirmación
+    $fecha_nacimiento = isset($_POST["fecha_Registro"]) ? trim($_POST["fecha_Registro"]) : null;
+    
+    // Instanciar la clase de usuario
+    $usuario = new Usuario(null, $correo, $password, $fecha_nacimiento, $nombre);
 
-        $usuario = new Usuario(id: "",correo: $correo, password: $hashedPassword, fechaNacimiento: $fecha_nacimiento, nombre: $nombre);
-        $resultado = $usuario->validaRequerido(nombre: $nombre, correo: $correo, fecha_nacimiento: $fecha_nacimiento); //primero se validan los campos y se almacena en resultado
+    // Inicializamos un array para los errores
+    $errores = [];
 
-        if ($resultado !== true) {
-            echo 'Error: ' . $resultado; //Nota a futuro: imprimir el error en pantalla y no en consola.
-            return false;
+// Verificar si el nombre ya existe
+$queryUsuario = "SELECT COUNT(*) FROM usuario WHERE nombre = :nombre"; // Cambiado a 'nombre'
+$stmUsuario = $conn->prepare($queryUsuario);
+$stmUsuario->bindParam(':nombre', $nombre); // Cambiado a 'nombre'
+$stmUsuario->execute();
+$existeUsuario = $stmUsuario->fetchColumn();
 
-        } else {
-            $resultado = $usuario->registrar(); // Intenta registrar el usuario
+if ($existeUsuario > 0) {
+    $errores[] = "El nombre de usuario ya está en uso.";
+}
 
-            if ($resultado === true) {
+    
+// Verificar si el correo electrónico ya existe
+$queryCorreo = "SELECT COUNT(*) FROM usuario WHERE email = :correo"; // Cambiado a 'usuario' y 'email'
+$stmCorreo = $conn->prepare($queryCorreo);
+$stmCorreo->bindParam(':correo', $correo);
+$stmCorreo->execute();
+$existeCorreo = $stmCorreo->fetchColumn();
 
-                header('Location: ../Vistas/index.php'); //Devuelve al index.
-                exit();
-            } else {
-                echo $resultado;
-            }
+if ($existeCorreo > 0) {
+    $errores[] = "El correo electrónico ya está en uso.";
+}
+
+    // Validaciones de nombre de usuario
+    if (empty($nombre)) {
+        $errores[] = "El nombre de usuario no puede estar vacío.";
+    } elseif (!preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚ ]+$/', $nombre)) {
+        $errores[] = "No se permiten caracteres especiales en el nombre de usuario.";
+    }
+
+    // Validaciones de correo
+    if (empty($correo)) {
+        $errores[] = "El correo no puede estar vacío.";
+    } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $errores[] = "Por favor, ingrese un correo electrónico válido.";
+    }
+
+    // Validaciones de contraseña
+    if (empty($password)) {
+        $errores[] = "La contraseña no puede estar vacía.";
+    } elseif (strlen($password) < 8) {
+        $errores[] = "La contraseña debe tener al menos 8 caracteres.";
+    } elseif ($password !== $confirmarPassword) { // Comparar contraseñas
+        $errores[] = "Las contraseñas no coinciden.";
+    }
+
+    // Validaciones de fecha de nacimiento
+    if (empty($fecha_nacimiento)) {
+        $errores[] = "La fecha de nacimiento no puede estar vacía.";
+    } else {
+        // Validar la fecha de nacimiento (mínimo 16 años)
+        $fechaNacimiento = new DateTime($fecha_nacimiento);
+        $fechaActual = new DateTime();
+        $edad = $fechaActual->diff($fechaNacimiento)->y;
+        if ($edad < 16) {
+            $errores[] = "Debes tener al menos 16 años.";
         }
     }
+    
+     // Manejo de errores
+     if (!empty($errores)) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'error', 'messages' => $errores]);
+        exit; // Detener la ejecución si hay errores
+    }
+
+    // Si no hay errores, proceder a registrar
+    $resultado = $usuario->registrar();
+    
+    if ($resultado) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'success', 'message' => 'Registro exitoso.']);
+    } else {
+        echo json_encode(['status' => 'error', 'messages' => ['Ocurrió un error al registrar.']]);
+    }
+}
 ?>

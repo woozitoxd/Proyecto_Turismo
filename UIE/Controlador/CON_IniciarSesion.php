@@ -20,14 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id_rol'] = $resultado['id_rol']; // Almacenar el id_rol
             $_SESSION['nombre_rol'] = $resultado['nombre_rol']; // Almacenar el nombre del rol
             $_SESSION['fecha_nacimiento'] = $resultado['fecha_nacimiento'];
-            header('Location: ../Vistas/index.php'); // Vuelvo al index
-            exit(); // Asegúrate de usar exit después de redirigir
+            
+            // Retornar una respuesta JSON indicando éxito
+            echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
         } else {
-            echo "NO REGISTRADO"; // Mostrar error en pantalla además de consola
-            header('Location: ../Vistas/index.php');  // Devuelve al index
-            exit();
+            // Retornar una respuesta JSON indicando error
+            echo json_encode(['success' => false, 'message' => '¡El usuario o la contraseña son incorrectos!']);
         }
+    } else {
+        // Retornar una respuesta JSON indicando error por falta de datos
+        echo json_encode(['success' => false, 'message' => 'Por favor, completa todos los campos.']);
     }
 }
-
 ?>

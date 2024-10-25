@@ -12,7 +12,7 @@ require_once('MOD_perfil.php');
         private $fechaNacimiento;
         private $conexion;
 
-        public function __construct($id,$correo, $password, $fechaNacimiento, $nombre)
+        public function __construct($id, $correo, $password, $fechaNacimiento, $nombre)
         {
             $this->id = $id;
             $this->nombre = $nombre;
@@ -36,65 +36,54 @@ require_once('MOD_perfil.php');
             $stmt->execute();
             return $stmt->fetchColumn();
         }
-        public function registrar()
+
+        public function registrar() 
         {
-    
-            $verificarNombre = new perfilUser('','','',''); //Instancio un objeto de mi clase perfil (que traje del modelo perfil.php)
-            // Validar que el correo no esté en uso
-            if ($this->verificarCorreoExistente($this->correo)) {
-                return "El correo ya está en uso."; 
-            }
-    
-            if($verificarNombre->verificarNombreExistente($this->nombre, $this->id)){ //Invoco al metodo para verificar si el nombre existe.
-                return "El nombre ya está en uso."; //Si existe, devuelvo un mensaje de error en la pagina.
-            }
-            // Registro del usuario, acá inserto a mi tabla usuario los datos que se llenaron en el registro.
+            // Registro del usuario
             $sqlUsuario = "INSERT INTO usuario(fecha_nacimiento, nombre, email, password) VALUES (:fechaNacimiento, :nombre, :correo, :password)";
-            $stmtUsuario = $this->conexion->prepare($sqlUsuario); //Preparo la consulta que me inserta un usuario
-    
+            $stmtUsuario = $this->conexion->prepare($sqlUsuario);
+        
+            // Asegúrate de encriptar la contraseña antes de insertarla
+            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT); // Encriptar la contraseña
+        
             if (!$stmtUsuario) {
-                return "Error en la consulta SQL de usuario";
+                return json_encode(['status' => 'error', 'message' => 'Error en la consulta SQL de usuario']);
             }
-    
-            $stmtUsuario->bindParam(':fechaNacimiento', $this->fechaNacimiento, PDO::PARAM_STR); //con esto nada mas establezco los valores que obtuve a la consulta
+        
+            // Vincular los parámetros
+            $stmtUsuario->bindParam(':fechaNacimiento', $this->fechaNacimiento, PDO::PARAM_STR);
             $stmtUsuario->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
             $stmtUsuario->bindParam(':correo', $this->correo, PDO::PARAM_STR);
-            $stmtUsuario->bindParam(':password', $this->password, PDO::PARAM_STR);
-    
+            $stmtUsuario->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        
             try {
                 $this->conexion->beginTransaction();
-    
+        
                 if ($stmtUsuario->execute()) {
-                    // aca obtengo el ID del usuario recién registrado
                     $idUsuario = $this->conexion->lastInsertId();
-    
-                    // aca obtengo el ID del rol "usuario"
                     $idRolUsuario = $this->obtenerIdRolUsuario();
-    
-                    // asigno automáticamente el rol "usuario" al usuario registrado
-                    $sqlAsignarRol = "UPDATE usuario SET id_rol = :idRolUsuario WHERE id = :idUsuario ";
-                    //UPDATE usuario SET id_rol = :idRolUsuario WHERE id = :idUsuario;
+        
+                    $sqlAsignarRol = "UPDATE usuario SET id_rol = :idRolUsuario WHERE id = :idUsuario";
                     $stmtAsignarRol = $this->conexion->prepare($sqlAsignarRol);
                     $stmtAsignarRol->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
                     $stmtAsignarRol->bindParam(':idRolUsuario', $idRolUsuario, PDO::PARAM_INT);
-    
+        
                     if ($stmtAsignarRol->execute()) {
-                        $this->conexion->commit();  //Confirmo los cambios en la base de datos
-                        return true;
+                        $this->conexion->commit();
+                        return json_encode(['status' => 'success', 'message' => 'Usuario registrado con éxito.']);
                     } else {
-                        $this->conexion->rollBack();  //Si hay error, deshago los cambios que realicé en la consulta para evitar que se actualice la bbdd
-                        return "Error al asignar el rol al usuario";
+                        $this->conexion->rollBack();
+                        return json_encode(['status' => 'error', 'message' => 'Error al asignar el rol al usuario']);
                     }
                 } else {
-                    $this->conexion->rollBack(); //Si hay error en el registro, deshago los cambios igualmente. esto para que no se guarden valores errores en la bbdd
-                    return "Error al registrar el usuario";
+                    $this->conexion->rollBack();
+                    return json_encode(['status' => 'error', 'message' => 'Error al registrar el usuario']);
                 }
             } catch (PDOException $e) {
                 $this->conexion->rollBack();
-                return "Error en la transacción: " . $e->getMessage();
+                return json_encode(['status' => 'error', 'message' => 'Error en la transacción: ' . $e->getMessage()]);
             }
         }
-
         public function registrarConGoogle()
         {
     
@@ -165,34 +154,59 @@ require_once('MOD_perfil.php');
                 return false;
             }
         }
-        public function validaRequerido($nombre, $correo, $fecha_nacimiento) //esta consulta me verifica que la edad minima aceptada para registrarse es 16 años
-        {
-
-            $edadMinima = 16;   //Minimo 16 años para registrarse
-            $edadMaxima = 100;  //Maximo 100 años para registrarse
-            $fechaActual = new DateTime();
-            $fechaNacimiento = new DateTime($fecha_nacimiento);
-            $diferencia = $fechaNacimiento->diff($fechaActual);
-            $edad = $diferencia->y;
-
-            if ($edad < $edadMinima || $edad > $edadMaxima) {
-                return 'Debes ser mayor de 16 años y menor de 100 años para registrarte.';
-            }
-
-            // valido que el campo no este vacio
-            if (trim($nombre) === '') {
-                return 'El campo nombre no puede estar vacío.';
-            }
-
-            // divido la cadena del input por cada espacio que encuentre, y lo guardo en la variable palabras
-            $palabras = explode(' ', $nombre);
-
-            // Valido que palabras sea distinto de 2, es decir, que no exista mas ni menos de 2 palabras
-            if (count($palabras) != 1) {
-                return 'El campo nombre debe contener al menos dos palabras. ';
-            }
-
-            // Todas las validaciones pasaron
-            return true; //Retorno verdadero porque el formato del campo nombre cumple las validaciones
-        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* public function validaRequerido($nombre, $correo, $fecha_nacimiento) //esta consulta me verifica que la edad minima aceptada para registrarse es 16 años
+    {
+
+        $edadMinima = 16;   //Minimo 16 años para registrarse
+        $edadMaxima = 100;  //Maximo 100 años para registrarse
+        $fechaActual = new DateTime();
+        $fechaNacimiento = new DateTime($fecha_nacimiento);
+        $diferencia = $fechaNacimiento->diff($fechaActual);
+        $edad = $diferencia->y;
+
+        if ($edad < $edadMinima || $edad > $edadMaxima) {
+            return 'Debes ser mayor de 16 años y menor de 100 años para registrarte.';
+        }
+
+        // valido que el campo no este vacio
+        if (trim($nombre) === '') {
+            return 'El campo nombre no puede estar vacío.';
+        }
+
+        // divido la cadena del input por cada espacio que encuentre, y lo guardo en la variable palabras
+        $palabras = explode(' ', $nombre);
+
+        // Valido que palabras sea distinto de 2, es decir, que no exista mas ni menos de 2 palabras
+        if (count($palabras) != 1) {
+            return 'El campo nombre debe contener al menos dos palabras. ';
+        }
+
+        // Todas las validaciones pasaron
+        return true; //Retorno verdadero porque el formato del campo nombre cumple las validaciones
+    } */
