@@ -1,6 +1,8 @@
 <?php
+
+session_start();
+
 require_once('../Modelo/conexion_bbdd.php');  //todos los archivos que se necesitan
-require_once('../Controlador/CON_IniciarSesion.php');
 require_once('../Controlador/CON_VerificarPermisos.php');
 require_once('../Modelo/MOD_Comentario.php');
 
