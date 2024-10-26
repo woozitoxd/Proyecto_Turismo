@@ -30,7 +30,7 @@ if (isset($_SESSION['mensaje'])) {
         <h5 class="titulo-lugar"><?= $sitio['nombre'] ?></h5>
         <p class="categoria-lugar"><?= $sitio['titulo'] ?></p>
         
-  <!-- Mostrar la etiqueta solo si existe -->
+    <!-- Mostrar la etiqueta solo si existe -->
             <?php if (!empty($sitio['etiqueta'])): ?>
                 <p class="etiqueta-lugar"><?= $sitio['etiqueta'] ?></p>
             <?php endif; ?><p class="descripcion-lugar"><?= $sitio['descripcion'] ?></p>

@@ -62,3 +62,18 @@
 .valoracion{
     cursor: pointer;
 }
+
+
+.mensaje-temporal {
+    position: fixed;
+    top: 20px; /* Ajusta según tu diseño */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50; /* Color de fondo verde */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000; /* Asegúrate de que se muestre encima de otros elementos */
+    opacity: 1;
+    transition: opacity 1s;
+}

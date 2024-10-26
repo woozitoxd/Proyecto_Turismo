@@ -116,8 +116,13 @@ class Comentarios
         }
     }
 
-    public function eliminarComentario($idComentario, $usuarioID) {
+    public function eliminarComentarioPropio($idComentario, $usuarioID) {
         try {
+
+            $stmt1 = $this->conexion->prepare("DELETE FROM reporte_comentario WHERE id_comentario = :comentarioId");
+            $stmt1->bindParam(':comentarioId', $idComentario, PDO::PARAM_INT);
+            $stmt1->execute();
+
             $sql = "DELETE FROM comentario WHERE id_comentario = :id_comentario AND id_usuario = :usuarioID";
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(':id_comentario', $idComentario);
@@ -128,16 +133,19 @@ class Comentarios
         }
     }
 
-    public function actualizarComentario($idComentario, $nuevoComentario, $usuarioID) {
+    public function actualizarComentario($idComentario, $nuevoComentario, $usuarioID, $nuevaValoracion) {
         try {
-            // Actualizar el comentario en la base de datos
-            $stmt = $this->conexion->prepare("UPDATE comentario SET comentario = :nuevoComentario WHERE id_comentario = :idComentario AND id_usuario = :id");
+            // Actualizar el comentario y la valoración en la base de datos
+            $stmt = $this->conexion->prepare("UPDATE comentario SET comentario = :nuevoComentario, valoracion = :nuevaValoracion WHERE id_comentario = :idComentario AND id_usuario = :id");
             $stmt->bindParam(':nuevoComentario', $nuevoComentario);
+            $stmt->bindParam(':nuevaValoracion', $nuevaValoracion);
             $stmt->bindParam(':idComentario', $idComentario);
             $stmt->bindParam(':id', $usuarioID);
-    
+            
             if ($stmt->execute()) {
-                return ['success' => true];
+                return ['success' => true,
+                'nueva_valoracion' => $nuevaValoracion // Asegúrate de que esta variable contenga la nueva valoración
+            ];
             } else {
                 return ['success' => false, 'message' => 'Error al actualizar el comentario.'];
             }
@@ -145,6 +153,7 @@ class Comentarios
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
+    
     
     
     

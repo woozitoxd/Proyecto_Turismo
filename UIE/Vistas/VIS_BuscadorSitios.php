@@ -23,7 +23,7 @@ if (isset($_SESSION['usuario']) && isset($_SESSION['nombre']) && isset($_SESSION
         <div class="row mt-4 justify-content-between">
             <div class="col-md-4">
                 <a class="navbar-brand" href="index.php">
-                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
+                    <strong class="text-primary">TOURI</strong><span class="text-danger">SMO</span>
                 </a>
             </div>
 

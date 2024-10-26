@@ -111,12 +111,18 @@ function eliminarComentario(idComentario, idSitio) {
             .then(data => {
                 if (data.success) {
                     document.getElementById(`comentario-${idComentario}`).remove(); // Remover el comentario del DOM
-                    alert("Comentario eliminado correctamente.");
+                    mostrarMensajeTemporal("Comentario eliminado correctamente.");
+
+                    //alert("Comentario eliminado correctamente.");
                 } else {
-                    alert("Error al eliminar el comentario.");
+                    mostrarMensajeTemporal("Error al eliminar el comentario: " + data.error);
+
+                    //alert("Error al eliminar el comentario: " + data.error); // Muestra el error del servidor
                 }
             })
             .catch(error => {
+                mostrarMensajeTemporal("Error en la solicitud.");
+
                 console.error("Error al eliminar el comentario:", error);
             });
         }
@@ -124,21 +130,48 @@ function eliminarComentario(idComentario, idSitio) {
 }
 
 
+function mostrarMensajeTemporal(mensaje) {
+    const mensajeElement = document.createElement("div");
+    mensajeElement.textContent = mensaje;
+    mensajeElement.className = "alert alert-success"; // O el estilo que prefieras
+    document.body.appendChild(mensajeElement);
+    setTimeout(() => {
+        mensajeElement.remove();
+    }, 3000); // El mensaje desaparece después de 3 segundos
+}
 
 function habilitarEdicion(idComentario) {
     const comentarioText = document.getElementById(`comentario-text-${idComentario}`);
     const comentarioActual = comentarioText.textContent;
 
-    // Cambiar el texto a un campo de entrada
+    // Recuperar la valoración actual
+    const valoracionActual = comentarioText.getAttribute('data-valoracion') || 0;
+
+    // Cambiar el texto a un campo de entrada y añadir la interfaz de estrellas
     comentarioText.innerHTML = `
+        <div class="d-flex flex-row align-items-center mb-2">
+            <div class="valoracion" data-value="${valoracionActual}" id="valoracion-edicion-${idComentario}">
+                ${[1, 2, 3, 4, 5].map(i => `
+                    <span class="estrella estrella-sitio ${i <= valoracionActual ? 'selected' : ''}" data-value="${i}" onclick="seleccionarEstrella(${idComentario}, ${i})" onmouseover="this.classList.add('hover')" onmouseout="this.classList.remove('hover')">&#9733;</span>
+                `).join('')}
+            </div>
+        </div>
         <textarea class="form-control" id="textarea-${idComentario}">${comentarioActual}</textarea>
         <button type="button" class="btn btn-sm btn-primary mt-2" onclick="guardarComentario(${idComentario})">Guardar</button>
-        <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="cancelarEdicion(${idComentario}, '${comentarioActual}')">Cancelar</button>
+        <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="cancelarEdicion(${idComentario}, '${comentarioActual}', ${valoracionActual})">Cancelar</button>
     `;
 }
 
+// Función para seleccionar la estrella
+function seleccionarEstrella(idComentario, valor) {
+    const valoracionDiv = document.getElementById(`valoracion-edicion-${idComentario}`);
+    valoracionDiv.setAttribute('data-value', valor);
 
-
+    // Cambiar visualmente las estrellas según la valoración seleccionada
+    Array.from(valoracionDiv.children).forEach(estrella => {
+        estrella.classList.toggle('selected', estrella.getAttribute('data-value') <= valor);
+    });
+}
 
 function guardarComentario(idComentario) {
     const textoArea = document.getElementById(`textarea-${idComentario}`);
@@ -149,29 +182,48 @@ function guardarComentario(idComentario) {
         return;
     }
 
+    // Obtener la valoración seleccionada
+    const valoracionDiv = document.getElementById(`valoracion-edicion-${idComentario}`);
+    const valoracionActual = valoracionDiv.getAttribute('data-value') || 0; // Asegúrate de que data-value se actualice según la selección del usuario
+
     let urlActual = window.location.href;
     let palabraClave = "UIE/";
     let indice = urlActual.indexOf(palabraClave);
-console.log("ID del comentario: ", idComentario);
-console.log("Nuevo comentario: ", nuevoComentario);
 
     if (indice !== -1) {
         let urlCortada = urlActual.substring(0, indice + palabraClave.length);
         fetch(urlCortada + "Controlador/CON_ActualizarComentario.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `id_comentario=${idComentario}&nuevo_comentario=${encodeURIComponent(nuevoComentario)}`
+            body: `id_comentario=${idComentario}&nuevo_comentario=${encodeURIComponent(nuevoComentario)}&nueva_valoracion=${valoracionActual}`
         })
-        .then(response => response.json())
-        
+        .then(response => response.json()) // Cambiar a .json() para procesar la respuesta como JSON
         .then(data => {
             if (data.success) {
                 // Actualizar el comentario en la interfaz
                 const comentarioText = document.getElementById(`comentario-text-${idComentario}`);
                 comentarioText.textContent = nuevoComentario;
+
+
+                // Actualizar las estrellas existentes
+                const contenedorEstrellas = document.getElementById("valoracion"); // Asegúrate de que este ID sea correcto
+                const estrellas = contenedorEstrellas.querySelectorAll(`.estrella-sitio${idComentario}`); // Seleccionar todas las estrellas dentro del contenedor
+
+                estrellas.forEach((estrella, index) => {
+                    // Establecer la clase para cada estrella basada en la nueva valoración
+                    if (index < valoracionActual) {
+                        estrella.classList.remove('hover'); // Quitar la clase hover para las estrellas seleccionadas
+                        estrella.classList.add('fs-5'); // Asegurarse de que la clase fs-5 esté presente
+                    } else {
+                        estrella.classList.add('hover'); // Agregar clase hover para las estrellas no seleccionadas
+                        estrella.classList.remove('fs-5'); // Eliminar la clase fs-5 si no está seleccionada
+                    }
+                });
+
+
                 alert('Comentario actualizado correctamente.');
             } else {
-                alert('Error al actualizar el comentario.');
+                alert(data.message || 'Error al actualizar el comentario.');
             }
         })
         .catch(error => {
@@ -242,7 +294,6 @@ document.addEventListener("submit", function (e){
                     `;
     
                     const ContenedorValoracion = document.createElement("div");
-    
                     ContenedorValoracion.className = "mx-2";
     
                     for (let index = 1; index <= 5; index++) {
@@ -256,13 +307,9 @@ document.addEventListener("submit", function (e){
                         }else{
                             estrella.className = "estrella fs-5";
                         }
-    
                         ContenedorValoracion.appendChild(estrella);
-    
                     }
-    
-    
-                
+
                     CajaComentariosDeSitio.prepend(li);
                     
                     document.querySelector(".info-comment-" + data.id_comentario).insertAdjacentElement("afterend", ContenedorValoracion);

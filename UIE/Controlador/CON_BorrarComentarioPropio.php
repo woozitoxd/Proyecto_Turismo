@@ -1,7 +1,7 @@
 <?php
+session_start();
 header('Content-Type: application/json'); // Asegura que siempre envíes JSON
 require_once('../Modelo/MOD_Comentario.php');
-require_once('../Controlador/CON_IniciarSesion.php');
 require_once('../Controlador/CON_VerificarPermisos.php');
 
 $usuarioID = $_SESSION['id'] ?? null; // Verifica si el ID de usuario existe
@@ -15,7 +15,7 @@ if (isset($_POST['id_comentario']) && isset($usuarioID)) {
     error_log("ID del usuario: " . $usuarioID);
 
     $comentarioObj = new Comentarios("", "", "", "");
-    $resultado = $comentarioObj->eliminarComentario($idComentario, $usuarioID);
+    $resultado = $comentarioObj->eliminarComentarioPropio($idComentario, $usuarioID);
 
     // Verificar si se eliminó el comentario
     if ($resultado) {
