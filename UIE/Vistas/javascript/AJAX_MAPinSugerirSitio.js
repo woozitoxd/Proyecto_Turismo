@@ -19,7 +19,9 @@ function iniciarmapa(coord) {
 
 function initAutocomplete(map) {
     const input = document.getElementById("place_input");
-    const autocomplete = new google.maps.places.Autocomplete(input);
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+        componentRestrictions: { country: "AR" } // Restringe a Argentina ("AR" es el código del país)
+    });
 
     // Vincula el autocompletado al mapa
     autocomplete.bindTo('bounds', map);
@@ -39,6 +41,7 @@ function initAutocomplete(map) {
         }
     });
 }
+
 
 function mostrarCoordenadas(location) {
     const coordenadasDiv = document.getElementById('coordenadas');

@@ -219,7 +219,7 @@ function guardarComentario(idComentario) {
                         estrella.classList.remove('fs-5'); // Eliminar la clase fs-5 si no está seleccionada
                     }
                 });
-
+                
 
                 alert('Comentario actualizado correctamente.');
             } else {

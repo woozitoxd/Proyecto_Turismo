@@ -123,7 +123,7 @@ if (isset($client) && $client->getAccessToken()) {
         </p> <!-- Para mostrar las coordenadas -->
         <input id="place_input" type="text" placeholder="Buscar un lugar" class="form-control" style="margin-bottom: 10px;">
         <div id="map" style="height: 500px; width: 100%;"></div>
-        <script defer src="./javascript/Ajax_MapaEnSugerir.js"></script>
+        <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
         <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=places"></script>
     </div>
     
