@@ -10,7 +10,7 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
     private $fechaNacimiento;
     private $conexion;
 
-    public function __construct($correo, $password, $fechaNacimiento, $nombre)
+    /*public function __construct($correo, $password, $fechaNacimiento, $nombre)
     {
         $this->nombre = $nombre;
         $this->correo = $correo;
@@ -19,6 +19,18 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
         
         $this->conexion = $GLOBALS['conn'];
 
+    }*/
+    public function __construct($correo = null, $password = null, $fechaNacimiento = null, $nombre = null) 
+    {
+        $this->conexion = $GLOBALS['conn'];
+        
+        // Solo inicializar propiedades si se pasan valores
+        if ($correo !== null && $password !== null && $fechaNacimiento !== null && $nombre !== null) {
+            $this->correo = $correo;
+            $this->password = $password;
+            $this->fechaNacimiento = $fechaNacimiento;
+            $this->nombre = $nombre;
+        }
     }
 
     public function verificarNombreExistente($nombre, $idUser)
@@ -72,5 +84,66 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             return null;
         }
     }
+    public function ActualizarPerfilUsuario($idUsuario, $nombre, $email) {
+        try {
+            $sql = "CALL SP_ActualizarPerfilUsuario(:idUsuario, :nombre, :email)";
+            $stmt = $this->conexion->prepare($sql);
+            
+            $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    
+            $stmt->execute();
+            return true; // Indica éxito si no hay errores
+        } catch (PDOException $e) {
+            // Obtener el mensaje de error original
+            $errorMessage = $e->getMessage();
+    
+            // Usar una expresión regular para extraer solo el mensaje de error limpio
+            if (preg_match('/:\s\d+\s(.+)/', $errorMessage, $matches)) {
+                $cleanMessage = $matches[1];
+            } else {
+                $cleanMessage = 'Error desconocido';
+            }
+    
+            return $cleanMessage;
+        }
+    }
+
+    public function ActualizarContraseñaUsuario($idUsuario, $ContraseñaActual, $ContraseñaNueva) {
+        try {
+            $sql = 'SELECT password FROM usuario WHERE id = :idusuario';
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':idusuario', $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($usuario && password_verify($ContraseñaActual, $usuario['password'])) {
+                unset($usuario['password']);
+                try {
+                        $hashNuevaContraseña = password_hash($ContraseñaNueva, PASSWORD_DEFAULT);
+            
+                        // Actualizamos la contraseña en la base de datos
+                        $updateSql = 'UPDATE usuario SET password = :passwordNueva WHERE id = :idusuario';
+                        $updateStmt = $this->conexion->prepare($updateSql);
+                        $updateStmt->bindParam(':passwordNueva', $hashNuevaContraseña, PDO::PARAM_STR);
+                        $updateStmt->bindParam(':idusuario', $idUsuario, PDO::PARAM_INT);
+                        $updateStmt->execute();
+                    return true; 
+                } catch (PDOException $e) {    
+                    return $e->getMessage();
+                }
+            }
+            else {
+                return false; // Usuario no encontrado o contraseña incorrecta
+            }
+        }
+        catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+
+
 }
 ?>
