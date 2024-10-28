@@ -1,6 +1,6 @@
 <?php
 
-require_once('../Controlador/CON_IniciarSesion.php');
+session_start();
 require_once('../Controlador/CON_VerificarPermisos.php');
 
 $ID_Sitio = $_POST["id_sitio"];

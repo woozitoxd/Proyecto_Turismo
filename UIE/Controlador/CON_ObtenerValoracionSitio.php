@@ -1,6 +1,6 @@
 <?php
 require_once('../Modelo/conexion_bbdd.php');  //todos los archivos que se necesitan
-require_once('../Controlador/CON_IniciarSesion.php');
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

@@ -11,7 +11,7 @@ require_once('MOD_perfil.php');
         private $password;
         private $fechaNacimiento;
         private $conexion;
-
+        
         public function __construct($id, $correo, $password, $fechaNacimiento, $nombre)
         {
             $this->id = $id;
@@ -19,7 +19,7 @@ require_once('MOD_perfil.php');
             $this->correo = $correo;
             $this->password = $password;
             $this->fechaNacimiento = $fechaNacimiento;
-
+            
             try {
                 // Utiliza la conexión centralizada
                 $this->conexion = $GLOBALS['conn'];
@@ -27,6 +27,19 @@ require_once('MOD_perfil.php');
                 die("Error en la conexión de base de datos: " . $e->getMessage());
             }
         }
+        public function getUsuarios() {
+            try {
+                $sql = "CALL SP_MostrarUsuarios()";
+                $stmt = $this->conexion->prepare($sql);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                error_log("Error en getUsuarios: " . $e->getMessage());
+                return false;
+            }
+        }
+        
+        
         public function obtenerIdRolUsuario()  //Funcion para obtener el rol usuario y guardarlo en id rol, esto para almacenarlo mas tarde en la tabla usuario
         {
             $rolUsuario = "usuario";
@@ -138,6 +151,7 @@ require_once('MOD_perfil.php');
                 return "Error en la transacción: " . $e->getMessage();
             }
         }
+
 
         public function verificarCorreoExistente($correo)  //nomas verifico que el correo existe o no en mi base
         {

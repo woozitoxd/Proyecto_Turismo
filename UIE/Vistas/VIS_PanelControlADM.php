@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Antes de cerrar el </body> -->
+     <script defer src="./javascript/AJAX_TraerUsuarios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <style>
@@ -57,10 +58,40 @@
                             <div class="card-body">
                                 <h5 class="card-title">Usuarios Activos</h5>
                                 <p class="card-text">Gestión de usuarios registrados en la plataforma.</p>
-                                <button class="btn btn-light">Ver Detalles</button>
+                                <button class="btn btn-light" id="verDetallesBtn">Ver Detalles</button>
                             </div>
                         </div>
                     </div>
+
+                        <!-- Modal para mostrar los usuarios -->
+                        <div class="modal fade" id="usuariosModal" tabindex="-1" aria-labelledby="usuariosModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="usuariosModalLabel">Lista de Usuarios</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Rol</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="usuariosTabla"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    
+                    <!------------------------>
                     <div class="col-md-4">
                         <div class="card text-white bg-success mb-3">
                             <div class="card-body">

@@ -38,4 +38,23 @@ class ModeloComentarios {
             return false;
         }
     }
+
+    public function BorrarDenuncia($idDenuncia)
+    {
+        try {
+            $this->conexion->beginTransaction();
+
+            $stmt1 = $this->conexion->prepare("DELETE FROM reporte_comentario WHERE id_reporte = :idDenuncia");
+            $stmt1->bindParam(':idDenuncia', $idDenuncia, PDO::PARAM_INT);
+            $stmt1->execute();
+            
+            $this->conexion->commit();
+
+            return true;
+        }catch(PDOException $e){
+            $this->conexion->rollBack();
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }

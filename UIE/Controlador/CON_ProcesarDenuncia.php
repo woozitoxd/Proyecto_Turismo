@@ -1,6 +1,6 @@
 <?php
 require_once('../Modelo/MOD_Comentario.php');
-require_once('../Controlador/CON_IniciarSesion.php');
+session_start();
 require_once('../Controlador/CON_VerificarPermisos.php');
 
 $usuarioID = $_SESSION['id'];
