@@ -1,0 +1,16 @@
+
+
+.input-dark {
+    background-color: #e0e0e0 !important; /* Fondo gris claro */
+    color: #333 !important;               /* Texto en gris oscuro */
+    border: 1px solid #ccc !important;    /* Borde gris claro */
+    padding: 8px !important;
+    border-radius: 4px !important;        /* Bordes redondeados */
+}
+
+.input-dark:focus {
+    background-color: #d0d0d0 !important; /* Fondo un poco más oscuro al hacer foco */
+    border-color: #999 !important;        /* Borde un poco más oscuro al hacer foco */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important; /* Sombra sutil */
+    outline: none !important;             /* Quita el borde azul al hacer clic */
+}

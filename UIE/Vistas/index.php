@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/cards.css">
+    <link rel="stylesheet" href="./estilos/ModalPerfil.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
@@ -21,6 +22,7 @@
     <script defer src="../Vistas/javascript/Ajax_APIGoogleMaps.js"></script>
     <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
     <script defer src="../Vistas/javascript/validaciones.js"></script>
+    <script defer src="../Vistas/javascript/EditarPerfil.js"></script>
 
     <title>Inicio - Turismo</title>
 </head>
