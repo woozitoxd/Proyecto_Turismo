@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ConfirmaciónNuevaContraseña = $data['ConfirmaciónNuevaContraseña'] ?? null;
     $IDUsuario = $data['IDUsuario'] ?? null;
 
-
-    if ($ConfirmaciónNuevaContraseña != $NuevaContraseña) {
-        echo json_encode(['success' => false, 'error' => 'Las contraseñas no coinciden']);
+    //$ConfirmaciónNuevaContraseña='asdasdasdasdasdasdasdasd';
+    if ($ConfirmaciónNuevaContraseña != $NuevaContraseña ) {
+        echo json_encode(['success' => false, 'error' => 'Las nuevas contraseñas no coinciden']);
         exit;
     }
 

@@ -146,8 +146,6 @@ if ($indexPosition !== false) {
                             <?php endforeach; ?>
                         </ul>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -165,7 +163,7 @@ if ($indexPosition !== false) {
             </div>
 
             <div class="modal-body container-fluid">
-                <form id="FormPerifl" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>" data-IDUsuario="<?php echo $_SESSION['id'] ?>">
+                <form id="FormPerifl" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>">
                     <div class="mb-3 col-lg-6">
                         <label for="NombreUsuario" class="form-label">Nombre de Usuario</label>
                         <input type="text" class="form-control" id="NombreUsuario" name="NombreUsuario"
@@ -195,7 +193,7 @@ if ($indexPosition !== false) {
                     <!--- footer--->
                     <div class="modal-footer mt-2">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" onclick="ButtonEditarPerfil(<?php echo $_SESSION['id'] ?>, '<?php echo $_SESSION['usuario'] ?>', '<?php echo $_SESSION['nombre'] ?>')" class="btn btn-primary" >Guardar Cambios</button>
                     </div>
                 </form>
             </div>
@@ -261,6 +259,18 @@ data-bs-backdrop="static" aria-hidden="true">
                     <button type="button" class="btn btn-danger" id="EliminarCuenta">Confirmar Cambios</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade custom-modal-position" id="resultModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialoggs">
+        <div class="modal-content" id="modalContent">
+
+            <div class="modal-body">
+                <span id="modalIcon" class="me-2"></span>
+                <span id="modalMessage"></span>
             </div>
         </div>
     </div>

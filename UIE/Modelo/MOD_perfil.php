@@ -94,11 +94,12 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     
             $stmt->execute();
+            
             return true; // Indica éxito si no hay errores
         } catch (PDOException $e) {
             // Obtener el mensaje de error original
             $errorMessage = $e->getMessage();
-    
+
             // Usar una expresión regular para extraer solo el mensaje de error limpio
             if (preg_match('/:\s\d+\s(.+)/', $errorMessage, $matches)) {
                 $cleanMessage = $matches[1];
@@ -120,7 +121,13 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
 
             if ($usuario && password_verify($ContraseñaActual, $usuario['password'])) {
                 unset($usuario['password']);
-                try {
+
+                if($ContraseñaActual == $ContraseñaNueva){
+                    return 'La contraseña ingresada ya esta en actual uso para esta cuenta.';
+                }
+                else{
+                    
+                    try {
                         $hashNuevaContraseña = password_hash($ContraseñaNueva, PASSWORD_DEFAULT);
             
                         // Actualizamos la contraseña en la base de datos
@@ -130,8 +137,9 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
                         $updateStmt->bindParam(':idusuario', $idUsuario, PDO::PARAM_INT);
                         $updateStmt->execute();
                     return true; 
-                } catch (PDOException $e) {    
-                    return $e->getMessage();
+                    } catch (PDOException $e) {    
+                        return $e->getMessage();
+                    }
                 }
             }
             else {
@@ -142,7 +150,6 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             return $e->getMessage();
         }
     }
-
 
 
 }
