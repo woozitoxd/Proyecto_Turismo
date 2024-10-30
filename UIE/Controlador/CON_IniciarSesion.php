@@ -23,7 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Retornar una respuesta JSON indicando éxito
             echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
-        } else {
+        }else if($resultado === 0){
+            echo json_encode(['success' => false, 'message' => 'Usted ha bloqueado su cuenta recientemente, para desbloquearla deberá contactar con "soporteTurismo@upe.edu.ar". ']);
+        }else if ($resultado === null){
             // Retornar una respuesta JSON indicando error
             echo json_encode(['success' => false, 'message' => '¡El usuario o la contraseña son incorrectos!']);
         }

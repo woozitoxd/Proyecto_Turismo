@@ -40,6 +40,7 @@ if ($indexPosition !== false) {
 }
 
 ?>
+
 <nav class="navbar-color">
     <div class="container-fluid">
         <div class="row mt-4 justify-content-between">
@@ -241,9 +242,8 @@ data-bs-backdrop="static" aria-hidden="true">
     </div>
 </div>
 
-<!-- Modal Cambiar Contraseña -->
-<div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel"
-    aria-hidden="true">
+<!-- Modal Eliminar cUENTA -->
+<div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content bg-danger-subtle">
             <div class="modal-header">
@@ -252,17 +252,17 @@ data-bs-backdrop="static" aria-hidden="true">
             </div>
             <div class="modal-body container-fluid">
                 <p class="h5">¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.</p>
-                <!--- footer--->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary " data-bs-target="#modalPerfil"
-                        data-bs-toggle="modal">Volver</button>
-                    <button type="button" class="btn btn-danger" id="EliminarCuenta">Confirmar Cambios</button>
-                </div>
-
+                <form id="formEliminarCuenta" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>" data-IDUsuario="<?php echo $_SESSION['id'] ?>">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-target="#modalPerfil" data-bs-toggle="modal">Volver</button>
+                        <button type="button" class="btn btn-danger" id="IDbtnEliminarCuenta">Confirmar "Eliminar Cuenta"</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="modal fade custom-modal-position" id="resultModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialoggs">

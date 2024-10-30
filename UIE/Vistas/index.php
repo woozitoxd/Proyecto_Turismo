@@ -23,6 +23,7 @@
     <script defer src="../Vistas/javascript/ContenidoSeccion.js"></script>
     <script defer src="../Vistas/javascript/validaciones.js"></script>
     <script defer src="../Vistas/javascript/EditarPerfil.js"></script>
+    <script defer src="../Vistas/javascript/AJAX_BorradoLogicoACC.js"></script>
 
     <title>Inicio - Turismo</title>
 </head>

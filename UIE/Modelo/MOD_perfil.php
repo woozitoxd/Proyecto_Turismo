@@ -53,17 +53,25 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
     }
 
     public function consultar($correo, $password) {
-        $sql = "CALL SP_ConsultarUsuarioLOGIN(:correo)"; //uso el stored procedure que tengo en mi base de datos para traer los datos
-        $stmt = $this->conexion->prepare($sql);  //traigo los datos tales como; nombre, correo, contraseña, id del rol, nombre del rol
-        $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
-        $stmt->execute();
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        if ($usuario && password_verify($password, $usuario['password'])) {
-            unset($usuario['password']); // Unset de la contraseña para no almacenarla en la sesión
-            return $usuario; // Retornar el usuario con el id_rol y el nombre del rol
-        } else {
-            return null; // Usuario no encontrado o contraseña incorrecta
+        try{
+            $sql = "CALL SP_ConsultarUsuarioLOGIN(:correo)"; //uso el stored procedure que tengo en mi base de datos para traer los datos
+            $stmt = $this->conexion->prepare($sql);  //traigo los datos tales como; nombre, correo, contraseña, id del rol, nombre del rol
+            $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
+            $stmt->execute();
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            
+            if($usuario['estado'] == 0){ //verificamos que el estado no sea 0, que en nuestra logica, significa bloqueado.
+                return 0; //retorno 0 porque es la validacion que usaré
+            }else if ($usuario && password_verify($password, $usuario['password'])) {
+                unset($usuario['password']); // Unset de la contraseña para no almacenarla en la sesión
+                return $usuario; // Retornar el usuario con el id_rol y el nombre del rol
+            } else {
+                return null; // Usuario no encontrado o contraseña incorrecta
+            }
+
+        }catch (PDOException $e ){
+            return $e->getMessage();
         }
     }
     
@@ -71,17 +79,22 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
 
     public function consultarGoogleAuth($googleID, $googleEmail) //Consulta para trabajar con el inicio de sesion en funcion de los registros existentes en la base
     {
-        $sql = "SELECT id, nombre, google_id, google_email FROM usuario WHERE google_id = :googleID AND google_email = :googleEMAIL";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bindParam(':googleID', $googleID, PDO::PARAM_STR);
-        $stmt->bindParam(':googleEMAIL', $googleEmail, PDO::PARAM_STR);
-        $stmt->execute();
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        try{
 
-        if ($usuario) {
-            return $usuario;
-        } else {
-            return null;
+            $sql = "SELECT id, nombre, google_id, google_email FROM usuario WHERE google_id = :googleID AND google_email = :googleEMAIL";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':googleID', $googleID, PDO::PARAM_STR);
+            $stmt->bindParam(':googleEMAIL', $googleEmail, PDO::PARAM_STR);
+            $stmt->execute();
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($usuario) {
+                return $usuario;
+            } else {
+                return null;
+            }
+        }catch (PDOException $e ){
+            return $e->getMessage();
         }
     }
     public function ActualizarPerfilUsuario($idUsuario, $nombre, $email) {
@@ -150,6 +163,19 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             return $e->getMessage();
         }
     }
+
+    public function BorradoLogicoCuenta($idUsuario){
+        try{
+            $updatesql = 'UPDATE usuario SET estado = 0 WHERE id = :idUsuario';
+            $updateStmt = $this->conexion->prepare($updatesql);
+            $updateStmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $updateStmt->execute();
+            return true;
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    
 
 
 }

@@ -53,7 +53,7 @@ require_once('MOD_perfil.php');
         public function registrar() 
         {
             // Registro del usuario
-            $sqlUsuario = "INSERT INTO usuario(fecha_nacimiento, nombre, email, password) VALUES (:fechaNacimiento, :nombre, :correo, :password)";
+            $sqlUsuario = "INSERT INTO usuario(fecha_nacimiento, nombre, email, password, estado) VALUES (:fechaNacimiento, :nombre, :correo, :password, 1)";
             $stmtUsuario = $this->conexion->prepare($sqlUsuario);
         
             // Asegúrate de encriptar la contraseña antes de insertarla
