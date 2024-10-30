@@ -18,6 +18,7 @@ if (isset($client) && $client->getAccessToken()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./estilos/SugerirSitio.css">
     <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
+    <script src="./javascript/SugerirSitio.js" defer></script>
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/header.css">
 
@@ -78,15 +79,20 @@ if (isset($client) && $client->getAccessToken()) {
                     <label  class=" h5 form-label">Imagenes de Sitio Turistico</label>
                     <input type="file" id="ImagenSitio" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
                 </div>
-            </div>
-            <div class="mb-2 col-lg-6">
                 <div class="mb-3">
                     <label class="h5 form-label">Imágenes seleccionadas</label>  
                     <div id="imagePreviewContainer" ></div>
                 </div>
             </div>
+            <!--<div class="mb-2 col-lg-6">
+                <div class="mb-3">
+                    <label class="h5 form-label">Imágenes seleccionadas</label>  
+                    <div id="imagePreviewContainer" ></div>
+                </div>
+            </div>-->
             
             <div class="mb-2 col-lg-6">
+                <div class="">
                 <label for="Latitud" class="form-label h5">Latitud & Longitud</label>
                 <div class="input-group mb-1">
                     <!-- Campo de Latitud: rango permitido -90 a 90, con 6 decimales -->
@@ -94,15 +100,22 @@ if (isset($client) && $client->getAccessToken()) {
                     <span class="input-group-text">&</span>
                     <!-- Campo de Longitud: rango permitido -180 a 180, con 6 decimales -->
                     <input type="number" class="form-control" id="Longitud" placeholder="Longitud ej. -58.523937" name="Longitud" min="-180" max="180" step="0.000001" required>
+                </div>  
+                    <p>MAPA</p>
+                    <p id="coordenadas" class="alert alert-info" style="margin-top: 10px;">
+                        Coordenadas: Latitud 0, Longitud 0
+                    </p> <!-- Para mostrar las coordenadas -->
+                    <input id="place_input" type="text" placeholder="Buscar un lugar" class="form-control" style="margin-bottom: 10px;">
+                    <div id="map" style="height: 500px; width: 100%;"></div>
+                    <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
+                    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=places"></script>
                 </div>
             </div>
-
-            
-            <div class="ms-4 mb-3 col-lg-6 mt-2 form-check form-switch">
+            <div class="mb-2 col-lg-6 form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 <label class="form-check-label" for="flexSwitchCheckDefault"> Es arancelado?</label>
             </div>
-            
+
             <hr>
             
             
@@ -112,20 +125,9 @@ if (isset($client) && $client->getAccessToken()) {
                 </div>
             </div>
             
-            
         </div>
     </form>
-    
-    <div class="">  
-        <p>MAPA</p>
-        <p id="coordenadas" class="alert alert-info" style="margin-top: 10px;">
-            Coordenadas: Latitud 0, Longitud 0
-        </p> <!-- Para mostrar las coordenadas -->
-        <input id="place_input" type="text" placeholder="Buscar un lugar" class="form-control" style="margin-bottom: 10px;">
-        <div id="map" style="height: 500px; width: 100%;"></div>
-        <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
-        <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=places"></script>
-    </div>
+
     
 </body>
 </html>

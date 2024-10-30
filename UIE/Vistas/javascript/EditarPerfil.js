@@ -128,51 +128,6 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
-                    /*
-                    document.getElementById("FormPerifl").addEventListener("submit", function(e) {
-
-                        //alert('HOL312A');
-
-                        //me traigo los data- del form con los datos de la session, si es el mismo que el que se quiere enviar en el input, muestro que se debe cambiar
-                        const formPerfil = document.getElementById('FormPerifl');
-                        const urlVariable = formPerfil.getAttribute('data-url-base');
-                        const IDUsuario = formPerfil.getAttribute('data-IDUsuario');
-                        const CorreoSesion = formPerfil.getAttribute('data-CorreoUsuario');
-                        const NombreUsuarioSession = formPerfil.getAttribute('data-NombreUsuario');
-                        
-                        //console.log('id de usuario es ' + IDUsuario);
-
-                        e.preventDefault(); //Se anula el envio del formulario
-
-                        //Capturar los elementos del formulario:
-                        const NombreUsuario = document.getElementById("NombreUsuario").value;
-                        const Email = document.getElementById("Email").value;
-
-                        const NombreUsuarioError = document.getElementById("NombreCompletoError");
-                        const EmailError = document.getElementById("EmailError");
-                        NombreUsuarioError.textContent = "";
-                        EmailError.textContent = "";
-
-                        let bandera = 0;
-                        if (NombreUsuario.length <= 0) {
-                            NombreCompletoError.textContent = "Ingrese un nombre.";
-                            bandera += 1;
-                        }
-
-                        if (!isValidEmail(Email)) {
-                            EmailError.textContent = "Ingrese un correo electrónico válido.";
-                            bandera += 1;
-                        }
-
-                        if(bandera==0){
-
-                            EditarPerfil(urlVariable, NombreUsuario, Email, IDUsuario) 
-                            //this.submit();
-                        }
-                        if(bandera>0){
-                            //alert('ta mal');
-                        }
-                    });*/
 
 function ButtonEditarPerfil(IDUsuario, CorreoSesion, NombreUsuarioSession){
     //alert('HOL312A');

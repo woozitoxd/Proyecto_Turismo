@@ -1,4 +1,5 @@
 <?php
+//session_start(); // Inicia la sesión
 //require_once('../Modelo/conexion_bbdd.php');
 //require_once('../Controlador/CON_IniciarSesion.php');
 require_once("../Modelo/MOD_Perfil.php");
