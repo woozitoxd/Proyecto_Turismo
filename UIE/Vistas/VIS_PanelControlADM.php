@@ -21,6 +21,8 @@
             max-height: 400px; /* Altura máxima del cuerpo del modal */
             overflow-y: auto; /* Habilitar desplazamiento vertical */
         }
+   
+
     </style>
 </head>
 <body>
@@ -63,29 +65,39 @@
                         </div>
                     </div>
 
-                        <!-- Modal para mostrar los usuarios -->
-                        <div class="modal fade" id="usuariosModal" tabindex="-1" aria-labelledby="usuariosModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="usuariosModalLabel">Lista de Usuarios</h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-striped">
+
+                    <div class="modal fade" id="usuariosModal" tabindex="-1" aria-labelledby="usuariosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"> <!-- Modal amplio y centrado -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="usuariosModalLabel">Lista de Usuarios registrados en "TURISMO"</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive"> <!-- Hace la tabla adaptativa sin scroll horizontal -->
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Nombre</th>
                                                     <th>Rol</th>
                                                     <th>Email</th>
+                                                    <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="usuariosTabla"></tbody>
                                         </table>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+
+
+
 
 
 
@@ -104,15 +116,15 @@
                     
                     <!-- Modal para mostrar denuncias -->
                     <div class="modal fade" id="denunciasModal" tabindex="-1" aria-labelledby="denunciasModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="denunciasModalLabel">Denuncias</h5>
+                                    <h5 class="modal-title" id="denunciasModalLabel">Denuncias realizadas hacia comentarios</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID de Denuncia</th>
@@ -136,6 +148,8 @@
                         </div>
                         <div id="mensajeExito" class="alert alert-success" style="display: none;"></div>
                     </div>
+
+                    
 
 
 

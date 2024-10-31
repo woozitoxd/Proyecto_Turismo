@@ -23,6 +23,10 @@ document.getElementById('verDetallesBtn').addEventListener('click', function() {
                         <td>${usuario.nombre}</td>
                         <td>${usuario.rol}</td>
                         <td>${usuario.email}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"> Bloquear Usuario</button>
+                            <button class="btn btn-warning btn-sm">Cambiar Rol</button>
+                        </td>
                     </tr>
                 `;
             });

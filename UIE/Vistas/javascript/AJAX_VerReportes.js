@@ -90,16 +90,16 @@ function eliminarComentario(idComentario) {
         });
     }
     
-    function mostrarMensajeExito(mensaje) {
-        const mensajeExitoDiv = document.getElementById("mensajeExito");
-        mensajeExitoDiv.textContent = mensaje;
-        mensajeExitoDiv.style.display = "block"; // Mostrar el mensaje
-        
-        // Ocultar el mensaje después de 3 segundos
-        setTimeout(() => {
-            mensajeExitoDiv.style.display = "none";
-        }, 3000);
-    }
+}
+function mostrarMensajeExito(mensaje) {
+    const mensajeExitoDiv = document.getElementById("mensajeExito");
+    mensajeExitoDiv.textContent = mensaje;
+    mensajeExitoDiv.style.display = "block"; // Mostrar el mensaje
+    
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+        mensajeExitoDiv.style.display = "none";
+    }, 3000);
 }
 function borrarDenuncia(denuncia_id) {
     if (confirm("¿Estás seguro de que quieres eliminar esta denuncia?")) {
@@ -125,7 +125,7 @@ function borrarDenuncia(denuncia_id) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Denuncia ELiminada con éxito.");
+                mostrarMensajeExito("Denuncia ELiminada con éxito.");
                 cargarDenuncias(); // Actualiza el contenido del modal
             } else {
                 alert("Error al eliminar el reporte: " + data.error);
