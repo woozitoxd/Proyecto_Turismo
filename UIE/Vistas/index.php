@@ -1,3 +1,5 @@
+<?php require_once('../Controlador/CON_IniciarSesion.php') ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

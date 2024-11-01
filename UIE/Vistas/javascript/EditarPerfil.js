@@ -1,3 +1,52 @@
+document.addEventListener("DOMContentLoaded", function (){
+
+    document.getElementById("FormPerifl").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        let urlActual = window.location.href;
+        let palabraClave = "UIE/";
+
+        // Encuentra el índice de la palabra "UIE/" en la URL
+        let indice = urlActual.indexOf(palabraClave);
+
+        if (indice !== -1) {
+            // Guarda la URL desde el inicio hasta la palabra "UIE/"
+            let urlCortada = urlActual.substring(0, indice + palabraClave.length);
+
+            // Crear un objeto con los datos que deseas enviar
+            let url = urlCortada + '/Controlador/CON_EditarPerfil.php';//console.log(url);
+
+            // Realizar la solicitud POST usando fetch
+            fetch(url, {
+                method: "POST",
+                body: new FormData(e.target)
+            })
+            .then(response => response.json()) // Parsear la respuesta como JSON
+            .then(result => {
+                // Manejar la respuesta del servidor
+                if (result.success) {
+                    console.log('Perfil actualizado exitosamente');
+    
+                    showModal('Perfil actualizado exitosamente', true);
+    
+                    // Actualizar el contenido en el index y en el modal.
+                    document.getElementById('NombreEnMenu').textContent = result.usuario_actualizado;
+                    document.getElementById('NombreUsuario').textContent = result.usuario_actualizado;
+                    document.getElementById('Email').textContent = result.email_actualizado;
+    
+                } else {
+                    console.log(result.error);
+                    showModal(`Error: ${result.error}`, false);
+                }
+            })
+            .catch(error => {
+                console.log('Error en la solicitud (catch) ', error);
+                showModal(`Error: Disculpe las molestias ocasiondas, error en la solicitud al servidor.`, false);
+            });
+        }
+
+    });
+});
 
 function showModal(message, isSuccess) {
     const modalContent = document.getElementById('modalContent');
@@ -35,49 +84,6 @@ function showModal(message, isSuccess) {
             modal.style.opacity = ''; // Restaurar opacidad original
         });
     });
-}
-
-
-function EditarPerfil(urlVariable, NombreUsuario, Email, IDUsuario){
-    //console.log('estoy en la funcion' + NombreUsuario + Email);
-
-        // Crear un objeto con los datos que deseas enviar
-        const data = {
-            NombreUsuario: NombreUsuario,
-            Email: Email,
-            IDUsuario: IDUsuario
-        };
-        let url = urlVariable + '/../Controlador/CON_EditarPerfil.php';//console.log(url);
-        // Realizar la solicitud POST usando fetch
-        fetch(url, {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json' // Configura el tipo de contenido como JSON
-            },
-            body: JSON.stringify(data) // Convierte los datos a JSON y los envía.
-        })
-        .then(response => response.json()) // Parsear la respuesta como JSON
-        .then(result => {
-            // Manejar la respuesta del servidor
-            if (result.success) {
-                console.log('Perfil actualizado exitosamente');
-
-            showModal('Perfil actualizado exitosamente', true);
-
-            // Actualizar el contenido en el index y en el modal.
-            document.getElementById('NombreEnMenu').textContent = NombreUsuario;
-            document.getElementById('NombreUsuario').textContent = NombreUsuario;
-            document.getElementById('Email').textContent = Email;
-
-            } else {
-            console.log(result.error);
-            showModal(`Error: ${result.error}`, false);
-            }
-        })
-        .catch(error => {
-            console.log('Error en la solicitud (catch) ', error);
-            showModal(`Error: Disculpe las molestias ocasiondas, error en la solicitud al servidor.`, false);
-        });
 }
 
 function CambiarContraseñaUsuario(urlVariable, ContraseñaActual, NuevaContraseña, ConfirmaciónNuevaContraseña, IDUsuario){
@@ -129,55 +135,6 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-function ButtonEditarPerfil(IDUsuario, CorreoSesion, NombreUsuarioSession){
-    //alert('HOL312A');
-
-    //me traigo los data- del form con los datos de la session, si es el mismo que el que se quiere enviar en el input, muestro que se debe cambiar
-    const formPerfil = document.getElementById('FormPerifl');
-    const urlVariable = formPerfil.getAttribute('data-url-base');
-    console.log("me traje " + IDUsuario+ " " +CorreoSesion+" "+NombreUsuarioSession);
-    /*const IDUsuario = formPerfil.getAttribute('data-IDUsuario');
-    const CorreoSesion = formPerfil.getAttribute('data-CorreoUsuario');
-    const NombreUsuarioSession = formPerfil.getAttribute('data-NombreUsuario');*/
-    
-    //console.log('id de usuario es ' + IDUsuario);
-
-    //e.preventDefault(); //Se anula el envio del formulario
-
-    //Capturar los elementos del formulario:
-    const NombreUsuario = document.getElementById("NombreUsuario").value;
-    const Email = document.getElementById("Email").value;
-
-    const NombreUsuarioError = document.getElementById("NombreCompletoError");
-    const EmailError = document.getElementById("EmailError");
-    NombreUsuarioError.textContent = "";
-    EmailError.textContent = "";
-
-    if(NombreUsuario == NombreUsuarioSession && Email == CorreoSesion){
-        showModal(`Debe cambiar aunque sea un campo!`, false);
-    }
-    else{
-        let bandera = 0;
-        if (NombreUsuario.length <= 0) {
-            NombreCompletoError.textContent = "Ingrese un nombre.";
-            bandera += 1;
-        }
-
-        if (!isValidEmail(Email)) {
-            EmailError.textContent = "Ingrese un correo electrónico válido.";
-            bandera += 1;
-        }
-
-        if(bandera==0){
-
-            EditarPerfil(urlVariable, NombreUsuario, Email, IDUsuario) 
-            //this.submit();
-        }
-        if(bandera>0){
-            //alert('ta mal');
-        }
-    }
-}
 
 document.getElementById("FormCambiarContraseña").addEventListener("submit", function(e) {
 

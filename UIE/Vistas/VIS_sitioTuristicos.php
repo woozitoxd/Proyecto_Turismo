@@ -1,4 +1,4 @@
-<?php require_once("../Controlador/CON_IniciarSesion.php");
+<?php
 
 if (isset($_SESSION['mensaje'])) {
     echo '<div class="alert alert-success">' . $_SESSION['mensaje'] . '</div>'; // Mensaje de éxito

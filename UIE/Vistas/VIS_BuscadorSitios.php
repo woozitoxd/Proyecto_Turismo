@@ -1,7 +1,7 @@
 <?php
 require_once("../Modelo/MOD_ClaseUsuario.php"); //se incluye los archivos
 require_once("../Modelo/MOD_perfil.php");
-require_once("../Controlador/CON_IniciarSesion.php");
+/* require_once("../Controlador/CON_IniciarSesion.php"); */
 require_once("../Controlador/CON_GoogleAuthSesion.php");
 
 if (isset($client) && $client->getAccessToken()) {
@@ -194,7 +194,7 @@ if ($indexPosition !== false) {
                     <!--- footer--->
                     <div class="modal-footer mt-2">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="ButtonEditarPerfil(<?php echo $_SESSION['id'] ?>, '<?php echo $_SESSION['usuario'] ?>', '<?php echo $_SESSION['nombre'] ?>')" class="btn btn-primary" >Guardar Cambios</button>
+                        <button type="submit" class="btn btn-primary" >Guardar Cambios</button>
                     </div>
                 </form>
             </div>
