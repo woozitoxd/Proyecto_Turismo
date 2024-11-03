@@ -15,11 +15,9 @@ if (isset($_SESSION['mensaje'])) {
     <?php $ValoracionDeSitio = SitioTuristico::ObtenerValoracionPromedioSitio($sitio['id_sitio'])['valoracion_promedio']; ?>
     
     <div class="tarjeta-turistica card" 
-    data-bs-toggle="modal" 
     data-sitio-id="<?= $sitio['id_sitio'] ?>" 
     data-nombre-sitio="<?= $sitio['nombre'] ?>"  
     data-categoria="<?= $sitio['titulo'] ?>"
-    data-bs-target="#modal<?= $sitio['id_sitio'] ?>" 
     data-etiqueta="<?= $sitio['etiqueta'] ?>"
     data-descripcion-lugar="<?= $sitio['descripcion'] ?>"
     data-localidad="<?= $sitio['localidad'] ?>"

@@ -7,11 +7,11 @@ if (isset($_POST['id'])) {
     $sitioID = (int)$_POST['id']; // Convertir el ID a un entero para evitar inyecciones SQL
 
     // Preparar la consulta SQL para un sitio específico
-    $stmt = $GLOBALS['conn']->prepare("SELECT id_sitio, latitud, longitud, descripcion FROM sitio_turistico WHERE id_sitio = :id");
+    $stmt = $GLOBALS['conn']->prepare("SELECT id_sitio, nombre, latitud, longitud, descripcion FROM sitio_turistico WHERE id_sitio = :id");
     $stmt->bindParam(':id', $sitioID, PDO::PARAM_INT);
 } else {
     // Preparar la consulta SQL para obtener todas las coordenadas, descripciones y IDs
-    $stmt = $GLOBALS['conn']->prepare("SELECT id_sitio, latitud, longitud, descripcion FROM sitio_turistico");
+    $stmt = $GLOBALS['conn']->prepare("SELECT id_sitio, nombre, latitud, longitud, descripcion FROM sitio_turistico");
 }
 
 // Ejecutar la consulta

@@ -266,18 +266,16 @@ async function obtenerSitiosFavoritos(){
                         valoracionTotal = data.valoracion;
 
                         ContenedorSitios.innerHTML += `
-                            <div class="tarjeta-turistica card" 
-                            data-bs-toggle="modal" 
+                            <div class="tarjeta-turistica card"
                             data-sitio-id="${e.id_sitio}" 
                             data-nombre-sitio="${e.nombre}"  
                             data-categoria="${e.titulo}"
-                            data-bs-target="#modal${e.id_sitio}" 
                             onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
         
                                 <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen de destino" class="card-img-top">
                                 <div class="contenido-tarjeta${e.id_sitio}">
                                     <h5 class="titulo-lugar">${e.nombre}</h5>
-                                    <p class="etiquetas-lugar">${e.titulo}</p>
+                                    <p class="categoria-lugar">${e.titulo}</p>
                                     <p class="descripcion-lugar">${e.descripcion}</p>
                                 </div>
                             </div>
@@ -450,8 +448,8 @@ async function obtenerPublicacionesPropias(){
 
                                 <div class="contenido-tarjeta${e.id_sitio}">
                                     <h5 class="titulo-lugar">${e.nombre}</h5>
-                                    <p class="etiquetas-lugar">${e.titulo}</p>
-                                    <p class="etiquetas-lugar rounded-pill text-white m-0 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
+                                    <p class="categoria-lugar">${e.titulo}</p>
+                                    <p class="categoria-lugar rounded-pill text-white m-0 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
                                     <p class="descripcion-lugar">${e.descripcion}</p>
                                     
                                 </div>
