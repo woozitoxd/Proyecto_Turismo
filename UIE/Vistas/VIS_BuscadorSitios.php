@@ -4,11 +4,11 @@ require_once("../Modelo/MOD_perfil.php");
 /* require_once("../Controlador/CON_IniciarSesion.php"); */
 require_once("../Controlador/CON_GoogleAuthSesion.php");
 
-if (isset($client) && $client->getAccessToken()) {
-    // Obtener la información del usuario si está autenticado
-    $oauth2 = new Google_Service_Oauth2($client);
-    $userInfo = $oauth2->userinfo->get();
-}
+// if (isset($client) && $client->getAccessToken()) {
+//     // Obtener la información del usuario si está autenticado
+//     $oauth2 = new Google_Service_Oauth2($client);
+//     $userInfo = $oauth2->userinfo->get();
+// }
 
 // Comprobar si la sesión del usuario está iniciada y almacenar la información
 $usuario_name = null;

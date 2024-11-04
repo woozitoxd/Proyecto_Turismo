@@ -91,23 +91,62 @@ class SitioTuristico
     {
         $this->longitud = $longitud;
     }
-    
+
     public static function ObtenerSitios()
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "CALL SP_TraerSitiosTuristicos()";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->execute();
+
+        $sitios = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $sitios;
+    }
+    
+    public static function ObtenerSitiosAprobar()
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "CALL SP_TraerSitiosParaAprobar()";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->execute();
+
+        $sitios = $consulta->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $sitios;
+    }
+    public static function AprobarSitioTuristico($id_sitio)
 {
     if (!isset($GLOBALS['conn'])) {
         require_once 'conexion_bbdd.php';
     }
-    
+
     /** @var \PDO $conn */
     $conn = $GLOBALS['conn'];
-    $queryStr = "CALL SP_TraerSitiosTuristicos()";
+    $queryStr = "CALL SP_ActualizarEstadoSitioTuristico(:id_sitio,:estadositio)";
     $consulta = $conn->prepare($queryStr);
-    $consulta->execute();
-
-    $sitios = $consulta->fetchAll(\PDO::FETCH_ASSOC);
-
-    return $sitios;
+    $consulta->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
+    $estado = 1;  // Aprobado, establecer el estado a 1
+    $consulta->bindParam(':estadositio', $estado, \PDO::PARAM_INT);
+    try {
+        $consulta->execute();
+        return true;  // Indica éxito si el procedimiento se ejecuta correctamente
+    } catch (Exception $e) {
+        error_log("Error al aprobar sitio turístico: " . $e->getMessage());
+        return false;
+    }
 }
+
     public static function obtenerTodasLasCategorias(){
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';

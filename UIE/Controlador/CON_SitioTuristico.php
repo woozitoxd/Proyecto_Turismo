@@ -19,4 +19,12 @@ class SitioTuristicoContoller
         require '../Vistas/VIS_BuscadorSitios.php';
     }
 
+    public function MostrarSitiosParaAprobar()
+    {
+
+        require_once '../Modelo/MOD_SitioTuristico.php';
+
+        $sitios = SitioTuristico::ObtenerSitiosAprobar();
+        require '../Vistas/VIS_AprobarSitioTuristico.php';
+    }
 }
