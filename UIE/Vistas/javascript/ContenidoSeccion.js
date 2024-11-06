@@ -261,6 +261,7 @@ async function obtenerSitiosFavoritos(){
                     })
                     .then(async response => await response.json())
                     .then(async data => {
+
                         //console.log('Respuesta del servidor:', data);
 
                         valoracionTotal = data.valoracion;
@@ -306,6 +307,92 @@ async function obtenerSitiosFavoritos(){
                         `;
 
                         document.querySelector(`.contenido-tarjeta${e.id_sitio}`).appendChild(ContenedorValoracion);
+
+                        //INFO DE MODAL
+
+                        ContenedorSitios.innerHTML += `
+                            <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header border border-0">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex flex-column">
+                                            <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen del lugar" class="img-fluid">
+                                            <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
+                                                <div>
+                                                    <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
+
+                                                    <div class="valoracion d-flex flex-row mx-2 align-items-center valoracion-promedio${e.id_sitio}"></div>
+
+                                                </div>
+
+                                                <form method="POST" class="d-flex flex-column fav-form" data-postid="${e.id_sitio}">
+                                                            
+                                                    <input type="hidden" name="id_sitio" value="${e.id_sitio}">
+
+                                                    <button type="submit" data-fav-btn${e.id_sitio} class="btn btn-outline-danger rounded favorito-activo">
+                                                            Eliminar de favoritos <i class="bi bi-heart-fill"></i>
+                                                    </button>
+                                                        
+                                                </form>
+
+                                            </div>
+                                            <div>
+                                                <p class="categoria-lugar">${e.titulo}</p>
+                                            </div>
+                                            <p class="ms-2">${e.descripcion}</p>
+                                            <p class="ms-2">Direccion: (Campo localidad)</p>
+                                        </div>
+
+                                        <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
+                                            <div class="w-100 p-3 mx-auto border-top">
+
+                                                <h3 class="text-center m-2">Opiniones</h3>
+
+                                                <div class="row">
+                                                        <div class="col-md-8 mx-auto">
+                                                            <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
+                                                            <!-- Formulario para agregar comentarios -->
+                                                            <form method="post" class="comentarios-form">
+                                                                <div class="form-group">
+
+                                                                    <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
+                                                                
+                                                                </div>
+                                                                <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
+                                                                <div class="my-1 d-flex flex-row justify-content-between align-items-center">
+                                                                    <div class="valoracion" data-value="0">
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
+                                                                    </div>
+                                                                    <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
+                                                                    <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
+                                                                </div>
+
+                                                                <div class="d-flex justify-content-center">
+                                                                    <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                </div>
+
+                                                <div class="comentarios-container border-top">
+                                                    <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+
+                        document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
+                        
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -315,6 +402,38 @@ async function obtenerSitiosFavoritos(){
                 await Promise.all(PromesasFetch);
 
                 setearFiltrosSitiosFavoritos();
+                
+                //Listener para las estrellas de un sitio clickeado por el usuario
+                document.querySelectorAll(".tarjeta-turistica").forEach( (e) => {
+
+                    e.addEventListener("click", function (){
+
+                        const Estrellas = document.querySelectorAll('.estrella-sitio' + e.dataset.sitioId);
+                        const ratingValue = document.querySelector('.valoracion-sitio' + e.dataset.sitioId);
+                        let currentRating = 0;
+
+                        Estrellas.forEach(estrella => {
+
+                            estrella.addEventListener('mouseover', function() {
+                                resetEstrellas(Estrellas);
+                                iluminarEstrellas(this.dataset.value, Estrellas);
+                            });
+
+                            estrella.addEventListener('mouseout', function() {
+                                resetEstrellas(Estrellas);
+                                if (currentRating) iluminarEstrellas(currentRating, Estrellas);
+                            });
+
+                            estrella.addEventListener('click', function() {
+                                currentRating = this.dataset.value;
+                                ratingValue.value = currentRating;
+                                iluminarEstrellas(currentRating, Estrellas);
+                            });
+                        });
+                    });
+
+                    
+                });
 
             } else {
                 ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios favoritos</h3></div>`;
@@ -328,6 +447,18 @@ async function obtenerSitiosFavoritos(){
     } else {
         console.log("La palabra 'UIE/' no se encontró en la URL.");
     }
+}
+
+function iluminarEstrellas(rating, Estrellas) {
+    for (let i = 0; i < rating; i++) {
+        Estrellas[i].classList.add('hover');
+    }
+}
+
+function resetEstrellas(Estrellas) {
+    Estrellas.forEach(estrella => {
+        estrella.classList.remove('hover');
+    });
 }
 
 function setearFiltrosMisSitios(){
@@ -438,10 +569,8 @@ async function obtenerPublicacionesPropias(){
 
                         ContenedorSitios.innerHTML += `
                             <div class="tarjeta-turistica card" 
-                            data-bs-toggle="modal" 
                             data-sitio-id="${e.id_sitio}"
                             data-estado="${e.estado == 0 ?'aprobados' :'pendientes'}"
-                            data-bs-target="#modal${e.id_sitio}" 
                             onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
         
                                 <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen de destino" class="card-img-top">
@@ -483,6 +612,83 @@ async function obtenerPublicacionesPropias(){
 
                         document.querySelector(`.contenido-tarjeta${e.id_sitio}`).appendChild(ContenedorValoracion);
 
+                        ContenedorSitios.innerHTML += `
+                            <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header border border-0">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex flex-column">
+
+                                            <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen del lugar" class="img-fluid">
+
+                                            <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
+                                                <div>
+                                                    <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
+
+                                                    <div class="valoracion d-flex flex-row mx-2 align-items-center"></div>
+
+                                                </div>
+
+                                                <p class="categoria-lugar rounded-pill text-white m-0 fs-5 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
+
+                                            </div>
+                                            <div>
+                                                <p class="categoria-lugar">${e.titulo}</p>
+                                            </div>
+                                            <p class="ms-2">${e.descripcion}</p>
+                                            <p class="ms-2">Direccion: (Campo localidad)</p>
+                                        </div>
+
+                                        <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
+                                            <div class="w-100 p-3 mx-auto border-top">
+
+                                                <h3 class="text-center m-2">Opiniones</h3>
+
+                                                <div class="row">
+                                                        <div class="col-md-8 mx-auto">
+                                                            <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
+                                                            <!-- Formulario para agregar comentarios -->
+                                                            <form method="post" class="comentarios-form">
+                                                                <div class="form-group">
+
+                                                                    <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
+                                                                
+                                                                </div>
+                                                                <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
+                                                                <div class="my-1 d-flex flex-row justify-content-between align-items-center">
+                                                                    <div class="valoracion" data-value="0">
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
+                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
+                                                                    </div>
+                                                                    <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
+                                                                    <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
+                                                                </div>
+
+                                                                <div class="d-flex justify-content-center">
+                                                                    <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                </div>
+
+                                                <div class="comentarios-container border-top">
+                                                    <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
+
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -492,6 +698,38 @@ async function obtenerPublicacionesPropias(){
                 await Promise.all(PromesasFetch);
 
                 setearFiltrosMisSitios();
+
+                //Listener para las estrellas de un sitio clickeado por el usuario
+                document.querySelectorAll(".tarjeta-turistica").forEach( (e) => {
+
+                    e.addEventListener("click", function (){
+
+                        const Estrellas = document.querySelectorAll('.estrella-sitio' + e.dataset.sitioId);
+                        const ratingValue = document.querySelector('.valoracion-sitio' + e.dataset.sitioId);
+                        let currentRating = 0;
+
+                        Estrellas.forEach(estrella => {
+
+                            estrella.addEventListener('mouseover', function() {
+                                resetEstrellas(Estrellas);
+                                iluminarEstrellas(this.dataset.value, Estrellas);
+                            });
+
+                            estrella.addEventListener('mouseout', function() {
+                                resetEstrellas(Estrellas);
+                                if (currentRating) iluminarEstrellas(currentRating, Estrellas);
+                            });
+
+                            estrella.addEventListener('click', function() {
+                                currentRating = this.dataset.value;
+                                ratingValue.value = currentRating;
+                                iluminarEstrellas(currentRating, Estrellas);
+                            });
+                        });
+                    });
+
+                    
+                });
 
             } else {
                 ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios publicados</h3></div>`;
