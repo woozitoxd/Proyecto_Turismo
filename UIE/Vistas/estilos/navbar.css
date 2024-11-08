@@ -5,6 +5,9 @@
 .botones-filtros{
 align-items: center;
 }
+h2{
+color: #ffffff!important;
+}
 .navbar-color {
     background: linear-gradient(to top, rgba(40, 115, 214, 0), rgba(44, 98, 216, 0.7));
     padding: 2rem 3rem;

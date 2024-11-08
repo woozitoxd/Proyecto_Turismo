@@ -18,6 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
+     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
+     <link rel="stylesheet" href="./estilos/navbar.css">
+
     <style>
         /* Estilos para el modal de denuncias */
         .modal-body {
@@ -31,9 +34,9 @@
 
 <body>
     <!-- barra de navegacion -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-color">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Panel de Administración</a>
+            <h2>Panel de Administración</h2>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -42,9 +45,6 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./index.php">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Perfil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Salir</a>
@@ -63,6 +63,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-primary mb-3">
                         <div class="card-body">
+                            <i class="bi bi-people" style="font-size:15rem;"></i>
                             <h5 class="card-title">Usuarios Activos</h5>
                             <p class="card-text">Gestión de usuarios registrados en la plataforma.</p>
                             <button class="btn btn-light" id="verDetallesBtn">Ver Detalles</button>
@@ -116,6 +117,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
+                            <i class="bi bi-chat-left-dots" style="font-size:15rem"></i>
                             <h5 class="card-title">Comentarios</h5>
                             <p class="card-text">Administrar todos los reportes de comentarios de los usuarios.</p>
                             <button id="verDenunciasBtn" class="btn btn-light" data-bs-toggle="modal"
@@ -170,6 +172,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-black mb-3">
                         <div class="card-body">
+                            <i class="bi bi-globe-americas" style="font-size:15rem"></i>
                             <h5 class="card-title">Ver Sitios Sugeridos</h5>
                             <p class="card-text">Ver los destinos turísticos más solicitados.</p>
                             <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#sitiosModal">Ver

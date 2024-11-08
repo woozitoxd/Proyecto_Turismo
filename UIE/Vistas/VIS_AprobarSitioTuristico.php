@@ -37,7 +37,7 @@
                                         class="btn btn-success btn-sm">
                                         <i class="bi bi-check-lg"></i>
                                     </button>
-                                    <button onclick="desaprobarSitio(<?= $sitio['id_sitio'] ?>)"
+                                    <button onclick="rechazarSitio(<?= $sitio['id_sitio'] ?>)"
                                         class="btn btn-danger btn-sm">
                                         <i class="bi bi-x-lg"></i>
                                     </button>

@@ -108,7 +108,7 @@ class SitioTuristico
 
         return $sitios;
     }
-    
+
     public static function ObtenerSitiosAprobar()
     {
         if (!isset($GLOBALS['conn'])) {
@@ -126,32 +126,53 @@ class SitioTuristico
         return $sitios;
     }
     public static function AprobarSitioTuristico($id_sitio)
-{
-    if (!isset($GLOBALS['conn'])) {
-        require_once 'conexion_bbdd.php';
-    }
-
-    /** @var \PDO $conn */
-    $conn = $GLOBALS['conn'];
-    $queryStr = "CALL SP_ActualizarEstadoSitioTuristico(:id_sitio,:estadositio)";
-    $consulta = $conn->prepare($queryStr);
-    $consulta->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
-    $estado = 1;  // Aprobado, establecer el estado a 1
-    $consulta->bindParam(':estadositio', $estado, \PDO::PARAM_INT);
-    try {
-        $consulta->execute();
-        return true;  // Indica éxito si el procedimiento se ejecuta correctamente
-    } catch (Exception $e) {
-        error_log("Error al aprobar sitio turístico: " . $e->getMessage());
-        return false;
-    }
-}
-
-    public static function obtenerTodasLasCategorias(){
+    {
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "CALL SP_ActualizarEstadoSitioTuristico(:id_sitio,:estadositio)";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
+        $estado = 1;  // Aprobado, establecer el estado a 1
+        $consulta->bindParam(':estadositio', $estado, \PDO::PARAM_INT);
+        try {
+            $consulta->execute();
+            return true;  // Indica éxito si el procedimiento se ejecuta correctamente
+        } catch (Exception $e) {
+            error_log("Error al aprobar sitio turístico: " . $e->getMessage());
+            return false;
+        }
+    }
+    public static function RechazarSitioTuristico($id_sitio)
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "CALL SP_ActualizarEstadoSitioTuristico(:id_sitio,:estadositio)";
+        $consulta = $conn->prepare($queryStr);
+        $consulta->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
+        $estado = 2;  // Rechazado, establecer el estado a 2
+        $consulta->bindParam(':estadositio', $estado, \PDO::PARAM_INT);
+        try {
+            $consulta->execute();
+            return true;  // Indica éxito si el procedimiento se ejecuta correctamente
+        } catch (Exception $e) {
+            error_log("Error al aprobar sitio turístico: " . $e->getMessage());
+            return false;
+        }
+    }
+    public static function obtenerTodasLasCategorias()
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
         $queryStr = "CALL SP_ObtenerTodasLasCategorias()";
@@ -165,18 +186,18 @@ class SitioTuristico
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-    
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
-    
+
         // Consulta para obtener todas las localidades
         $queryStr = "CALL SP_ObtenerTodasLasLocalidades()";
         $consulta = $conn->prepare($queryStr);
         $consulta->execute();
-    
+
         // Obtenemos todas las localidades
         $localidades = $consulta->fetchAll(\PDO::FETCH_ASSOC);
-    
+
         return $localidades;
     }
     public static function obtenerTodasLasEtiquetas()
@@ -184,18 +205,18 @@ class SitioTuristico
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-    
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
-    
+
         // Consulta para obtener todas las localidades
         $queryStr = "CALL SP_ObtenerTodasLasEtiquetas()";
         $consulta = $conn->prepare($queryStr);
         $consulta->execute();
-    
+
         // Obtenemos todas las localidades
         $etiquetas = $consulta->fetchAll(\PDO::FETCH_ASSOC);
-    
+
         return $etiquetas;
     }
     public static function ObtenerSitiosPropios($ID_Usuario)
@@ -203,7 +224,7 @@ class SitioTuristico
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
 
@@ -237,7 +258,7 @@ class SitioTuristico
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
 
@@ -279,12 +300,13 @@ class SitioTuristico
         return $listaDeSitios;
     }
 
-    public static function ObtenerValoracionPromedioSitio($ID_Sitio){
+    public static function ObtenerValoracionPromedioSitio($ID_Sitio)
+    {
 
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
         $queryStr = "
@@ -302,17 +324,18 @@ class SitioTuristico
         $consulta->execute();
 
         $valoracion = $consulta->fetch(PDO::FETCH_ASSOC);
-    
+
         return $valoracion;
-    
+
     }
 
-    public static function VerificarSitioFavorito($ID_Sitio, $ID_Usuario){
+    public static function VerificarSitioFavorito($ID_Sitio, $ID_Usuario)
+    {
 
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
         $queryStr = "
@@ -343,11 +366,12 @@ class SitioTuristico
         }
     }
 
-    public static function GuardarFavorito($ID_Sitio, $ID_Usuario){
+    public static function GuardarFavorito($ID_Sitio, $ID_Usuario)
+    {
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
 
@@ -359,17 +383,18 @@ class SitioTuristico
 
         if ($consulta->execute()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public static function EliminarFavorito($ID_Sitio, $ID_Usuario){
+    public static function EliminarFavorito($ID_Sitio, $ID_Usuario)
+    {
 
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
-        
+
         /** @var \PDO $conn */
         $conn = $GLOBALS['conn'];
 
@@ -378,10 +403,10 @@ class SitioTuristico
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':ID_Sitio', $ID_Sitio);
         $consulta->bindParam(':ID_Usuario', $ID_Usuario);
-        
+
         if ($consulta->execute()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
