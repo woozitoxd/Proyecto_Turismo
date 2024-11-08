@@ -16,14 +16,19 @@ function iniciarmapa() {
 
     // Inicializar el mapa
     const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 12,
-        center: { lat: -34.799627301712476, lng: -58.560688298394204 },
+        zoom: 6,
+        center: { lat: 0, lng: 0 },
     });
+
+    const marcadoresActuales = [];
+
+    const bounds = new google.maps.LatLngBounds();
 
     // Obtener los datos de las coordenadas y descripciones desde el servidor
     fetch(urlCortada + "Controlador/CON_ObtenerCOOR.php")
         .then(response => response.json())
         .then(data => {
+
             // Verificar si se encontraron resultados
             if (data.error) {
                 console.error(data.error);
@@ -33,30 +38,35 @@ function iniciarmapa() {
             // Crear los marcadores en el mapa
             data.forEach((sitio, i) => {
                 const position = { lat: parseFloat(sitio.latitud), lng: parseFloat(sitio.longitud) };
-                const title = sitio.descripcion || `Sitio ${i + 1}`; // Usar la descripción si está disponible
 
-                //SVG para posible icono personalizado
-                /* const svgMarker = {
-                    path: "M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411",
-                    fillColor: "blue",
-                    fillOpacity: 1,
-                    strokeWeight: 0,
-                    rotation: 0,
-                    scale: 2,
-                    anchor: new google.maps.Point(0, 20),
-                  }; */
+                marcadoresActuales.push( { lat: parseFloat(sitio.latitud), lng: parseFloat(sitio.longitud) });
+
+                const title = sitio.descripcion || `Sitio ${i + 1}`; // Usar la descripción si está disponible
 
                 const marker = new google.maps.Marker({
                     position,
                     map,
                     title: title,
-                    label: `${i + 1}`,
-                    /* icon: svgMarker, */
+                    label: {
+                        text: (location.hash == "#favoritos" ?'♥' :`★`),
+                        /* text: (location.hash == "#favoritos" ?'♥' :`${i+1}`), */
+                        color: "white",
+                        fontSize: "15px"
+                    },
                     optimized: false,
                 });
 
+                bounds.extend(marker.position);
+
                 // Agregar un listener de clic para cada marcador y configurar la ventana de información
                 agregarListenerMarcador(marker, sitio.id_sitio, title, sitio.nombre, map);
+            });
+
+            map.fitBounds(bounds, {
+                top: 50,    // Padding superior
+                bottom: 150, // Padding inferior
+                left: 50,   // Padding izquierdo
+                right: 50   // Padding derecho
             });
         })
         .catch(error => {
@@ -65,7 +75,6 @@ function iniciarmapa() {
 }
 
 function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
-    const infoWindow = new google.maps.InfoWindow();
 
         // Obtener la URL actual y crear la URL cortada para la petición
         let urlActual = window.location.href;
@@ -166,6 +175,11 @@ function cargarMapaDesdeTarjeta(elemento) {
             const marker = new google.maps.Marker({
                 position: position,
                 map: map,
+                label: {
+                    text: (location.hash == "#favoritos" ?'♥' :'★'),
+                    color: "white",
+                    fontSize: "15px"
+                },
                 title: 'Sitio ' + idSitio,
             });
 

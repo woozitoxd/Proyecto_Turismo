@@ -238,17 +238,58 @@ async function obtenerSitiosFavoritos(){
 
             // Verifico si hay contenido en la respuesta
             if (res.headers.get('content-length') === '0') {
+
+                ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios favoritos</h3></div>`;
+
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: { lat: -34.64877586247709, lng: -58.444786860971085 }
+                });
+
                 return null; // No hay contenido
             }
 
             // Convierto a JSON
             const data = await res.json();
 
+            console.log('Resultado de sitios favoritos:', data);
+
             if (Array.isArray(data) && data.length > 0) {
 
-                console.log('Resultado de sitios favoritos:', data);
+                /* console.log('Resultado de sitios favoritos:', data); */
+
+                // Inicializar el mapa
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 6,
+                    center: { lat: 0, lng: 0 },
+                });
+
+                const marcadoresActuales = [];
+
+                const bounds = new google.maps.LatLngBounds();
 
                 const PromesasFetch = data.map(async (e) => {
+
+                    const position = { lat: parseFloat(e.latitud), lng: parseFloat(e.longitud) };
+
+                    marcadoresActuales.push( { lat: parseFloat(e.latitud), lng: parseFloat(e.longitud) });
+
+                    const marker = new google.maps.Marker({
+                        position,
+                        map,
+                        title: e.descripcion,
+                        label: {
+                            text: "♥",
+                            color: "white",
+                            fontSize: "15px"
+                        },
+                        optimized: false,
+                    });
+
+                    bounds.extend(marker.position);
+
+                    // Agregar un listener de clic para cada marcador y configurar la ventana de información
+                    agregarListenerMarcador(marker, e.id_sitio, e.descripcion, e.nombre, map);
 
                     let valoracionTotal = 0;
 
@@ -401,6 +442,13 @@ async function obtenerSitiosFavoritos(){
 
                 await Promise.all(PromesasFetch);
 
+                map.fitBounds(bounds, {
+                    top: 50,    // Padding superior
+                    bottom: 150, // Padding inferior
+                    left: 50,   // Padding izquierdo
+                    right: 50   // Padding derecho
+                });
+
                 setearFiltrosSitiosFavoritos();
                 
                 //Listener para las estrellas de un sitio clickeado por el usuario
@@ -435,8 +483,6 @@ async function obtenerSitiosFavoritos(){
                     
                 });
 
-            } else {
-                ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios favoritos</h3></div>`;
             }
         })
         .catch(error => {
@@ -526,6 +572,13 @@ async function obtenerPublicacionesPropias(){
 
             // Verifico si hay contenido en la respuesta
             if (res.headers.get('content-length') === '0') {
+
+                ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios publicados</h3></div>`;
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: { lat: -34.64877586247709, lng: -58.444786860971085 }
+                });
+
                 return null; // No hay contenido
             }
 
@@ -536,7 +589,38 @@ async function obtenerPublicacionesPropias(){
 
                 console.log('Resultado de sitios propios:', data);
 
+                // Inicializar el mapa
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 6,
+                    center: { lat: 0, lng: 0 },
+                });
+
+                const marcadoresActuales = [];
+
+                const bounds = new google.maps.LatLngBounds();
+
                 const PromesasFetch = data.map( async(e) => {
+
+                    const position = { lat: parseFloat(e.latitud), lng: parseFloat(e.longitud) };
+
+                    marcadoresActuales.push( { lat: parseFloat(e.latitud), lng: parseFloat(e.longitud) });
+
+                    const marker = new google.maps.Marker({
+                        position,
+                        map,
+                        title: e.descripcion,
+                        label: {
+                            text: `★`,
+                            color: "white",
+                            fontSize: "15px"
+                        },
+                        optimized: false,
+                    });
+
+                    bounds.extend(marker.position);
+
+                    // Agregar un listener de clic para cada marcador y configurar la ventana de información
+                    agregarListenerMarcador(marker, e.id_sitio, e.descripcion, e.nombre, map);
 
                     let valoracionTotal = 0;
 
@@ -697,6 +781,13 @@ async function obtenerPublicacionesPropias(){
 
                 await Promise.all(PromesasFetch);
 
+                map.fitBounds(bounds, {
+                    top: 50,    // Padding superior
+                    bottom: 150, // Padding inferior
+                    left: 50,   // Padding izquierdo
+                    right: 50   // Padding derecho
+                });
+
                 setearFiltrosMisSitios();
 
                 //Listener para las estrellas de un sitio clickeado por el usuario
@@ -731,8 +822,6 @@ async function obtenerPublicacionesPropias(){
                     
                 });
 
-            } else {
-                ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios publicados</h3></div>`;
             }
         })
         .catch(error => {
