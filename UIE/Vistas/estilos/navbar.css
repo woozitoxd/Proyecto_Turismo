@@ -5,6 +5,9 @@
 .botones-filtros{
 align-items: center;
 }
+main{
+    margin: 3rem;
+}
 h2{
 color: #ffffff!important;
 }
