@@ -181,6 +181,27 @@ class SitioTuristico
         $categorias = $consulta->fetchAll(\PDO::FETCH_ASSOC);
         return $categorias;
     }
+    public static function ContarSitiosPendientesAprobar()
+    {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        $queryStr = "CALL SP_ContarSitiosPendientesAprobacion(@cantidad)";
+
+        // Ejecutar el procedimiento
+        $consulta = $conn->prepare($queryStr);
+        $consulta->execute();
+
+        // Obtener el valor OUT usando una consulta adicional
+        $resultado = $conn->query("SELECT @cantidad AS cantidad")->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado['cantidad'];
+    }
+
+
     public static function obtenerTodasLasLocalidades()
     {
         if (!isset($GLOBALS['conn'])) {

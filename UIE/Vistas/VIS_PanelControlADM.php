@@ -8,7 +8,8 @@
     <script defer src="../Vistas/javascript/AJAX_VerReportes.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- En la sección <head> de tu HTML -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,9 +18,11 @@
     <script defer src="./javascript/AJAX_TraerUsuarios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    
     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
-     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
-     <link rel="stylesheet" href="./estilos/navbar.css">
+    <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
+    <script src="./javascript/AJAX_ContarSitiosTuristicos.js" defer></script>
+    <link rel="stylesheet" href="./estilos/navbar.css">
 
     <style>
         /* Estilos para el modal de denuncias */
@@ -175,11 +178,14 @@
                             <i class="bi bi-globe-americas" style="font-size:15rem"></i>
                             <h5 class="card-title">Ver Sitios Sugeridos</h5>
                             <p class="card-text">Ver los destinos turísticos más solicitados.</p>
+                            <p id="pendientesAprobacion" class="card-text"></p>
                             <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#sitiosModal">Ver
                                 Detalles</button>
                         </div>
                     </div>
                 </div>
+
+
                 <?php
                 require_once '../Controlador/CON_SitioTuristico.php';
                 $controlador = new SitioTuristicoContoller();
