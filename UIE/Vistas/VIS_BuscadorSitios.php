@@ -19,7 +19,7 @@ if (isset($_SESSION['usuario']) && isset($_SESSION['nombre']) && isset($_SESSION
 }
 
 //seccion en la que obtenemos la url actual.
-$scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";      
+$scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
 $host = $_SERVER['HTTP_HOST'];
 $requestUri = $_SERVER['REQUEST_URI'];
 $currentUrl = $scheme . "://" . $host . $requestUri;
@@ -110,8 +110,8 @@ if ($indexPosition !== false) {
             <div class="col-md-6 offset-md-2 ">
                 <div class="d-flex justify-content-between">
                     <div class="dropdown me-2">
-                        <button class="btn custom-filter-btn dropdown-toggle w-100" type="button"
-                            id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                        <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-categoria" type="button"
+                            id="dropdownCategorias" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Categorías
                         </button>
                         <ul class="dropdown-menu">
@@ -123,8 +123,8 @@ if ($indexPosition !== false) {
                         </ul>
                     </div>
                     <div class="dropdown me-2">
-                        <button class="btn custom-filter-btn dropdown-toggle w-100" type="button"
-                            id="dropdownMenuButton2" data-bs-toggle="dropdown">
+                        <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-etiqueta" type="button"
+                            id="dropdownEtiquetas" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Etiquetas
                         </button>
                         <ul class="dropdown-menu">
@@ -135,8 +135,8 @@ if ($indexPosition !== false) {
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <button class="btn custom-filter-btn dropdown-toggle w-100" type="button"
-                            id="dropdownMenuButton3" data-bs-toggle="dropdown">
+                        <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-localidad " type="button"
+                            id="dropdownLocalidad" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Localidad
                         </button>
                         <ul class="dropdown-menu">
@@ -148,6 +148,7 @@ if ($indexPosition !== false) {
                         </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -169,12 +170,12 @@ if ($indexPosition !== false) {
                         <label for="NombreUsuario" class="form-label">Nombre de Usuario</label>
                         <input type="text" class="form-control" id="NombreUsuario" name="NombreUsuario"
                             value="<?php echo $_SESSION['nombre'] ?>">
-                            <small class="text-danger" id="NombreCompletoError"></small>
+                        <small class="text-danger" id="NombreCompletoError"></small>
                     </div>
                     <div class="mb-3 col-lg-6">
                         <label for="FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                        <input type="date" id="FechaNacimiento" class="form-control input-dark"
-                            name="FechaNacimiento" value="<?php echo $_SESSION['fecha_nacimiento'] ?>" readonly>
+                        <input type="date" id="FechaNacimiento" class="form-control input-dark" name="FechaNacimiento"
+                            value="<?php echo $_SESSION['fecha_nacimiento'] ?>" readonly>
                     </div>
                     <div class="mb-3 col-12">
                         <label for="Email" class="form-label">Correo Electrónico</label>
@@ -182,19 +183,19 @@ if ($indexPosition !== false) {
                             value="<?php echo $_SESSION['usuario'] ?>">
                         <small class="text-danger" id="EmailError"></small>
                     </div>
-                        <div class="mt-1 col-12 ">
-                            <label type="button" class="text-primary-emphasis" data-bs-toggle="modal"
-                                data-bs-target="#modalCambiarContraseña">Cambiar Contraseña</label>
-                        </div>
-                        <div class="mt-1 col-12 ">
-                            <label type="button" class="text-danger" data-bs-toggle="modal"
-                                data-bs-target="#modalEliminarCuenta">Eliminar Cuenta</label>
-                        </div>
+                    <div class="mt-1 col-12 ">
+                        <label type="button" class="text-primary-emphasis" data-bs-toggle="modal"
+                            data-bs-target="#modalCambiarContraseña">Cambiar Contraseña</label>
+                    </div>
+                    <div class="mt-1 col-12 ">
+                        <label type="button" class="text-danger" data-bs-toggle="modal"
+                            data-bs-target="#modalEliminarCuenta">Eliminar Cuenta</label>
+                    </div>
 
                     <!--- footer--->
                     <div class="modal-footer mt-2">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" >Guardar Cambios</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
                 </form>
             </div>
@@ -204,7 +205,7 @@ if ($indexPosition !== false) {
 
 <!-- Modal Cambiar Contraseña -->
 <div class="modal fade" id="modalCambiarContraseña" tabindex="-1" aria-labelledby="modalCambiarContraseñaLabel"
-data-bs-backdrop="static" aria-hidden="true">
+    data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -212,7 +213,9 @@ data-bs-backdrop="static" aria-hidden="true">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container-fluid">
-                <form id="FormCambiarContraseña" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>" data-IDUsuario="<?php echo $_SESSION['id'] ?>">
+                <form id="FormCambiarContraseña" class="row"
+                    data-url-base="<?php echo htmlspecialchars($urlVariable); ?>"
+                    data-IDUsuario="<?php echo $_SESSION['id'] ?>">
                     <div class="mb-3 col-12">
                         <label for="ContraseñaActual" class="form-label">Contraseña Actual</label>
                         <input type="text" class="form-control" id="ContraseñaActual" name="ContraseñaActual">
@@ -226,7 +229,8 @@ data-bs-backdrop="static" aria-hidden="true">
                     <div class="mb-3 col-lg-6">
                         <label for="ConfirmaciónNuevaContraseña" class="form-label">Confirmacion de Nueva
                             Contraseña</label>
-                        <input type="text" class="form-control" id="ConfirmaciónNuevaContraseña" name="ConfirmaciónNuevaContraseña">
+                        <input type="text" class="form-control" id="ConfirmaciónNuevaContraseña"
+                            name="ConfirmaciónNuevaContraseña">
                         <small class="text-danger" id="ConfirmaciónNuevaContraseñaError"></small>
                     </div>
                     <!--- footer--->
@@ -243,7 +247,8 @@ data-bs-backdrop="static" aria-hidden="true">
 </div>
 
 <!-- Modal Eliminar cUENTA -->
-<div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel" aria-hidden="true">
+<div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content bg-danger-subtle">
             <div class="modal-header">
@@ -252,10 +257,13 @@ data-bs-backdrop="static" aria-hidden="true">
             </div>
             <div class="modal-body container-fluid">
                 <p class="h5">¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.</p>
-                <form id="formEliminarCuenta" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>" data-IDUsuario="<?php echo $_SESSION['id'] ?>">
+                <form id="formEliminarCuenta" class="row" data-url-base="<?php echo htmlspecialchars($urlVariable); ?>"
+                    data-IDUsuario="<?php echo $_SESSION['id'] ?>">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-target="#modalPerfil" data-bs-toggle="modal">Volver</button>
-                        <button type="button" class="btn btn-danger" id="IDbtnEliminarCuenta">Confirmar "Eliminar Cuenta"</button>
+                        <button type="button" class="btn btn-primary" data-bs-target="#modalPerfil"
+                            data-bs-toggle="modal">Volver</button>
+                        <button type="button" class="btn btn-danger" id="IDbtnEliminarCuenta">Confirmar "Eliminar
+                            Cuenta"</button>
                     </div>
                 </form>
             </div>
@@ -264,7 +272,8 @@ data-bs-backdrop="static" aria-hidden="true">
 </div>
 
 
-<div class="modal fade custom-modal-position" id="resultModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+<div class="modal fade custom-modal-position" id="resultModal" tabindex="-1" aria-labelledby="modalTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialoggs">
         <div class="modal-content" id="modalContent">
 
