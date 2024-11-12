@@ -2,24 +2,25 @@ document.addEventListener("DOMContentLoaded", function() {
     const inputBuscador = document.getElementById("buscador");
     const tarjetas = document.querySelectorAll(".tarjeta-turistica");
     const dropdownItems = document.querySelectorAll(".dropdown-item.filtro");
-    const dropdowns = document.querySelectorAll(".dropdown");
     const botonLimpiar = document.querySelector(".custom-search-btn");
+
+    // Seleccionar solo los dropdowns dentro del div específico
+    const dropdownsContainer = document.querySelector(".d-flex.justify-content-between"); // Selecciona el contenedor específico
+    const dropdowns = dropdownsContainer ? dropdownsContainer.querySelectorAll(".dropdown") : []; // Dropdowns dentro del contenedor
 
     // Guardar el texto original de cada dropdown para restablecerlo luego
     const dropdownOriginalTexts = {};
-dropdowns.forEach(dropdown => {
-    const button = dropdown.querySelector("button"); // Selecciona el botón dentro de cada dropdown
-    const buttonId = button ? button.id : null; // Obtiene el id del botón, si existe
+    dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector("button"); // Selecciona el botón dentro de cada dropdown
+        const buttonId = button ? button.id : null; // Obtiene el id del botón, si existe
 
-    if (buttonId) { // Verifica si el botón tiene un id
-        dropdownOriginalTexts[buttonId] = button.textContent;
-        console.log("Texto original guardado para", buttonId, ":", button.textContent);
-    } else {
-        console.log("No se encontró un id único para el botón dentro de este dropdown.");
-    }
-});
-
-    
+        if (buttonId) { // Verifica si el botón tiene un id
+            dropdownOriginalTexts[buttonId] = button.textContent;
+            console.log("Texto original guardado para", buttonId, ":", button.textContent);
+        } else {
+            console.log("No se encontró un id único para el botón dentro de este dropdown.");
+        }
+    });
 
     // Filtrar por texto de búsqueda
     inputBuscador.addEventListener("input", function() {
@@ -86,28 +87,26 @@ dropdowns.forEach(dropdown => {
     });
 
     // Evento click para limpiar la búsqueda
-    // Evento click para limpiar la búsqueda
-botonLimpiar.addEventListener("click", function(event) {
-    event.preventDefault(); 
+    botonLimpiar.addEventListener("click", function(event) {
+        event.preventDefault(); 
 
-    // Limpiar input y mostrar todas las tarjetas
-    inputBuscador.value = "";
-    tarjetas.forEach(tarjeta => {
-        tarjeta.style.display = "block";
-        const descripcionElemento = tarjeta.querySelector(".descripcion-lugar");
-        descripcionElemento.textContent = tarjeta.dataset.descripcionLugar;
+        // Limpiar input y mostrar todas las tarjetas
+        inputBuscador.value = "";
+        tarjetas.forEach(tarjeta => {
+            tarjeta.style.display = "block";
+            const descripcionElemento = tarjeta.querySelector(".descripcion-lugar");
+            descripcionElemento.textContent = tarjeta.dataset.descripcionLugar;
+        });
+
+        // Restablecer texto original de cada dropdown
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector("button"); // Selecciona el botón dentro del dropdown
+            const buttonId = button ? button.id : null; // Obtén el id del botón
+
+            if (buttonId && dropdownOriginalTexts[buttonId]) {
+                button.textContent = dropdownOriginalTexts[buttonId]; // Restablece el texto original
+            }
+            dropdown.classList.remove("dropdown-active"); // Remueve la clase activa
+        });
     });
-
-    // Restablecer texto original de cada dropdown
-    dropdowns.forEach(dropdown => {
-        const button = dropdown.querySelector("button"); // Selecciona el botón dentro del dropdown
-        const buttonId = button ? button.id : null; // Obtén el id del botón
-
-        if (buttonId && dropdownOriginalTexts[buttonId]) {
-            button.textContent = dropdownOriginalTexts[buttonId]; // Restablece el texto original
-        }
-        dropdown.classList.remove("dropdown-active"); // Remueve la clase activa
-    });
-});
-
 });
