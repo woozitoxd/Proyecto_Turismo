@@ -125,7 +125,6 @@ function CambiarContraseñaUsuario(urlVariable, ContraseñaActual, NuevaContrase
         console.log('Error en la solicitud de cambiar contraseña', error);
         showModal(`Error: Disculpe las molestias ocasiondas, error en la solicitud al servidor.`, false);
     });
-
 }
 
 //Funcion para validar mail

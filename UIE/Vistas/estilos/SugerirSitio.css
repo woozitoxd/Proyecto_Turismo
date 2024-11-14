@@ -1,43 +1,68 @@
 #Descripcion{
     height: 230px !important;
     resize: none;
-
-
 }
 
-.EstilosCategorias {
-    font-size: 12px;
-    display: inline-block;/**/
-    background-color: #3687a0;
-    border: 1px solid 
-    rgb(0, 0, 0); /* anade un borde blanco de 2px */
-    padding: 7px 8px; /* padding interno */
-    border-radius: 30px; /* bordes redondeados */
-    text-align: center;
-    white-space: nowrap;/**par amantener alineado con los demas elementos*/
-    color: white;
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* transicion suave para cambios */
-}
-
-.EstilosEstiquetas{
-    font-size: 12px;
-    display: inline-block;/**/
-    background-color: #5cbad6;
-    border: 1px solid 
-    rgb(0, 0, 0); /* anade un borde blanco de 2px */
-    padding: 7px 8px; /* padding interno */
-    border-radius: 30px; /* bordes redondeados */
-    text-align: center;
-    white-space: nowrap;/**par amantener alineado con los demas elementos*/
-    color: rgb(0, 0, 0);
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* transicion suave para cambios */
-
-}
 
 
 #imagePreviewContainer{
-
     display: flex; flex-wrap: wrap; gap: 10px;
 }
+.descriptionModal {
+    font-size: 1em;
+    background-color: #e6e6e6;
+    padding: 0.5em;
+    border-radius: 15px;
+    margin-top: 0.5em;
+}
+
+
+
+/* Colores de éxito y error */
+#modalContent.success {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724;
+}
+#modalContent.error {
+    background-color: #f8d7da; /* Rojo claro */
+    color: #721c24;
+}
+
+/* Íconos */
+#modalIcon.success-icon::before {
+    content: "✔️";
+    color: #28a745;
+    font-size: 2em;
+}
+#modalIcon.error-icon::before {
+    content: "❌";
+    color: #dc3545;
+    font-size: 2em;
+}
+
+/* Animación de entrada */
+.modal.fade .modal-dialog {
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.modal.show .modal-dialog {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Estilos para bajar el modal */
+.custom-modal-position .modal-dialoggs {
+    margin-top: 5% !important; /* Ajusta el valor en porcentaje o píxeles según necesites */
+    transition: transform 0.3s ease-in-out !important; /* Agrega una transición suave */
+}
+/* Aumenta el z-index para que resultModal se superponga sobre modalVistaPreviaSitio */
+#resultModal.modal {
+    z-index: 1060 !important; /* Un nivel más alto que los modales normales de Bootstrap */
+}
+#resultModal .modal-backdrop {
+    display: none !important; /* Evita el fondo oscuro adicional detrás de resultModal */
+}
+
 
 

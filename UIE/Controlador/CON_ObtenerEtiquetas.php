@@ -4,11 +4,11 @@
 require_once('../Controlador/CON_VerificarPermisos.php');
 require_once '../Modelo/MOD_SitioTuristico.php';
 
-$categorias = SitioTuristico::obtenerTodasLasCategorias();
+$etiquetas = SitioTuristico::obtenerTodasLasEtiquetas();
     
-if ($categorias) {
+if ($etiquetas) {
     
-    echo json_encode($categorias);
+    echo json_encode($etiquetas);
     
 }
 

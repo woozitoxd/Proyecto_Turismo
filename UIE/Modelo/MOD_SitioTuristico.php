@@ -240,6 +240,7 @@ class SitioTuristico
 
         return $etiquetas;
     }
+    
     public static function ObtenerSitiosPropios($ID_Usuario)
     {
         if (!isset($GLOBALS['conn'])) {
@@ -431,5 +432,109 @@ class SitioTuristico
             return false;
         }
     }
+
+    
+    public function PublicarSitio( $categoriaID, $localidadID, $usuarioID, $nombre, $descripcion, $fechaPublicacion,
+        $arancelamiento, $latitud, $longitud, $estado, $horarios, $etiquetas, $imagenes) {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
+        try {
+        // Convertir arrays a JSON para pasarlos al SP
+        //$jsonEtiquetas = json_encode($etiquetas);
+        // Convertir arrays a JSON para pasarlos al SP
+        $jsonEtiquetas = json_encode(array_map(function($etiqueta) {
+            return $etiqueta['id_etiqueta']; // Solo incluir el campo id_etiqueta
+        }, $etiquetas));
+
+        $jsonImagenes = json_encode(array_map(function($img) {
+            return base64_encode($img['data']); // Codificar las imágenes en base64
+        }, $imagenes));
+
+        /** @var \PDO $conn */
+        $conn = $GLOBALS['conn'];
+        
+        $SPCrearSitio = $conn->prepare("CALL InsertarSitioCompleto(
+            :id_usuario, :id_categoria, :id_localidad, :nombre, :descripcion, :fecha_publicacion,:horarios, :arancelamiento, 
+            :latitud, :longitud, :estado, :etiquetas, :imagenes)");
+        
+        $SPCrearSitio->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':fecha_publicacion', $fechaPublicacion, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':horarios', $horarios, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':arancelamiento', $arancelamiento, PDO::PARAM_BOOL);
+        $SPCrearSitio->bindParam(':latitud', $latitud, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':longitud', $longitud, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':estado', $estado, PDO::PARAM_INT);
+        $SPCrearSitio->bindParam(':id_usuario', $usuarioID, PDO::PARAM_INT);
+        $SPCrearSitio->bindParam(':id_categoria', $categoriaID, PDO::PARAM_INT);
+        $SPCrearSitio->bindParam(':id_localidad', $localidadID, PDO::PARAM_INT);
+        $SPCrearSitio->bindParam(':etiquetas', $jsonEtiquetas, PDO::PARAM_STR);
+        $SPCrearSitio->bindParam(':imagenes', $jsonImagenes, PDO::PARAM_STR);
+        
+        //print_r( $categoriaID);
+
+            $SPCrearSitio->execute();
+            return true;  // Indica éxito si el procedimiento se ejecuta correctamente
+        } catch (Exception $e) {
+//            error_log("Error al aprobar sitio turístico: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+    
 }
+
+/* $SPCrearSitio = $conn->prepare("BEGIN
+    DECLARE nuevo_id_sitio INT;
+    DECLARE idx INT DEFAULT 0;
+    DECLARE etiqueta_nombre VARCHAR(50);
+    DECLARE imagen_binario LONGBLOB;
+
+    -- Handler para manejar la salida del bucle si no se encuentran más elementos
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET idx = NULL;
+
+    -- Iniciar transacción
+    START TRANSACTION;
+
+    -- Insertar en sitio_turistico
+    INSERT INTO sitio_turistico (nombre, descripcion, horarios, tarifa, latitud, longitud, estado)
+    VALUES (nombre, descripcion, horarios, tarifa, latitud, longitud, estado);
+
+    -- Obtener el ID generado
+    SET nuevo_id_sitio = LAST_INSERT_ID();
+
+    -- Insertar etiquetas (se asume que el JSON tiene un array de etiquetas)
+    IF etiquetas IS NOT NULL THEN
+        etiqueta_loop: LOOP
+            SET etiqueta_nombre = JSON_UNQUOTE(JSON_EXTRACT(etiquetas, CONCAT('$[', idx, ']')));
+            IF etiqueta_nombre IS NULL THEN
+                LEAVE etiqueta_loop;
+            END IF;
+
+            INSERT INTO sitio_etiqueta (id_sitio, id_etiqueta) VALUES (nuevo_id_sitio, etiqueta_nombre);
+
+            SET idx = idx + 1;
+        END LOOP;
+    END IF;
+
+    -- Resetear índice para las imágenes
+    SET idx = 0;
+
+    -- Insertar imágenes (se asume que el JSON tiene un array de binarios en base64)
+    IF imagenes IS NOT NULL THEN
+        imagen_loop: LOOP
+            SET imagen_binario = FROM_BASE64(JSON_UNQUOTE(JSON_EXTRACT(imagenes, CONCAT('$[', idx, ']'))));
+            IF imagen_binario IS NULL THEN
+                LEAVE imagen_loop;
+            END IF;
+
+            INSERT INTO imagen (id_sitio, bin_imagen) VALUES (nuevo_id_sitio, imagen_binario);
+
+            SET idx = idx + 1;
+        END LOOP;
+    END IF;
+
+    -- Confirmar los cambios
+    COMMIT;
+END"); */
 ?>

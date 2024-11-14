@@ -1,3 +1,5 @@
+let markerr; // Variable global para almacenar el marcador actual
+
 function iniciarmapa(coord) {
     const map = new google.maps.Map(document.getElementById('map'), {
         center: coord,
@@ -11,42 +13,71 @@ function iniciarmapa(coord) {
             lat: event.latLng.lat(),
             lng: event.latLng.lng()
         };
-        mostrarCoordenadas(clickedLocation); // Muestra las coordenadas en la página
+
+        // Muestra las coordenadas en la página
+        mostrarCoordenadas(clickedLocation); 
+        
+        // Llama a la función para marcar la ubicación en el mapa
+        placeMarker(map, clickedLocation);
     });
 
     initAutocomplete(map); // Pasa el objeto `map` aquí
 }
 
+// Función para colocar un marcador en el mapa
+function placeMarker(map, location) {
+    // Eliminar el marcador anterior si existe
+    if (markerr) {
+        markerr.setMap(null);
+    }
+
+    // Crear un nuevo marcador en la ubicación seleccionada
+    markerr = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: {
+            url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // Icono personalizado
+            scaledSize: new google.maps.Size(40, 40) // Ajusta el tamaño del icono
+        }
+    });
+
+    // Opcional: centra el mapa en el marcador seleccionado
+    map.panTo(location);
+}
+
 function initAutocomplete(map) {
     const input = document.getElementById("place_input");
     const autocomplete = new google.maps.places.Autocomplete(input, {
-        componentRestrictions: { country: "AR" } // Restringe a Argentina ("AR" es el código del país)
+        componentRestrictions: { country: "AR" }
     });
 
-    // Vincula el autocompletado al mapa
     autocomplete.bindTo('bounds', map);
 
-    // Evento que se dispara cuando se selecciona un lugar
     autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (place.geometry) {
             map.setCenter(place.geometry.location);
             map.setZoom(17);
-            const marker = new google.maps.marker.AdvancedMarkerElement({
-                map,
-                position: place.geometry.location,
-            });
+            placeMarker(map, place.geometry.location); // Coloca el marcador en el lugar seleccionado
         } else {
             console.log("No hay detalles disponibles para el lugar seleccionado.");
         }
     });
 }
 
-
 function mostrarCoordenadas(location) {
-    const coordenadasDiv = document.getElementById('coordenadas');
-    coordenadasDiv.textContent = `Coordenadas: Latitud ${location.lat}, Longitud ${location.lng}`;
+    const coordenadasP = document.getElementById('coordenadas');
+    const latitud = document.getElementById('latitud');
+    const longuitud = document.getElementById('longuitud');
+    coordenadasP.textContent = `Coordenadas seleccionadas: Latitud ${location.lat}, Longitud ${location.lng}`;
+    latitud.textContent = `${location.lat}`;
+    longuitud.textContent = `${location.lng}`;
 }
+
+// Resto del código para cargar mapa y hacer AJAX permanece igual
+
+
+
 
 // Función para manejar el clic en una tarjeta
 function cargarMapaDesdeTarjeta(tarjeta) {
