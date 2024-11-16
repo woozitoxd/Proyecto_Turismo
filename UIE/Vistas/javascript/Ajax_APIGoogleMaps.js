@@ -114,7 +114,7 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                     <hr>
                     <h4 class="fw-bolder mb-3">${nombre}</h4>
                     <span class="w-75 mb-3 mx-3">Descripción: ${descripcion}</span>
-                    <button class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">Ver más</button>
+                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">Ver más</button>
                     `;
             
                 infoWindow.close();
@@ -202,7 +202,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                 <hr>
                 <h4 class="fw-bolder mb-3">${data[0].nombre}</h4>
                 <span class="w-75 mb-3 mx-3">Descripción: ${data[0].descripcion}</span>
-                <button class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
+                <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
                 `;
         
                 infoWindow.close();
@@ -224,7 +224,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                     <hr>
                     <h4 class="fw-bolder mb-3">${data[0].nombre}</h4>
                     <span class="w-75 mb-3 mx-3">Descripción: ${data[0].descripcion}</span>
-                    <button class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
+                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
                     `;
             
                     infoWindow.close();

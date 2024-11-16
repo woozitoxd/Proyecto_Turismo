@@ -72,6 +72,8 @@ function cargarComentario(idSitio) {
                         document.querySelector(".info-comment-"+comentario.idComentario).insertAdjacentElement("afterend", ContenedorValoracion);
                     
                     });
+
+                    setOpcionValoracion(idSitio);
                 }
             } else {
                 console.error('Error en la solicitud AJAX:', xhr.statusText);
@@ -316,6 +318,7 @@ document.addEventListener("submit", function (e){
                     document.querySelector(`[data-inputpublicacion${data.id_sitio}]`).value = '';
                     document.querySelector(`[data-contadorchar${data.id_sitio}]`).textContent = 'Límite de caracteres: 0/255';
                     document.getElementById("comment-error-msg" + data.id_sitio).textContent = '';
+                    resetEstrellas(document.querySelectorAll('.estrella-sitio' + data.id_sitio));
 
                 }else{
                     document.getElementById("comment-error-msg" + data.id_sitio).textContent = data.message;
@@ -333,36 +336,32 @@ function openPopup(idComentario) {
 }
 
 //Listener para las estrellas de un sitio clickeado por el usuario
-document.querySelectorAll(".tarjeta-turistica").forEach( (e) => {
+function setOpcionValoracion (idSitio){
 
-    e.addEventListener("click", function (){
+    const Estrellas = document.querySelectorAll('.estrella-sitio' + idSitio);
+    const ratingValue = document.querySelector('.valoracion-sitio' + idSitio);
+    let currentRating = 0;
 
-        const Estrellas = document.querySelectorAll('.estrella-sitio' + e.dataset.sitioId);
-        const ratingValue = document.querySelector('.valoracion-sitio' + e.dataset.sitioId);
-        let currentRating = 0;
+    Estrellas.forEach(estrella => {
 
-        Estrellas.forEach(estrella => {
+        estrella.addEventListener('mouseover', function() {
+            resetEstrellas(Estrellas);
+            iluminarEstrellas(this.dataset.value, Estrellas);
+        });
 
-            estrella.addEventListener('mouseover', function() {
-                resetEstrellas(Estrellas);
-                iluminarEstrellas(this.dataset.value, Estrellas);
-            });
+        estrella.addEventListener('mouseout', function() {
+            resetEstrellas(Estrellas);
+            if (currentRating) iluminarEstrellas(currentRating, Estrellas);
+        });
 
-            estrella.addEventListener('mouseout', function() {
-                resetEstrellas(Estrellas);
-                if (currentRating) iluminarEstrellas(currentRating, Estrellas);
-            });
-
-            estrella.addEventListener('click', function() {
-                currentRating = this.dataset.value;
-                ratingValue.value = currentRating;
-                iluminarEstrellas(currentRating, Estrellas);
-            });
+        estrella.addEventListener('click', function() {
+            currentRating = this.dataset.value;
+            ratingValue.value = currentRating;
+            iluminarEstrellas(currentRating, Estrellas);
         });
     });
 
-    
-});
+}
 
 function iluminarEstrellas(rating, Estrellas) {
     for (let i = 0; i < rating; i++) {
@@ -374,4 +373,14 @@ function resetEstrellas(Estrellas) {
     Estrellas.forEach(estrella => {
         estrella.classList.remove('hover');
     });
+}
+
+function limpiarInputOpinion(idSitio){
+    document.getElementById("comment-error-msg"+idSitio).textContent = '';
+    document.querySelector(`[data-inputpublicacion${idSitio}]`).value = '';
+    document.querySelector(`.valoracion-sitio${idSitio}`).value = '';
+    document.querySelector(`[data-contadorchar${idSitio}`).textContent = 'Límite de caracteres: 0/255';
+
+    const Estrellas = document.querySelectorAll('.estrella-sitio' + idSitio);
+    resetEstrellas(Estrellas);
 }

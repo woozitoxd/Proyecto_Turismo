@@ -41,7 +41,7 @@ foreach ($sitios as $sitio) {
         data-nombre-sitio="<?= $datosSitio['nombre'] ?>" data-categoria="<?= $datosSitio['titulo'] ?>"
         data-etiqueta="<?= $datosSitio['etiqueta'] ?>" data-descripcion-lugar="<?= $datosSitio['descripcion'] ?>"
         data-localidad="<?= $datosSitio['localidad'] ?>"
-        onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
+        onclick="cargarMapaDesdeTarjeta(this);">
 
         <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagenes[0]) ?>" alt="Imagen de destino"
             class="card-img-top">
