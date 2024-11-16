@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./estilos/maps.css">
     <link rel="stylesheet" href="./estilos/cards.css">
     <link rel="stylesheet" href="./estilos/ModalPerfil.css">
+    <link rel="stylesheet" href="./estilos/estiloCarrousel.css">
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap CSS más reciente -->
@@ -26,6 +28,8 @@
     <script defer src="../Vistas/javascript/validaciones.js"></script>
     <script defer src="../Vistas/javascript/EditarPerfil.js"></script>
     <script defer src="../Vistas/javascript/AJAX_BorradoLogicoACC.js"></script>
+    <script defer src="../Vistas/javascript/CarrouselModal.js"></script>
+
 
     <title>Inicio - Turismo</title>
 </head>

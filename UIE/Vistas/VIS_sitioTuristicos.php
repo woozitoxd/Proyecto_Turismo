@@ -40,8 +40,7 @@ foreach ($sitios as $sitio) {
     <div class="tarjeta-turistica card" data-sitio-id="<?= $datosSitio['id_sitio'] ?>"
         data-nombre-sitio="<?= $datosSitio['nombre'] ?>" data-categoria="<?= $datosSitio['titulo'] ?>"
         data-etiqueta="<?= $datosSitio['etiqueta'] ?>" data-descripcion-lugar="<?= $datosSitio['descripcion'] ?>"
-        data-localidad="<?= $datosSitio['localidad'] ?>"
-        onclick="cargarMapaDesdeTarjeta(this);">
+        data-localidad="<?= $datosSitio['localidad'] ?>" onclick="cargarMapaDesdeTarjeta(this);">
 
         <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagenes[0]) ?>" alt="Imagen de destino"
             class="card-img-top">
@@ -84,12 +83,17 @@ foreach ($sitios as $sitio) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex flex-column">
-                    <?php foreach ($imagenes as $index => $imagen): ?>
+                <div class="carouselModal">
+                     <div class="carousel-images">
+                           <?php foreach ($imagenes as $index => $imagen): ?>
+                                    <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagen) ?>" class="img-fluid"
+                                        alt="Imagen del sitio <?= $index + 1 ?>">
+                            <?php endforeach; ?>
+                        </div>
+                        <button class="buttonCarrouselModal prev"><i class="bi bi-arrow-left-circle"></i></button>
+                        <button class="buttonCarrouselModal next"><i class="bi bi-arrow-right-circle"></i></button>
+                    </div>
 
-                        <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagen) ?>" class="img-fluid"
-                            alt="Imagen del sitio">
-
-                    <?php endforeach; ?>
                     <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
                         <div>
                             <h3 class="ms-2 modal-title" id="exampleModalLabel<?= $datosSitio['id_sitio'] ?>">
