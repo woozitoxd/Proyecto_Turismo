@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 
 require_once("../Modelo/MOD_SitioTuristico.php");
+require_once('../controlador/CON_VerificarPermisos.php');
 
 $usuarioID = $_SESSION['id'];
 
@@ -19,15 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $longuitud = $_POST['longuitud'];
     $optionLocalidadValue = $_POST['OptionLocalidadValue'];
     $optionLocalidadTitulo = $_POST['OptionLocalidadTitulo'];
-    $arancelamiento = $_POST['Arancelamiento'];
-    //$Horarios = $_POST['Horarios'];//agregar input
-    $Horarios = "de 9 a 12";
+    $Horarios = $_POST['Horarios'];
     date_default_timezone_set('America/Argentina/Buenos_Aires');
     $fechaHoraActual = date('Y-m-d H:i:s');
     
-
-    $estado = 1;//ver lo de la logica de permitos de cada session, si es admin el sitio se publica directamente, osea estado en 1, si no lo es, el esta se pone en 0
-
+    if (Permisos::esRol('administrador', $usuarioID)) {
+        $estado = 1;
+    }
+    else{
+        $estado = 0;
+    }
 
 // Verifica si existen etiquetas en el FormData
 $etiquetas = [];
@@ -80,17 +82,20 @@ if (isset($_FILES['images']['tmp_name'])) {
     //echo json_encode([print_r($imagenes)]);
 }
 
-
+if ($_POST['Arancelamiento'] === 'true') {
+    $arancelamiento = 1;
+} elseif ($_POST['Arancelamiento'] === 'false') {
+    $arancelamiento = 0;
+}
+//print_r("asdasd asd asdas" + $aarancelamiento);
 //validaciones de back
-
+//echo $aarancelamiento;
 if(!isset($usuarioID)){
     echo json_encode(['success' => false, 'error' => 'ID de session inexistente.']);
     exit();
 }
 
 $modelo = new SitioTuristico("","","","","","","");
-//ignorar $resultado = $modelo->PublicarSitio($optionCategoriaValue, $optionLocalidadValue, $IDUsuario, $nombreSitioTuristico, $descripcionSitioTuristico, $fechaHoraActual, $arancelamiento, $latitud, $longuitud, $estado);
-//$resultado = $modelo->PublicarSitio(todas los datos para insertar el sitio);
 
 
 
@@ -100,7 +105,8 @@ $resultado = $modelo->PublicarSitio(
     $estado, $Horarios, $etiquetas, $imagenes
 );
 
-    // Respuesta de éxito
+
+
     if ($resultado === true) {
         echo json_encode(['success' => true]);
     } else {

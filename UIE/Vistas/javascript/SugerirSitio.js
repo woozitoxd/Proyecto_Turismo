@@ -312,10 +312,10 @@ function obtenerEtiquetasSeleccionadas() {
     return etiquetasSeleccionadas;
 }
 
-function PublicarSitio(NombreSitioTuristico, OptionCategoriaValue, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, latitud, longuitud, OptionLocalidadValue, OptionLocalidadTitulo, Arancelamiento) {
+function PublicarSitio(NombreSitioTuristico, OptionCategoriaValue, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, horario, latitud, longuitud, OptionLocalidadValue, OptionLocalidadTitulo, Arancelamiento) {
     // Llamar a convertImagesToBinary y pasarle una callback que enviará los datos cuando esté lista
+//console.log("es arabcekadi? ", Arancelamiento);
 
-    
     convertImagesToBinary(function(binaryImages) {
         const formData = new FormData();
 
@@ -329,6 +329,7 @@ function PublicarSitio(NombreSitioTuristico, OptionCategoriaValue, OptionCategor
         formData.append('OptionLocalidadValue', OptionLocalidadValue);
         formData.append('OptionLocalidadTitulo', OptionLocalidadTitulo);
         formData.append('Arancelamiento', Arancelamiento);
+        formData.append('Horarios', horario);
         //formData.append('IDUsuario', IDUsuario);
 //        console.log("el IDUSuario es ", IDUsuario);
         
@@ -395,7 +396,7 @@ function convertImagesToBinary(callback) {
     });
 }
 
-function llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, OptionLocalidadTitulo, Arancelamiento){
+function llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo, Etiquetas,DescripcionSitioTuristico, horario, OptionLocalidadTitulo, Arancelamiento){
 
     const DIVCarrouselImagenesModal = document.getElementById('DIVCarrouselImagenesModal');
     const NombreSitioModal = document.getElementById('IDNombreSitioModal');
@@ -403,12 +404,14 @@ function llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo
     const LocalidadSitioModal = document.getElementById('IDLocalidadSitioModal');
     const ArancelamientoSitioModal = document.getElementById('IDArancelamientoSitioModal');
     const DivCategoriasYEtiquetasModal = document.getElementById('DivCategoriasYEtiquetasModal');
+    const HorariosSitioModal = document.getElementById('IDHorariosSitioModal');
 
     NombreSitioModal.textContent = "";
     DescripcionSitioModal.textContent = ""; 
     LocalidadSitioModal.textContent = "";
     ArancelamientoSitioModal.textContent = "";
     DivCategoriasYEtiquetasModal.innerHTML = "";
+    HorariosSitioModal.innerHTML = "";
 
     NombreSitioModal.textContent = NombreSitioTuristico;
     
@@ -426,6 +429,7 @@ function llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo
 
     DescripcionSitioModal.textContent = DescripcionSitioTuristico;
     LocalidadSitioModal.textContent = "Localidad: " + OptionLocalidadTitulo;
+    HorariosSitioModal.textContent = "Horarios: " + horario;
 
     if(Arancelamiento===true){
         ArancelamientoSitioModal.textContent = "Es arancelado: SI";
@@ -493,7 +497,24 @@ function ModalVistaPreviaSitio() {
             iteradorEtiquetas +=1;
         });
 
-        const DescripcionSitioTuristico = formInfo.get("Descripcion"); 
+        const DescripcionSitioTuristico = formInfo.get("Descripcion");
+
+        const checkhorario = document.getElementById('24HorasCheck').checked;
+        let horario = "";
+        if(checkhorario == true){
+            horario = "24 horas"            
+        }
+        else{
+            const SelectHorarioApertura = document.getElementById('SelectHorarioApertura');
+            const OptionHorarioAperturaValue = SelectHorarioApertura.options[SelectHorarioApertura.selectedIndex].value; 
+
+            const SelectHorarioCierre = document.getElementById('SelectHorarioCierre');
+            const OptionHorarioCierreValue = SelectHorarioCierre.options[SelectHorarioCierre.selectedIndex].value; 
+
+            horario = "De " + OptionHorarioAperturaValue + " a "+ OptionHorarioCierreValue +".";
+        }
+        
+
         const latitud = document.getElementById('latitud').textContent;
         const longuitud = document.getElementById('longuitud').textContent;
 
@@ -569,7 +590,7 @@ function ModalVistaPreviaSitio() {
 
         if (bandera == 0) {
             // Mostrar el modal solo si las validaciones son correctas
-            llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, OptionLocalidadTitulo, Arancelamiento);
+            llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, horario, OptionLocalidadTitulo, Arancelamiento);
         }
         else{
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -612,6 +633,22 @@ function btnPublicarSitio(){
         });
 
         const DescripcionSitioTuristico = formInfo.get("Descripcion"); 
+
+        const checkhorario = document.getElementById('24HorasCheck').checked;
+        let horario = "";
+        if(checkhorario == true){
+            horario = "24 horas"            
+        }
+        else{
+            const SelectHorarioApertura = document.getElementById('SelectHorarioApertura');
+            const OptionHorarioAperturaValue = SelectHorarioApertura.options[SelectHorarioApertura.selectedIndex].value; 
+
+            const SelectHorarioCierre = document.getElementById('SelectHorarioCierre');
+            const OptionHorarioCierreValue = SelectHorarioCierre.options[SelectHorarioCierre.selectedIndex].value; 
+
+            horario = "De " + OptionHorarioAperturaValue + " a "+ OptionHorarioCierreValue +".";
+        }
+
         const latitud = document.getElementById('latitud').textContent;
         const longuitud = document.getElementById('longuitud').textContent;
 
@@ -621,11 +658,6 @@ function btnPublicarSitio(){
         const OptionLocalidadValue = selectLocalidad.options[selectLocalidad.selectedIndex].value; 
         const OptionLocalidadTitulo = selectLocalidad.options[selectLocalidad.selectedIndex].text;
 
-        //llenarModalVistaPreviaSitio(NombreSitioTuristico, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, OptionLocalidadTitulo, Arancelamiento);
-
-        //validaciones de js
-        //console.log("Título categoría del Sitio:", OptionCategoriaTitulo);
-        //console.log('Es arancelado el Sitio? ', Arancelamiento);
         
 /*         // Imprimir los valores
         console.log("Nombre del Sitio:", NombreSitioTuristico);
@@ -639,15 +671,35 @@ function btnPublicarSitio(){
         console.log("ID categoría del Sitio:", OptionLocalidadValue);
         console.log("Título categoría del Sitio:", OptionLocalidadTitulo); */
 
-        //MODAL DE VISTA PREVIA
 
-        PublicarSitio(NombreSitioTuristico, OptionCategoriaValue, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, latitud, longuitud,OptionLocalidadValue, OptionLocalidadTitulo, Arancelamiento);
+
+
+        PublicarSitio(NombreSitioTuristico, OptionCategoriaValue, OptionCategoriaTitulo, Etiquetas, DescripcionSitioTuristico, horario, latitud, longuitud,OptionLocalidadValue, OptionLocalidadTitulo, Arancelamiento);
     
 
     } else {
         console.log("No se encontró el formulario");
     }
 }
+
+function toggleHorarios(checkbox) {
+    const contenedor = document.getElementById('ContenedorSelectHorarios');
+    if (checkbox.checked) {
+        contenedor.style.display = 'none'; // Ocultar selects si está marcado "24 Horas"
+    } else {
+        contenedor.style.display = 'flex'; // Mostrar selects si no está marcado
+    }
+}
+
+
+
+
+
+
+
+
+
+
 let urlVariable = document.body.getAttribute('data-url-base');
 //let IDUsuario = document.body.getAttribute('data-IDUsuario');
 document.addEventListener("DOMContentLoaded", async function () {

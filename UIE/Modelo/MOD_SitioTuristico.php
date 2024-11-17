@@ -462,7 +462,7 @@ class SitioTuristico
         $SPCrearSitio->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
         $SPCrearSitio->bindParam(':fecha_publicacion', $fechaPublicacion, PDO::PARAM_STR);
         $SPCrearSitio->bindParam(':horarios', $horarios, PDO::PARAM_STR);
-        $SPCrearSitio->bindParam(':arancelamiento', $arancelamiento, PDO::PARAM_BOOL);
+        $SPCrearSitio->bindParam(':arancelamiento', $arancelamiento, PDO::PARAM_INT);
         $SPCrearSitio->bindParam(':latitud', $latitud, PDO::PARAM_STR);
         $SPCrearSitio->bindParam(':longitud', $longitud, PDO::PARAM_STR);
         $SPCrearSitio->bindParam(':estado', $estado, PDO::PARAM_INT);

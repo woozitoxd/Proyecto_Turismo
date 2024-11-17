@@ -80,6 +80,7 @@ if ($indexPosition !== false) {
                     <div class="col-6 d-flex justify-content-center">
                         <p class="categoria-lugar" id="CategoriaSeleccionada">-</p><!---aca deberia traerlo del select -->
                     </div>
+                    
                 </div>
 
                 <div class="row">
@@ -89,17 +90,72 @@ if ($indexPosition !== false) {
                         </select>
                     </div>
                     <small class="text-danger" id="SelectEtiquetasError"></small>
+                </div>
+
+                <div class="mb-2 form-check form-switch mt-5 d-flex justify-content-center">
+                        <div class="">
+                            <input class="form-check-input h5 mb-1" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="flexSwitchCheckDefault">
+                            <label class="form-check-label h5 mb-1" for="flexSwitchCheckDefault">Es arancelado?</label>
+                        </div>
+                </div>
             </div>
 
+            <div class="mb-2 col-lg-6 mt-3">
+                <div class="mb-2">    
+                    <label for="Descripcion" class="h5 form-label">Descripción</label>
+                    <textarea class="form-control textarea-resize" id="Descripcion" name="Descripcion" placeholder="Añade una descripción al Sitios Turistico" required ></textarea>
+                    <small class="text-danger" id="DescripcionError"></small>
+                </div>
+
+                <div class="mb-2">
+                    <div class="d-flex align-items-center mt-3">
+                        <label for="SelectHorarioApertura" class="h5 form-label mb-0 me-3">Horarios</label>
+                        <!-- Checkbox para 24 horas -->
+                        <div class="form-check form-switch">
+                            <input class="form-check-input h6 mb-1" type="checkbox" role="switch" id="24HorasCheck" name="24HorasCheck" onchange="toggleHorarios(this)">
+                            <label class="form-check-label h6 mb-1" for="24HorasCheck">24 Horas</label>
+                        </div>
+                    </div>
+
+                    <!-- Contenedor de los selects -->
+                    <div id="ContenedorSelectHorarios" class="row">
+                        <div class="mt-3 col-6">
+                            <label for="SelectHorarioApertura" class="form-label h6">Horario de Apertura</label>
+                            <select id="SelectHorarioApertura" name="HorarioApertura" class="form-select">
+                                <?php 
+                                for ($hora = 0; $hora < 24; $hora++): 
+                                    for ($minuto = 0; $minuto < 60; $minuto += 15): 
+                                        $timeValue = str_pad($hora, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minuto, 2, '0', STR_PAD_LEFT);
+                                ?>
+                                    <option value="<?php echo $timeValue; ?>"><?php echo $timeValue; ?></option>
+                                <?php 
+                                    endfor; 
+                                endfor; 
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mt-3 col-6">
+                            <label for="SelectHorarioCierre" class="form-label h6">Horario de Cierre</label>
+                            <select id="SelectHorarioCierre" name="HorarioCierre" class="form-select">
+                                <?php 
+                                for ($hora = 0; $hora < 24; $hora++): 
+                                    for ($minuto = 0; $minuto < 60; $minuto += 15): 
+                                        $timeValue = str_pad($hora, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minuto, 2, '0', STR_PAD_LEFT);
+                                ?>
+                                    <option value="<?php echo $timeValue; ?>"><?php echo $timeValue; ?></option>
+                                <?php 
+                                    endfor; 
+                                endfor; 
+                                ?>
+                            </select>
+                        </div>
+                        <small class="text-danger mt-1" id="HorariosError"></small>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="mb-2 col-lg-6">
-                <label for="Descripcion" class="h5 form-label">Descripción</label>
-                <textarea class="form-control textarea-resize" id="Descripcion" name="Descripcion" placeholder="Añade una descripción al Sitios Turistico" required ></textarea>
-                <small class="text-danger" id="DescripcionError"></small>
-            </div>
-
-            <div class="mb-2 col-lg-6">
+            <div class="mb-2 col-lg-6 mt-3">
                 <div class="mb-3">
                     <label  class=" h5 form-label">Imagenes de Sitio Turistico</label>
                     <input type="file" id="ImagenSitio" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
@@ -133,12 +189,12 @@ if ($indexPosition !== false) {
             
 
 
-            <div class="mb-2 form-check form-switch mt-5 position-relative">
+<!--             <div class="mb-2 form-check form-switch mt-5 position-relative">
                 <div class="position-absolute top-0 start-50 translate-middle">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="flexSwitchCheckDefault">
                     <label class="form-check-label" for="flexSwitchCheckDefault"> Es arancelado?</label>
                 </div>
-            </div>
+            </div> -->
 
 
             <hr class="mt-4">
@@ -178,6 +234,11 @@ if ($indexPosition !== false) {
             </div>
             <div class="col-lg-6">
                 <p class="ms-2 descriptionModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+            </div>
+            <div class="position-relative mt-3 mb-3 p-2">
+                <div class="position-absolute top-0 start-50 translate-middle">
+                    <p class="ms-2 descriptionModal" id="IDHorariosSitioModal">Horarios: </p>
+                </div>
             </div>
             <br>
             <hr>
