@@ -121,7 +121,7 @@ foreach ($sitios as $sitio) {
                         <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']) { ?>
 
                             <form method="POST" class="d-flex flex-column fav-form"
-                                data-postid="<?= $datosSitioo['id_sitio'] ?>">
+                                data-postid="<?= $datosSitio['id_sitio'] ?>">
 
                                 <input type="hidden" name="id_sitio" value="<?= $datosSitio['id_sitio'] ?>">
 
