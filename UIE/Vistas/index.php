@@ -42,8 +42,8 @@
         $controlador->TraerCategorias();
     ?>
         
-    <main> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
-        <header class="bg-light text-center pt-5 mt-2 d-flex flex-row justify-content-end">
+    <main class="mt-0"> <!-- etiqueta main que contiene basicamente todo el cuerpo de la pagina, sepparandolo del nav y del footer -->
+        <header class="bg-light text-center d-flex flex-row justify-content-end">
             <div id="section-title" class="w-50 text-primary fst-italic fs-3 fw-medium">
                 Descubre nuevos sitios turísticos
             </div>

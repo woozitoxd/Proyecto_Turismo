@@ -44,71 +44,19 @@ if ($indexPosition !== false) {
 <nav class="navbar-color">
     <div class="container-fluid">
         <div class="row mt-4 justify-content-between">
-            <div class="col-md-4">
-                <a class="navbar-brand" href="index.php">
+            <div class="col-md-3 text-center">
+                <a class="navbar-brand fs-2" href="index.php">
                     <strong class="text-primary">TOURI</strong><span class="text-danger">SMO</span>
                 </a>
             </div>
 
-            <div class="col-md-3">
-                <ul class="d-flex justify-content-around ">
-                    <?php
-                    if (isset($_SESSION['usuario'])) {
-                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
-                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Botón de menú hamburguesa alineado a la izquierda, se despliegan los elementos y es responsive -->
-        <div class="row mt-4">
-            <div class="col-md-2">
-                <div class="dropdown">
-                    <button class="btn custom-hamburger-btn dropdown-toggle" type="button" id="hamburgerMenu"
-                        data-bs-toggle="dropdown">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            echo '<i class="bi bi-person-fill text-primary"></i> <strong class="text-primary" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
-                        } else {
-                            echo '<i class="bi bi-person-fill"></i> CUENTA';
-                        }
-                        ?>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
-                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
-                            }
-                            echo '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPerfil">Perfil</a></li>';
-                            echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
-                            echo '<li><hr class="dropdown-divider"></li>';
-                            echo '<li><a class="dropdown-item text-danger-emphasis" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
-                        } else {
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                            echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '5'; else echo'7'; ?> d-flex flex-column justify-content-center">
                 <form class="d-flex ms-3 search-form justify-content-center" id="form-busqueda">
                     <input class="form-control custom-input" id="buscador" type="search" placeholder="Buscar">
                     <button class="btn custom-search-btn" type="submit"><i class="bi bi-trash3"></i></button>
                 </form>
-            </div>
-        </div>
 
-        <div class="row mt-4">
-            <div class="col-md-6 offset-md-2 ">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex w-75 justify-content-between align-self-center">
                     <div class="dropdown me-2">
                         <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-categoria" type="button"
                             id="dropdownCategorias" data-bs-toggle="dropdown"> <!-- Cambié el id -->
@@ -148,9 +96,54 @@ if ($indexPosition !== false) {
                         </ul>
                     </div>
                 </div>
-
             </div>
+
+            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '4'; else echo'2'; ?>">
+                <ul class="d-flex justify-content-around ">
+                    <?php
+                    if (isset($_SESSION['usuario'])) {
+                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
+                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
+                    }
+                    ?>
+                    <div class="dropdown">
+                    <button class="btn custom-hamburger-btn dropdown-toggle fs-5 text-light" type="button" id="hamburgerMenu"
+                        data-bs-toggle="dropdown">
+                        <?php
+                        if (isset($_SESSION['usuario'])) {
+                            echo '<i class="bi bi-person-fill"></i> <strong class="text-light" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
+                        } else {
+                            echo '<i class="bi bi-person-fill"></i> Cuenta ';
+                        }
+                        ?>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <?php
+                        if (isset($_SESSION['usuario'])) {
+                            if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
+                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
+                            }
+                            echo '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPerfil">Perfil</a></li>';
+                            echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
+                            echo '<li><hr class="dropdown-divider"></li>';
+                            echo '<li><a class="dropdown-item text-danger-emphasis" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
+                        } else {
+                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
+                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
+                            echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
+                        }
+                        ?>
+                    </ul>
+                </div>
+                </ul>
+            </div>
+
         </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
     </div>
 </nav>
 

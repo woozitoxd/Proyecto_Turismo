@@ -203,6 +203,15 @@ function cargarMapaDesdeTarjeta(elemento) {
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
                 center: position,
+                styles: [
+                    {
+                        featureType: "poi",
+                        elementType: "all",
+                        stylers: [
+                            { visibility: "off" } // Ocultar puntos de interés
+                        ]
+                    }
+                ]
             });
 
             // Agregar un marcador en la posición del sitio
