@@ -76,25 +76,45 @@ function iniciarmapa() {
 
 function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
 
-        // Obtener la URL actual y crear la URL cortada para la petición
-        let urlActual = window.location.href;
-        let palabraClave = "UIE/";
-        let indice = urlActual.indexOf(palabraClave);
-        let urlCortada = "";
-    
-        // Verificar si se encuentra la palabra clave en la URL
-        if (indice !== -1) {
-            urlCortada = urlActual.substring(0, indice + palabraClave.length);
-        }
-        marker.addListener("click", () => {
-            console.log(`ID del sitio: ${idSitio}`); // Verificar el ID del sitio
+    console.log("Cargando mapa para el sitio con ID:", idSitio);
 
-            // Mover el mapa a la posición del marcador al hacer clic
-            map.setCenter(marker.getPosition());
-            map.setZoom(15); // Ajustar el zoom si es necesario
+    marker.addListener("click", () => {
+        console.log(`ID del sitio: ${idSitio}`); // Verificar el ID del sitio
+
+        // Mover el mapa a la posición del marcador al hacer clic
+        map.setCenter(marker.getPosition());
+        map.setZoom(15); // Ajustar el zoom si es necesario
+
+        // Obtener las coordenadas del servidor usando una petición POST
+        fetch('../Controlador/CON_ObtenerCOOR.php', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ id: idSitio }) // Enviar el ID del sitio
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Datos recibidos del servidor:", data); // Verificar la respuesta
+
+            // Verificar si hay un error en la respuesta
+            if (data.error) {
+                console.error(data.error);
+                return; // Salir si hay un error
+            }
+
+            // Extraer latitud y longitud, asegurando que sean números válidos
+            const latitud = parseFloat(data[0].latitud); // Ajusta esta línea
+            const longitud = parseFloat(data[0].longitud); // Ajusta esta línea
+
+            // Verificar que las coordenadas sean números válidos
+            if (isNaN(latitud) || isNaN(longitud)) {
+                console.error("Coordenadas inválidas:", latitud, longitud);
+                return; // Salir si las coordenadas no son válidas
+            }
 
             // Llamar al PHP para obtener la imagen
-            fetch(urlCortada + "Controlador/CON_ObtenerImagenSitio.php", {
+            fetch('../Controlador/CON_ObtenerImagenSitio.php', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -107,13 +127,14 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                 const infoWindow = new google.maps.InfoWindow();
             
                 const divContainerDetalles = document.createElement("div");
-                divContainerDetalles.className="d-flex flex-column align-items-center";
+                divContainerDetalles.className="d-flex flex-column";
             
                 divContainerDetalles.innerHTML += `
                     <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                    <hr>
-                    <h4 class="fw-bolder mb-3">${nombre}</h4>
-                    <span class="w-75 mb-3 mx-3">Descripción: ${descripcion}</span>
+                    <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
+                    <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
+                    <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
+                    <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
                     <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">Ver más</button>
                     `;
             
@@ -126,6 +147,9 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                 console.error("Error al obtener la imagen:", error);
             });
         });
+
+    });
+
 }
 
 function cargarMapaDesdeTarjeta(elemento) {
@@ -195,14 +219,15 @@ function cargarMapaDesdeTarjeta(elemento) {
                 const infoWindow = new google.maps.InfoWindow();
         
                 const divContainer = document.createElement("div");
-                divContainer.className="d-flex flex-column align-items-center";
+                divContainer.className="d-flex flex-column";
         
                 divContainer.innerHTML += `
                 <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                <hr>
-                <h4 class="fw-bolder mb-3">${data[0].nombre}</h4>
-                <span class="w-75 mb-3 mx-3">Descripción: ${data[0].descripcion}</span>
-                <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
+                <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
+                <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
+                <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
+                <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
+                <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none my-2" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
                 `;
         
                 infoWindow.close();
@@ -217,13 +242,14 @@ function cargarMapaDesdeTarjeta(elemento) {
                     const infoWindow = new google.maps.InfoWindow();
             
                     const divContainerDetalles = document.createElement("div");
-                    divContainerDetalles.className="d-flex flex-column align-items-center";
+                    divContainerDetalles.className="d-flex flex-column";
             
                     divContainerDetalles.innerHTML += `
                     <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                    <hr>
-                    <h4 class="fw-bolder mb-3">${data[0].nombre}</h4>
-                    <span class="w-75 mb-3 mx-3">Descripción: ${data[0].descripcion}</span>
+                    <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
+                    <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
+                    <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
+                    <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
                     <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
                     `;
             
