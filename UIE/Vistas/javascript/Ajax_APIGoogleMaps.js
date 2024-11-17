@@ -18,6 +18,15 @@ function iniciarmapa() {
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 6,
         center: { lat: 0, lng: 0 },
+        styles: [
+            {
+                featureType: "poi",
+                elementType: "all",
+                stylers: [
+                    { visibility: "off" } // Ocultar puntos de interés
+                ]
+            }
+        ]
     });
 
     const marcadoresActuales = [];
@@ -130,6 +139,7 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                 divContainerDetalles.className="d-flex flex-column";
             
                 divContainerDetalles.innerHTML += `
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
                     <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
                     <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
                     <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
@@ -222,6 +232,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                 divContainer.className="d-flex flex-column";
         
                 divContainer.innerHTML += `
+                <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
                 <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
                 <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
                 <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
@@ -245,6 +256,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                     divContainerDetalles.className="d-flex flex-column";
             
                     divContainerDetalles.innerHTML += `
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
                     <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
                     <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
                     <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
