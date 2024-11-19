@@ -20,18 +20,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     
     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
-    <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
+    <script src="./javascript/AJAX_RechazarSitioTuristico.js" defer></script>
     <script src="./javascript/AJAX_ContarSitiosTuristicos.js" defer></script>
+    <script src="./javascript/MostrarVistaPreviaAdmin.js" defer></script>
     <link rel="stylesheet" href="./estilos/navbar.css">
+    <link rel="stylesheet" href="./estilos/modalVistaPrevia.css">
 
     <style>
         /* Estilos para el modal de denuncias */
         .modal-body {
-            max-height: 400px;
+            max-height: 70rem;
             /* Altura máxima del cuerpo del modal */
             overflow-y: auto;
             /* Habilitar desplazamiento vertical */
         }
+        
     </style>
 </head>
 
