@@ -79,7 +79,8 @@ async function manejarContenido(seccion){
     const ul = document.createElement("ul");
         ul.className = "dropdown-menu w-100 text-center fs-5 border border-primary-subtle";
         ul.setAttribute("aria-labelledby", "dropdownSeccionFiltro");
-
+        ul.style.maxHeight= "200px"; //estilos para poder scrollear dentro del drop
+        ul.style.overflowY= "auto";
         ul.innerHTML = ``;
 
     if (seccion == "#favoritos") {
