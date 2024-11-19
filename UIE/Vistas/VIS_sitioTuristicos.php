@@ -9,7 +9,6 @@ if (isset($_SESSION['mensaje'])) {
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>
 <script defer src="../Vistas//javascript/AJAX_EliminarComentario.js"></script>
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
-
 <?php $sitiosAgrupados = [];
 $sitiosAgrupados = [];
 foreach ($sitios as $sitio) {
@@ -39,7 +38,7 @@ foreach ($sitios as $sitio) {
 
     <div class="tarjeta-turistica card" data-sitio-id="<?= $datosSitio['id_sitio'] ?>"
         data-nombre-sitio="<?= $datosSitio['nombre'] ?>" data-categoria="<?= $datosSitio['titulo'] ?>"
-        data-etiqueta="<?= $datosSitio['etiqueta'] ?>" data-descripcion-lugar="<?= $datosSitio['descripcion'] ?>"
+        data-etiqueta="<?= $datosSitio['etiqueta'] ?>" data-des ripcion-lugar="<?= $datosSitio['descripcion'] ?>"
         data-localidad="<?= $datosSitio['localidad'] ?>" onclick="cargarMapaDesdeTarjeta(this);">
 
         <img src="<?= 'data:image/jpeg;base64,' . base64_encode(string: $imagenes[0]) ?>" alt="Imagen de destino"
@@ -84,15 +83,15 @@ foreach ($sitios as $sitio) {
                 </div>
                 <div class="modal-body d-flex flex-column">
                 <div class="carouselModal">
-                     <div class="carousel-images">
-                           <?php foreach ($imagenes as $index => $imagen): ?>
+                    <div class="carousel-images">
+                            <?php foreach ($imagenes as $index => $imagen): ?>
                                     <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagen) ?>" class="img-fluid"
                                         alt="Imagen del sitio <?= $index + 1 ?>">
                             <?php endforeach; ?>
                         </div>
                         <button class="buttonCarrouselModal prev"><i class="bi bi-arrow-left-circle"></i></button>
                         <button class="buttonCarrouselModal next"><i class="bi bi-arrow-right-circle"></i></button>
-                    </div>
+                </div>
 
                     <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
                         <div>
@@ -124,27 +123,18 @@ foreach ($sitios as $sitio) {
                                 data-postid="<?= $datosSitio['id_sitio'] ?>">
 
                                 <input type="hidden" name="id_sitio" value="<?= $datosSitio['id_sitio'] ?>">
-
                                 <?php
-
                                 if (SitioTuristico::VerificarSitioFavorito($datosSitio['id_sitio'], $_SESSION['id'])) {
-
                                     echo '<button type="submit" data-fav-btn' . $datosSitio["id_sitio"] . ' class="btn btn-outline-danger rounded favorito-activo">
                                 Eliminar de favoritos <i class="bi bi-heart-fill"></i>
                                 </button>';
-
                                 } else {
-
                                     echo '<button type="submit" data-fav-btn' . $datosSitio["id_sitio"] . ' class="btn btn-outline-danger rounded">
                                 Guardar en favoritos <i class="bi bi-heart-fill"></i>
                                 </button>';
-
                                 }
-
                                 ?>
-
                             </form>
-
                         <?php } ?>
 
                     </div>
@@ -154,8 +144,24 @@ foreach ($sitios as $sitio) {
                             <span class="etiqueta-lugar"><?= htmlspecialchars($etiqueta) ?></span>
                         <?php endforeach; ?>
                     </div>
-                    <p class="ms-2"><?= $datosSitio['descripcion'] ?></p>
-                    <p class="ms-2">Direccion: <?= $datosSitio['localidad'] ?></p>
+                    <div class="p-3 mt-0">
+                    <p class="ms-2 textoModal"><?= $datosSitio['descripcion'] ?></p>
+                    </div>
+                    <hr>
+                    <div class="contaniner-fluid row">
+                        <div class="col-lg-6">
+                            <p class="ms-2 textoModal">Localidad: <?= $datosSitio['localidad'] ?></p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+                        </div>
+                        <div class="position-relative mt-3 mb-3 p-2">
+                            <div class="position-absolute top-0 start-50 translate-middle">
+                                <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: </p>
+                            </div>
+                        </div>
+                    </div>
+                
                 </div>
 
                 <div id="seccion-comentarios-<?= $datosSitio['id_sitio'] ?>" class="w-100">

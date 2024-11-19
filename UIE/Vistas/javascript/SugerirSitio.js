@@ -721,6 +721,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     promesasDOM3.push(LocalidadesSelect(urlVariable)); //si usamos un away en el for, se rompe, por eso hacemos esto
     await Promise.all(promesasDOM3);
     
+    
 //agarrar el submit del form
 // Comprobar si el formulario se encuentra correctamente
 

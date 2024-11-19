@@ -186,15 +186,6 @@ if ($indexPosition !== false) {
                 <!--<script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>--->
                 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=places"></script>
             </div>
-            
-
-
-<!--             <div class="mb-2 form-check form-switch mt-5 position-relative">
-                <div class="position-absolute top-0 start-50 translate-middle">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault"> Es arancelado?</label>
-                </div>
-            </div> -->
 
 
             <hr class="mt-4">

@@ -77,3 +77,11 @@
     opacity: 1;
     transition: opacity 1s;
 }
+
+.textoModal {
+    font-size: 1em;
+    background-color: #e6e6e6;
+    padding: 0.5em;
+    border-radius: 15px;
+    margin-top: 0.5em;
+}
