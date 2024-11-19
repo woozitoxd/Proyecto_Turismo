@@ -62,7 +62,7 @@ if ($indexPosition !== false) {
                             id="dropdownCategorias" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Categorías
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($categorias as $categoria): ?>
                                 <li><a class="dropdown-item filtro filtro-categoria"
                                         data-filtro="<?= $categoria['titulo'] ?>" href="#"><?= $categoria['titulo'] ?></a>
@@ -70,12 +70,12 @@ if ($indexPosition !== false) {
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                    <div class="dropdown me-2">
+                    <div class="dropdown me-2 ">
                         <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-etiqueta" type="button"
                             id="dropdownEtiquetas" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Etiquetas
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($etiquetas as $etiqueta): ?>
                                 <li><a class="dropdown-item filtro filtro-etiqueta" data-filtro="<?= $etiqueta['titulo'] ?>"
                                         href="#"><?= $etiqueta['titulo'] ?></a></li>
@@ -87,7 +87,7 @@ if ($indexPosition !== false) {
                             id="dropdownLocalidad" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Localidad
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($localidades as $localidad): ?>
                                 <li><a class="dropdown-item filtro filtro-localidad"
                                         data-filtro="<?= $localidad['nombre'] ?>" href="#"><?= $localidad['nombre'] ?></a>
