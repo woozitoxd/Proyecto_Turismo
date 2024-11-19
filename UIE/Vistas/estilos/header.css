@@ -62,3 +62,71 @@ footer {
     padding: 1rem !important;
     background-color: black;
 }
+
+/* ----- Ajustes para pantallas medianas ----- */
+@media (min-width: 993px) {
+    
+    .hidden-option{
+        display: none !important;
+    }
+
+    .order-element-1{
+        order: 1;
+    }
+
+    .order-element-2{
+        order: 2;
+    }
+
+    .order-element-3{
+        order: 3;
+    }
+}
+@media (max-width: 992px) {
+    
+    #nav-header{
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    #nav-header .nav-item{
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #nav-header .nav-link, .nav-item{
+        color: #333;
+        font-size: 1.5rem !important;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    #nav-header .nav-link:hover, .nav-item:hover{
+        color: #ababab;
+    }
+
+    #nav-header .dropdown{
+        display: none;
+    }
+    .hidden-option{
+        display: inline;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .order-element-1{
+        order: 2;
+    }
+
+    .order-element-2{
+        order: 3;
+    }
+
+    .order-element-3{
+        order: 1;
+    }
+}
