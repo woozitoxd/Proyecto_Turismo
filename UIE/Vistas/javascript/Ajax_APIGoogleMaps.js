@@ -163,7 +163,7 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                     </a>
                     <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
                         data-sitio-id="${idSitio}" 
-                        class="btn btn-primary shadow-none w-100">
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
                         Ver más
                     </button>
                 </div>`;
@@ -286,7 +286,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                     </a>
                     <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
                         data-sitio-id="${idSitio}" 
-                        class="btn btn-primary shadow-none w-100">
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
                         Ver más
                     </button>
                 </div>
@@ -321,7 +321,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                     </a>
                     <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
                         data-sitio-id="${idSitio}" 
-                        class="btn btn-primary shadow-none w-100">
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
                         Ver más
                     </button>
                 </div>
