@@ -156,7 +156,7 @@ foreach ($sitios as $sitio) {
                             <p class="ms-2 textoModal">Localidad: <?= $datosSitio['localidad'] ?></p>
                         </div>
                         <div class="col-lg-6">
-                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: <?= $datosSitio['tarifa'] ?></p>
+                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">¿Es rancelado<?= $datosSitio['tarifa']== 1 ?'Si' :'No' ?></p>
                         </div>
                         <div class="position-relative mt-3 mb-3 p-2">
                             <div class="position-absolute top-0 start-50 translate-middle">
