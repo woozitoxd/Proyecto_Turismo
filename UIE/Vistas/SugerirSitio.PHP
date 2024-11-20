@@ -4,6 +4,12 @@
     require_once("../Controlador/CON_IniciarSesion.php");
     require_once("../Controlador/CON_GoogleAuthSesion.php");
 
+if (!isset($_SESSION['id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+
 if (isset($client) && $client->getAccessToken()) {
         // Obtener la información del usuario si está autenticado
         $oauth2 = new Google_Service_Oauth2($client);
@@ -39,6 +45,7 @@ if ($indexPosition !== false) {
     <link rel="stylesheet" href="./estilos/SugerirSitio.css">
     <script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>
     <script src="./javascript/SugerirSitio.js" defer></script>
+    <script src="./javascript/EditarPerfil.js" defer></script>
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/header.css">
     <link rel="stylesheet" href="./estilos/cards.css">
@@ -186,7 +193,6 @@ if ($indexPosition !== false) {
                 <!--<script src="./javascript/AJAX_MAPinSugerirSitio.js" defer></script>--->
                 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGurFwiV-ORAOoQDOpQGFVNWSJopP2Vyg&callback=iniciarmapa&v=weekly&libraries=places"></script>
             </div>
-
 
             <hr class="mt-4">
             

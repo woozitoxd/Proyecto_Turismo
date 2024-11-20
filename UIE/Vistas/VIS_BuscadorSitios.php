@@ -238,21 +238,37 @@ if ($indexPosition !== false) {
                     data-IDUsuario="<?php echo $_SESSION['id'] ?>">
                     <div class="mb-3 col-12">
                         <label for="ContraseñaActual" class="form-label">Contraseña Actual</label>
-                        <input type="text" class="form-control" id="ContraseñaActual" name="ContraseñaActual">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="ContraseñaActual" name="ContraseñaActual" placeholder="">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('ContraseñaActual', this)">
+                                <i class="bi bi-eye-slash-fill"></i>
+                            </button>
+                        </div>
                         <small class="text-danger" id="ContraseñaActualError"></small>
                     </div>
+
                     <div class="mb-3 col-lg-6">
                         <label for="NuevaContraseña" class="form-label">Nueva Contraseña</label>
-                        <input type="text" class="form-control" id="NuevaContraseña" name="NuevaContraseña">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="NuevaContraseña" name="NuevaContraseña" placeholder="">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('NuevaContraseña', this)">
+                                <i class="bi bi-eye-slash-fill"></i>
+                            </button>
+                        </div>
                         <small class="text-danger" id="NuevaContraseñaError"></small>
                     </div>
+
                     <div class="mb-3 col-lg-6">
-                        <label for="ConfirmaciónNuevaContraseña" class="form-label">Confirmacion de Nueva
-                            Contraseña</label>
-                        <input type="text" class="form-control" id="ConfirmaciónNuevaContraseña"
-                            name="ConfirmaciónNuevaContraseña">
+                        <label for="ConfirmaciónNuevaContraseña" class="form-label">Confirmación de Nueva Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="ConfirmaciónNuevaContraseña" name="ConfirmaciónNuevaContraseña" placeholder="">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('ConfirmaciónNuevaContraseña', this)">
+                                <i class="bi bi-eye-slash-fill"></i>
+                            </button>
+                        </div>
                         <small class="text-danger" id="ConfirmaciónNuevaContraseñaError"></small>
                     </div>
+
                     <!--- footer--->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-target="#modalPerfil"
