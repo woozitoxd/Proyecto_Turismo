@@ -1,3 +1,36 @@
+<?php
+    require_once("../Modelo/MOD_ClaseUsuario.php"); //se incluye los archivos
+    require_once("../Modelo/MOD_perfil.php");
+    require_once("../Controlador/CON_IniciarSesion.php");
+    require_once("../Controlador/CON_GoogleAuthSesion.php");
+
+if (isset($client) && $client->getAccessToken()) {
+        // Obtener la información del usuario si está autenticado
+        $oauth2 = new Google_Service_Oauth2($client);
+        $userInfo = $oauth2->userinfo->get();
+}
+//seccion en la que obtenemos la url actual.
+$scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";      
+$host = $_SERVER['HTTP_HOST'];
+$requestUri = $_SERVER['REQUEST_URI'];
+$currentUrl = $scheme . "://" . $host . $requestUri;
+$indexPosition = strpos($currentUrl, 'Vistas');
+$urlVariable = '';
+
+if ($indexPosition !== false) {
+    $urlVariable = substr($currentUrl, 0, $indexPosition + strlen('Vistas'));
+} else {
+
+    $indexPosition = strpos($currentUrl, 'Vistas/');
+    if ($indexPosition !== false) {
+        $urlVariable = substr($currentUrl, 0, $indexPosition + strlen('Vistas/'));
+    } else {
+        // Fallback: usar el esquema y host si no se encuentran patrones
+        $urlVariable = $scheme . "://" . $host . '/';
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,40 +38,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrativo - Turismo</title>
-    <script defer src="../Vistas/javascript/AJAX_VerReportes.js"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- En la sección <head> de tu HTML -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Antes de cerrar el </body> -->
-    <script defer src="./javascript/AJAX_TraerUsuarios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    
+    <script defer src="./javascript/AJAX_TraerUsuarios.js"></script>
+    <script defer src="../Vistas/javascript/AJAX_VerReportes.js"></script>
     <script src="./javascript/AJAX_AprobarSitioTuristico.js" defer></script>
     <script src="./javascript/AJAX_RechazarSitioTuristico.js" defer></script>
     <script src="./javascript/AJAX_ContarSitiosTuristicos.js" defer></script>
     <script src="./javascript/MostrarVistaPreviaAdmin.js" defer></script>
+    <script src="./javascript/MostrarVistaEditarSitio.js" defer></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
+
     <link rel="stylesheet" href="./estilos/navbar.css">
     <link rel="stylesheet" href="./estilos/modalVistaPrevia.css">
+    <link rel="stylesheet" href="./estilos/SugerirSitio.css">
+    <script src="./javascript/EditarSitio.js" defer></script>
+    <script src="./javascript/FormEditarSitio.js" defer></script>
 
-    <style>
-        /* Estilos para el modal de denuncias */
-        .modal-body {
-            max-height: 70rem;
-            /* Altura máxima del cuerpo del modal */
-            overflow-y: auto;
-            /* Habilitar desplazamiento vertical */
-        }
-        
-    </style>
 </head>
 
-<body>
+<body data-url-base="<?php echo htmlspecialchars($urlVariable); ?>" data-IDUsuario="<?php echo $_SESSION['id']; ?>">
     <!-- barra de navegacion -->
     <nav class="navbar navbar-expand-lg navbar-color">
         <div class="container-fluid">
@@ -197,6 +223,7 @@
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 
     <!-- Bootstrap JS -->
 </body>

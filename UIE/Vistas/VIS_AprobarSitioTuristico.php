@@ -37,6 +37,7 @@
                                 <td>
                                     <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#modalVistaPreviaSitio" data-bs-id="<?= $sitio['id_sitio'] ?>"
+                                        data-categoria="<?= htmlspecialchars($sitio['titulo'] ?? 'Sin categoria') ?>"
                                         data-nombre="<?= htmlspecialchars($sitio['nombre']) ?>"
                                         data-descripcion="<?= htmlspecialchars($sitio['descripcion'] ?? 'Sin descripción') ?>"
                                         data-localidad="<?= htmlspecialchars($sitio['localidad'] ?? 'Desconocida') ?>"
@@ -47,7 +48,19 @@
                                         <i class="bi bi-eye"></i>
                                     </button>
 
-
+                                    <button class="btn btn-warning btn-sm mt-3" data-bs-dismiss="modal"
+                                        data-bs-toggle="modal" data-bs-target="#modalEditarSitioTuristico"
+                                        data-bs-id="<?= $sitio['id_sitio'] ?>"
+                                        data-categoria="<?= htmlspecialchars(string: $sitio['titulo'] ?? 'Sin categoria') ?>"
+                                        data-nombre="<?= htmlspecialchars($sitio['nombre']) ?>"
+                                        data-descripcion="<?= htmlspecialchars($sitio['descripcion'] ?? 'Sin descripción') ?>"
+                                        data-localidad="<?= htmlspecialchars($sitio['localidad'] ?? 'Desconocida') ?>"
+                                        data-arancelado="<?= $sitio['tarifa'] ? 'Sí' : 'No' ?>"
+                                        data-horarios="<?= htmlspecialchars($sitio['horarios'] ?? 'No especificados') ?>"
+                                        data-imagen="<?= isset($sitio['bin_imagen']) && !empty($sitio['bin_imagen']) ? 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) : '' ?>"
+                                        data-etiqueta="<?= htmlspecialchars($sitio['etiqueta'] ?? 'Sin etiqueta') ?>">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -63,7 +76,8 @@
     <div class="modal-dialog modal-custom-size">
         <div class="modal-content">
             <div class="modal-header">
-                <button onclick="volverModal()" class="btn  btn-sm" data-bs-dismiss="modal">
+                <button data-bs-dismiss="modal" data-bs-target="#sitiosModal" data-bs-toggle="modal" class="btn  btn-sm"
+                    data-bs-dismiss="modal">
 
                     <i class="bi bi-arrow-left"></i>
                 </button>
@@ -76,6 +90,7 @@
 
                     <div class="card-body">
                         <h3 class="modal-title" id="IDNombreSitioModal">Nombre Sitio</h3>
+                        <p id="CategoriaActual"></p>
                         <div id="DivCategoriasYEtiquetasModal"></div>
                     </div>
 
@@ -97,10 +112,10 @@
                         </div>
                     </ul>
                     <div class="card-body d-flex justify-content-end gap-2">
-                        <input type="button" id="botonAprobarSitio" data-bs-id=""
-                            class="btn btn-success btn-sm" value="Aprobar" data-bs-dismiss="modal">
-                        <input type="button" id="botonRechazarSitio" data-bs-id=""
-                            class="btn btn-danger btn-sm" value="Rechazar" data-bs-dismiss="modal">
+                        <input type="button" id="botonAprobarSitio" data-bs-id="" class="btn btn-success btn-sm"
+                            value="Aprobar" data-bs-dismiss="modal">
+                        <input type="button" id="botonRechazarSitio" data-bs-id="" class="btn btn-danger btn-sm"
+                            value="Rechazar" data-bs-dismiss="modal">
 
                     </div>
                 </div>
@@ -108,3 +123,7 @@
         </div>
     </div>
 </div>
+
+<?php
+require 'VIS_EditarSitioTuristico.php';
+?>

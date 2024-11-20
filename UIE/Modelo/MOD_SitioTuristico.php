@@ -439,6 +439,7 @@ class SitioTuristico
         if (!isset($GLOBALS['conn'])) {
             require_once 'conexion_bbdd.php';
         }
+
         try {
         // Convertir arrays a JSON para pasarlos al SP
         //$jsonEtiquetas = json_encode($etiquetas);
@@ -481,6 +482,44 @@ class SitioTuristico
             return $e->getMessage();
         }
     }
+    public static function EditarSitio($id_sitio, $nombre_sitio,$descripcion, $categoria) {
+        if (!isset($GLOBALS['conn'])) {
+            require_once 'conexion_bbdd.php';
+        }
     
+        try {
+            // Registro para depuración: mostrar los datos procesados
+            error_log("ID del Sitio: $id_sitio");
+            error_log("Nombre: $nombre_sitio");
+            error_log("Descripcion: $descripcion");
+            error_log("Categoria: $categoria");
+    
+            /** @var \PDO $conn */
+            $conn = $GLOBALS['conn'];
+    
+            // Preparar la llamada al procedimiento de edición
+            $SPEditarSitio = $conn->prepare(query: "CALL EditarSitioTuristico(
+                :id_sitio, :nombre, :descripcion,:categoria)");
+    
+            // Asignar los parámetros para la llamada al SP
+            $SPEditarSitio->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
+            $SPEditarSitio->bindParam(':nombre', $nombre_sitio, PDO::PARAM_STR);
+            $SPEditarSitio->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+            $SPEditarSitio->bindParam(':categoria', $categoria, PDO::PARAM_STR);
+
+            // Ejecutar el SP
+            $SPEditarSitio->execute();
+            error_log("El procedimiento almacenado se ejecutó correctamente."); // Log de éxito
+            return true;  // Indica éxito si el procedimiento se ejecuta correctamente
+        } catch (Exception $e) {
+            // Error en la ejecución
+            error_log("Error al ejecutar el procedimiento almacenado: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+    
+    
+    
+
 }
 ?>
