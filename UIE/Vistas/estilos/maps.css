@@ -111,3 +111,47 @@
         width: 100%;
     }
 }
+
+.info-window-container {
+    max-width: 300px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.info-window-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.info-window-container img {
+    object-fit: cover;
+    max-height: 150px;
+    width: 100%;
+}
+
+.info-window-container h4 {
+    font-size: 1.2rem;
+}
+
+.info-window-container p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.info-window-container a {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.info-window-container a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.info-window-container button {
+    transition: background-color 0.3s;
+}
+
+.info-window-container button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
