@@ -345,6 +345,7 @@ async function obtenerSitiosFavoritos(){
 
                         ContenedorValoracion.innerHTML += `
                             <span class="text-secondary ms-2">${Math.floor(valoracionTotal * 10) / 10}</span>
+                            <span class="text-secondary ms-2">(${data.cant_valoraciones}${data.cant_valoraciones == 1 ?' reseña)' :' reseñas)'}</span>
                         `;
 
                         document.querySelector(`.contenido-tarjeta${e.id_sitio}`).appendChild(ContenedorValoracion);
@@ -739,6 +740,7 @@ async function obtenerPublicacionesPropias(){
 
                         ContenedorValoracion.innerHTML += `
                             <span class="text-secondary ms-2">${Math.floor(valoracionTotal * 10) / 10}</span>
+                            <span class="text-secondary ms-2">(${respuestaValoracion.cant_valoraciones}${respuestaValoracion.cant_valoraciones == 1 ?' reseña)' :' reseñas)'}</span>
                         `;
 
                         document.querySelector(`.contenido-tarjeta${e.id_sitio}`).appendChild(ContenedorValoracion);

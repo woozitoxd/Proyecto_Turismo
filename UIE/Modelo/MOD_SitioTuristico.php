@@ -343,13 +343,9 @@ class SitioTuristico
         $conn = $GLOBALS['conn'];
         $queryStr = "
             SELECT 
-                AVG(valoracion) 
-            AS 
-                valoracion_promedio 
-            FROM 
-                comentario 
-            WHERE 
-                id_sitio = :ID_Sitio";
+            COUNT(valoracion) AS cant_valoraciones, 
+            AVG(valoracion) AS valoracion_promedio 
+            FROM comentario WHERE id_sitio = :ID_Sitio";
 
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':ID_Sitio', $ID_Sitio);

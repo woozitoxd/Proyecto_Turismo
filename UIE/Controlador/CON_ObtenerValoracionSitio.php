@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode([
             'success' => true,
             'valoracion' => $ValoracionPromedioSitio["valoracion_promedio"],
+            'cant_valoraciones' => $ValoracionPromedioSitio["cant_valoraciones"],
             'id_sitio' => $id_sitio
         ]);
 
