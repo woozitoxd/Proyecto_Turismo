@@ -3,9 +3,30 @@ let markerr; // Variable global para almacenar el marcador actual
 function iniciarmapa(coord) {
     const map = new google.maps.Map(document.getElementById('map'), {
         center: coord,
-        zoom: 17,
-        mapId: '82945df34136974b',
+        zoom: 11,
+        //mapId: '82945df34136974b',
+        styles: [
+
+            {
+                featureType: "poi",
+                elementType: "all",
+                stylers: [{ visibility: "off" }]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{ visibility: "on" }, { color: "#green" }]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "labels",
+                stylers: [{ visibility: "on" }]
+            }
+            
+            
+        ]
     });
+    
 
     // Escuchar el evento de clic en el mapa
     map.addListener('click', (event) => {
@@ -57,7 +78,7 @@ function initAutocomplete(map) {
         const place = autocomplete.getPlace();
         if (place.geometry) {
             map.setCenter(place.geometry.location);
-            map.setZoom(17);
+            map.setZoom(14);
             placeMarker(map, place.geometry.location); // Coloca el marcador en el lugar seleccionado
         } else {
             console.log("No hay detalles disponibles para el lugar seleccionado.");
@@ -138,6 +159,7 @@ function handleResponse(response) {
 
 // Listener para cargar el mapa al cargar la página
 document.addEventListener("DOMContentLoaded", function() {
-    var initialCoord = { lat: 37.4239163, lng: -122.0947209 };  // Coordenadas iniciales
+    var initialCoord = { lat: -34.74405904796896, lng: -58.43470937451195 };  // Coordenadas iniciales
     iniciarmapa(initialCoord);  // Inicializa el mapa al cargar la página
 });
+

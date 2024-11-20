@@ -25,6 +25,16 @@ function iniciarmapa() {
                 stylers: [
                     { visibility: "off" } // Ocultar puntos de interés
                 ]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{ visibility: "on" }, { color: "#green" }]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "labels",
+                stylers: [{ visibility: "off" }]
             }
         ]
     });
@@ -139,14 +149,25 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                 divContainerDetalles.className="d-flex flex-column";
             
                 divContainerDetalles.innerHTML += `
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
-                    <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                    <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
-                    <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
-                    <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
-                    <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
-                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">Ver más</button>
-                    `;
+                <div class="info-window-container rounded-3 shadow-lg bg-light p-3">
+                    <img class="img-fluid rounded-3 mb-3" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio">
+                    <h4 class="fw-bold text-primary mb-3">${data[0].nombre}</h4>
+                    <hr>
+                    <p class="mb-2 "><strong>Localidad:</strong> ${data[0].nombre_localidad}</p>
+                    <p class="mb-2 "><strong>Horario:</strong> ${data[0].horarios}</p>
+                    <p class="mb-2 "><strong>Arancelado:</strong> ${data[0].arancelado == 1 ? 'Sí' : 'No'}</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" 
+                        target="_blank" 
+                        class="btn btn-outline-primary btn-sm w-100 mb-2">
+                        Cómo llegar
+                    </a>
+                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
+                        data-sitio-id="${idSitio}" 
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
+                        Ver más
+                    </button>
+                </div>`;
+            
             
                 infoWindow.close();
                 infoWindow.setContent(divContainerDetalles);
@@ -210,6 +231,16 @@ function cargarMapaDesdeTarjeta(elemento) {
                         stylers: [
                             { visibility: "off" } // Ocultar puntos de interés
                         ]
+                    },
+                    {
+                        featureType: "poi.park",
+                        elementType: "geometry",
+                        stylers: [{ visibility: "on" }, { color: "#green" }]
+                    },
+                    {
+                        featureType: "poi.park",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }]
                     }
                 ]
             });
@@ -241,15 +272,26 @@ function cargarMapaDesdeTarjeta(elemento) {
                 divContainer.className="d-flex flex-column";
         
                 divContainer.innerHTML += `
-                <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
-                <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
-                <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
-                <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
-                <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
-                <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none my-2" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
+                <div class="info-window-container rounded-3 shadow-lg bg-light p-3">
+                    <img class="img-fluid rounded-3 mb-3" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio">
+                    <h4 class="fw-bold text-primary mb-3">${data[0].nombre}</h4>
+                    <hr>
+                    <p class="mb-2 "><strong>Localidad:</strong> ${data[0].nombre_localidad}</p>
+                    <p class="mb-2 "><strong>Horario:</strong> ${data[0].horarios}</p>
+                    <p class="mb-2 "><strong>Arancelado:</strong> ${data[0].arancelado == 1 ? 'Sí' : 'No'}</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" 
+                        target="_blank" 
+                        class="btn btn-outline-primary btn-sm w-100 mb-2">
+                        Cómo llegar
+                    </a>
+                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
+                        data-sitio-id="${idSitio}" 
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
+                        Ver más
+                    </button>
+                </div>
                 `;
-        
+                
                 infoWindow.close();
                 infoWindow.setContent(divContainer);
                 infoWindow.open(marker.getMap(), marker);
@@ -265,13 +307,24 @@ function cargarMapaDesdeTarjeta(elemento) {
                     divContainerDetalles.className="d-flex flex-column";
             
                     divContainerDetalles.innerHTML += `
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" target="_blank" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 mb-2">Cómo llegar</a>
-                    <img class="overflow-hidden" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio"/>
-                    <h4 class="fw-bolder my-2 pb-2 border-bottom">${data[0].nombre}</h4>
-                    <span class="w-100 mb-2"><strong>Localidad:</strong> ${data[0].nombre_localidad}</span>
-                    <span class="w-100 mb-2"><strong>Horario:</strong> ${data[0].horarios}</span>
-                    <span class="w-100 mb-2"><strong>Arancelado:</strong> ${data[0].arancelado == 1 ?'Si' :'No'}</span>
-                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" data-sitio-id="${idSitio}" class="btn btn-primary shadow-none mb-3" data-bs-toggle="modal" data-bs-target="#modal${data[0].id_sitio}">Ver más</button>
+                    <div class="info-window-container rounded-3 shadow-lg bg-light p-3">
+                    <img class="img-fluid rounded-3 mb-3" src="data:image/jpeg;base64,${imagenData.imagen}" alt="Imagen del sitio">
+                    <h4 class="fw-bold text-primary mb-3">${data[0].nombre}</h4>
+                    <hr>
+                    <p class="mb-2 "><strong>Localidad:</strong> ${data[0].nombre_localidad}</p>
+                    <p class="mb-2 "><strong>Horario:</strong> ${data[0].horarios}</p>
+                    <p class="mb-2 "><strong>Arancelado:</strong> ${data[0].arancelado == 1 ? 'Sí' : 'No'}</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}" 
+                        target="_blank" 
+                        class="btn btn-outline-primary btn-sm w-100 mb-2">
+                        Cómo llegar
+                    </a>
+                    <button onclick="cargarComentario(this.dataset.sitioId); limpiarInputOpinion(this.dataset.sitioId);" 
+                        data-sitio-id="${idSitio}" 
+                        class="btn btn-primary shadow-none w-100" data-bs-toggle="modal" data-bs-target="#modal${idSitio}">
+                        Ver más
+                    </button>
+                </div>
                     `;
             
                     infoWindow.close();
@@ -279,6 +332,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                     infoWindow.open(marker.getMap(), marker);
                 });
         
+                
             })
             .catch(error => {
                 console.error("Error al obtener la imagen:", error);
