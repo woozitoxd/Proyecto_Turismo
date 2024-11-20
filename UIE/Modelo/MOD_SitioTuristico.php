@@ -251,11 +251,20 @@ class SitioTuristico
         $conn = $GLOBALS['conn'];
 
         $queryStr = "
-            SELECT DISTINCT sitio_turistico.*, categoria.*, imagen.*
-            FROM sitio_turistico
-            JOIN imagen ON imagen.id_sitio = sitio_turistico.id_sitio
-            JOIN categoria ON categoria.id_categoria = sitio_turistico.id_categoria
-            WHERE sitio_turistico.id_usuario = :ID_Usuario";
+            SELECT st.*, c.titulo AS titulo_categoria, img.imagen AS bin_imagen, et.etiquetas, l.nombre AS localidad 
+            FROM sitio_turistico st 
+            JOIN categoria c 
+            ON st.id_categoria = c.id_categoria 
+            LEFT JOIN ( SELECT id_sitio, MIN(bin_imagen) AS imagen FROM imagen GROUP BY id_sitio ) AS img 
+            ON st.id_sitio = img.id_sitio 
+            LEFT JOIN ( SELECT se.id_sitio, GROUP_CONCAT(e.titulo SEPARATOR ', ') AS etiquetas 
+            FROM sitio_etiqueta se 
+            JOIN etiqueta e 
+            ON se.id_etiqueta = e.id_etiqueta GROUP BY se.id_sitio ) AS et 
+            ON st.id_sitio = et.id_sitio 
+            LEFT JOIN localidad l 
+            ON st.id_localidad = l.id_localidad 
+            WHERE st.id_usuario = :ID_Usuario";
 
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':ID_Usuario', $ID_Usuario);
@@ -285,24 +294,25 @@ class SitioTuristico
         $conn = $GLOBALS['conn'];
 
         $queryStr = "
-            SELECT DISTINCT 
-                sitio_turistico.*, categoria.*, imagen.* 
-            FROM 
-                sitio_turistico 
-            JOIN 
-                favorito 
-            ON 
-                favorito.id_sitio = sitio_turistico.id_sitio 
-            JOIN 
-                imagen 
-            ON 
-                imagen.id_sitio = sitio_turistico.id_sitio 
-            JOIN 
-                categoria 
-            ON 
-                categoria.id_categoria = sitio_turistico.id_categoria 
-            WHERE 
-                favorito.id_usuario = :ID_Usuario";
+            SELECT st.*, c.titulo AS titulo_categoria, img.imagen AS bin_imagen, et.etiquetas, l.nombre AS localidad, favorito.id_favorito 
+            FROM sitio_turistico st 
+            JOIN categoria c 
+            ON st.id_categoria = c.id_categoria 
+                LEFT JOIN ( SELECT id_sitio, MIN(bin_imagen) AS imagen 
+                FROM imagen 
+                GROUP BY id_sitio ) AS img 
+            ON st.id_sitio = img.id_sitio 
+            LEFT JOIN ( SELECT se.id_sitio, GROUP_CONCAT(e.titulo SEPARATOR ', ') AS etiquetas 
+            FROM sitio_etiqueta se 
+            JOIN etiqueta e 
+            ON se.id_etiqueta = e.id_etiqueta 
+            GROUP BY se.id_sitio ) AS et 
+            ON st.id_sitio = et.id_sitio 
+            LEFT JOIN localidad l 
+            ON st.id_localidad = l.id_localidad 
+            JOIN favorito 
+            ON favorito.id_sitio = st.id_sitio 
+            WHERE favorito.id_usuario = :ID_Usuario";
 
         $consulta = $conn->prepare($queryStr);
         $consulta->bindParam(':ID_Usuario', $ID_Usuario);

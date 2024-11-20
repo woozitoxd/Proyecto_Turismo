@@ -117,8 +117,8 @@ if ($indexPosition !== false) {
                                             }
                                             echo '<li class="hidden-option nav-link nav-decoracion navbar-nav fw-medium" data-bs-toggle="modal" data-bs-target="#modalPerfil">PERFIL</li>';
                                             echo '<li class="hidden-option nav-link nav-decoracion navbar-nav"><a class="nav-link" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
-                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
-                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
+                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link link-seccion" href="#favoritos">Favoritos</a></li>';
+                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link link-seccion" href="#MisSitios">Mis sitios</a></li>';
                                             echo '<li class="hidden-option nav-link nav-decoracion navbar-nav"><a class="text-danger-emphasis nav-link" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
                                         }else{
                                             echo '<li class="hidden-option nav-item nav-decoracion navbar-nav fw-medium my-2" data-bs-toggle="modal" data-bs-target="#myModalInicio">INICIAR SESIÓN</li>';

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function (){
 });
 
 function limpiarNavHeader() {
-    const enlacesMenu = document.querySelectorAll('.nav-link');
+    const enlacesMenu = document.querySelectorAll('.link-seccion');
 
     enlacesMenu.forEach(item => {
         item.classList.remove('nav-link-activo');
@@ -29,7 +29,7 @@ function limpiarNavHeader() {
 }
 
 function adaptarNavHeader(href){
-    const itemsNavHeader = document.querySelectorAll(".nav-link");
+    const itemsNavHeader = document.querySelectorAll(".link-seccion");
 
     itemsNavHeader.forEach((e) => {
         //console.log("#" + e.href.split("#")[1]);
@@ -253,10 +253,9 @@ async function obtenerSitiosFavoritos(){
             // Convierto a JSON
             const data = await res.json();
 
-            console.log('Resultado de sitios favoritos:', data);
-
+            
             if (Array.isArray(data) && data.length > 0) {
-
+                
                 /* console.log('Resultado de sitios favoritos:', data); */
 
                 // Inicializar el mapa
@@ -312,13 +311,13 @@ async function obtenerSitiosFavoritos(){
                             <div class="tarjeta-turistica card"
                             data-sitio-id="${e.id_sitio}" 
                             data-nombre-sitio="${e.nombre}"  
-                            data-categoria="${e.titulo}"
-                            onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
+                            data-categoria="${e.titulo_categoria}"
+                            onclick="cargarMapaDesdeTarjeta(this);">
         
                                 <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen de destino" class="card-img-top">
                                 <div class="contenido-tarjeta${e.id_sitio}">
                                     <h5 class="titulo-lugar">${e.nombre}</h5>
-                                    <p class="categoria-lugar">${e.titulo}</p>
+                                    <p class="categoria-lugar">${e.titulo_categoria}</p>
                                     <p class="descripcion-lugar">${e.descripcion}</p>
                                 </div>
                             </div>
@@ -352,88 +351,126 @@ async function obtenerSitiosFavoritos(){
 
                         //INFO DE MODAL
 
-                        ContenedorSitios.innerHTML += `
-                            <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header border border-0">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body d-flex flex-column">
-                                            <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen del lugar" class="img-fluid">
-                                            <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
-                                                <div>
-                                                    <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
+                        await fetch(urlCortada + 'Controlador/CON_ObtenerImagenesSitio.php', {
+                            method: 'POST',  // Tipo de solicitud
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'  // Para enviar datos como formulario
+                            },
+                            body: `id=${e.id_sitio}`  // Enviar el id como parámetro
+                        })
+                        .then(async response => await response.json())
+                        .then(async allImages => {
 
-                                                    <div class="valoracion d-flex flex-row mx-2 align-items-center valoracion-promedio${e.id_sitio}"></div>
-
-                                                </div>
-
-                                                <form method="POST" class="d-flex flex-column fav-form" data-postid="${e.id_sitio}">
-                                                            
-                                                    <input type="hidden" name="id_sitio" value="${e.id_sitio}">
-
-                                                    <button type="submit" data-fav-btn${e.id_sitio} class="btn btn-outline-danger rounded favorito-activo">
-                                                            Eliminar de favoritos <i class="bi bi-heart-fill"></i>
-                                                    </button>
+                            /* console.log(allImages); */
+                            ContenedorSitios.innerHTML += `
+                                <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header border border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex flex-column">
+                                                <div class="carouselModal">
+                                                    <div class="carousel-images carousel${e.id_sitio}">
                                                         
-                                                </form>
-
-                                            </div>
-                                            <div>
-                                                <p class="categoria-lugar">${e.titulo}</p>
-                                            </div>
-                                            <p class="ms-2">${e.descripcion}</p>
-                                            <p class="ms-2">Direccion: (Campo localidad)</p>
-                                        </div>
-
-                                        <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
-                                            <div class="w-100 p-3 mx-auto border-top">
-
-                                                <h3 class="text-center m-2">Opiniones</h3>
-
-                                                <div class="row">
-                                                        <div class="col-md-8 mx-auto">
-                                                            <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
-                                                            <!-- Formulario para agregar comentarios -->
-                                                            <form method="post" class="comentarios-form">
-                                                                <div class="form-group">
-
-                                                                    <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
-                                                                
-                                                                </div>
-                                                                <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
-                                                                <div class="my-1 d-flex flex-row justify-content-between align-items-center">
-                                                                    <div class="valoracion" data-value="0">
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
-                                                                    </div>
-                                                                    <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
-                                                                    <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
-                                                                </div>
-
-                                                                <div class="d-flex justify-content-center">
-                                                                    <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
-                                                                </div>
-
-                                                            </form>
-                                                        </div>
+                                                    </div>
+                                                    <button class="buttonCarrouselModal prev"><i class="bi bi-arrow-left-circle"></i></button>
+                                                    <button class="buttonCarrouselModal next"><i class="bi bi-arrow-right-circle"></i></button>
                                                 </div>
-
-                                                <div class="comentarios-container border-top">
-                                                    <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                                <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
+                                                    <div>
+                                                        <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
+    
+                                                        <div class="valoracion d-flex flex-row mx-2 align-items-center valoracion-promedio${e.id_sitio}"></div>
+    
+                                                    </div>
+    
+                                                    <form method="POST" class="d-flex flex-column fav-form" data-postid="${e.id_sitio}">
+                                                                
+                                                        <input type="hidden" name="id_sitio" value="${e.id_sitio}">
+    
+                                                        <button type="submit" data-fav-btn${e.id_sitio} class="btn btn-outline-danger rounded favorito-activo">
+                                                                Eliminar de favoritos <i class="bi bi-heart-fill"></i>
+                                                        </button>
+                                                            
+                                                    </form>
+    
+                                                </div>
+                                                <div>
+                                                    <p class="categoria-lugar">${e.titulo_categoria}</p>
+                                                </div>
+                                                <div class="p-3 mt-0">
+                                                    <p class="ms-2 textoModal">${e.descripcion}</p>
+                                                </div>
+                                                <div class="contaniner-fluid row">
+                                                    <div class="col-lg-6">
+                                                        <p class="ms-2 textoModal">Localidad: ${e.localidad}</p>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+                                                    </div>
+                                                    <div class="position-relative mt-3 mb-3 p-2">
+                                                        <div class="position-absolute top-0 start-50 translate-middle">
+                                                            <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
+                                                <div class="w-100 p-3 mx-auto border-top">
+    
+                                                    <h3 class="text-center m-2">Opiniones</h3>
+    
+                                                    <div class="row">
+                                                            <div class="col-md-8 mx-auto">
+                                                                <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
+                                                                <!-- Formulario para agregar comentarios -->
+                                                                <form method="post" class="comentarios-form">
+                                                                    <div class="form-group">
+    
+                                                                        <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
+                                                                    
+                                                                    </div>
+                                                                    <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
+                                                                    <div class="my-1 d-flex flex-row justify-content-between align-items-center">
+                                                                        <div class="valoracion" data-value="0">
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
+                                                                        </div>
+                                                                        <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
+                                                                        <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
+                                                                    </div>
+    
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
+                                                                    </div>
+    
+                                                                </form>
+                                                            </div>
+                                                    </div>
+    
+                                                    <div class="comentarios-container border-top">
+                                                        <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            `;
+                                `;
+    
+                            document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
+                            const carousel = document.querySelector(`.carousel${e.id_sitio}`);
+                            
+                            allImages.forEach( (e, index) => {
+                                carousel.innerHTML += `<img src="data:image/jpeg;base64,${e.bin_imagen}" class="img-fluid" alt="Imagen del sitio ${index+1}">`;
+                            });
 
-                        document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
+                        });
                         
                     })
                     .catch(error => {
@@ -632,38 +669,47 @@ async function obtenerPublicacionesPropias(){
                         },
                         body: `id_sitio_valorado=${e.id_sitio}`  // Enviar el id como parámetro
                     })
-                    .then(async response => {
-
-                        // Verifico si la respuesta fue exitosa
-                        if (!response.ok) {
-                            throw new Error('Error en la solicitud: ' + response.status);
-                        }
-
-                        // Verifico si hay contenido en la respuesta
-                        if (response.headers.get('content-length') === '0') {
-                            return null; // No hay contenido
-                        }
-
-                        // Convierto a JSON
-                        return await response.json();
-                    })
+                    .then(async response => await response.json())
                     .then(async respuestaValoracion => {
+
                         //console.log('Respuesta del servidor:', respuestaValoracion);
 
                         valoracionTotal = respuestaValoracion.valoracion;
 
+                        let estadoAprobacion = '';
+                        let dataEstado = '';
+                        let bg = '';
+
+                        if (e.estado == 1) {
+                            estadoAprobacion = 'Aprobado';
+                            dataEstado = 'aprobados';
+                            bg = 'bg-primary';
+                        }else if(e.estado == 0){
+                            estadoAprobacion = 'En revisión';
+                            dataEstado = 'pendientes';
+                            bg = 'bg-secondary';
+                        }else if(e.estado == 2){
+                            estadoAprobacion = 'Rechazado';
+                            dataEstado = 'rechazados';
+                            bg = 'bg-danger';
+                        }else{
+                            estadoAprobacion = 'Estado indefinido';
+                            dataEstado = 'pendientes';
+                            bg = 'bg-secondary';
+                        }
+
                         ContenedorSitios.innerHTML += `
                             <div class="tarjeta-turistica card" 
                             data-sitio-id="${e.id_sitio}"
-                            data-estado="${e.estado == 0 ?'aprobados' :'pendientes'}"
-                            onclick="cargarMapaDesdeTarjeta(this); cargarComentario(this.dataset.sitioId);">
+                            data-estado="${dataEstado}"
+                            onclick="cargarMapaDesdeTarjeta(this);">
         
                                 <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen de destino" class="card-img-top">
 
                                 <div class="contenido-tarjeta${e.id_sitio}">
                                     <h5 class="titulo-lugar">${e.nombre}</h5>
-                                    <p class="categoria-lugar">${e.titulo}</p>
-                                    <p class="categoria-lugar rounded-pill text-white m-0 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
+                                    <p class="categoria-lugar">${e.titulo_categoria}</p>
+                                    <p class="categoria-lugar rounded-pill text-white m-0 ${bg}">${estadoAprobacion}</p>
                                     <p class="descripcion-lugar">${e.descripcion}</p>
                                     
                                 </div>
@@ -697,82 +743,124 @@ async function obtenerPublicacionesPropias(){
 
                         document.querySelector(`.contenido-tarjeta${e.id_sitio}`).appendChild(ContenedorValoracion);
 
-                        ContenedorSitios.innerHTML += `
-                            <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header border border-0">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body d-flex flex-column">
+                        //INFO DE MODAL
 
-                                            <img src="data:image/jpeg;base64,${e.bin_imagen}" alt="Imagen del lugar" class="img-fluid">
+                        await fetch(urlCortada2 + 'Controlador/CON_ObtenerImagenesSitio.php', {
+                            method: 'POST',  // Tipo de solicitud
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'  // Para enviar datos como formulario
+                            },
+                            body: `id=${e.id_sitio}`  // Enviar el id como parámetro
+                        })
+                        .then(async response => await response.json())
+                        .then(async allImages => {
 
-                                            <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
+                            /* console.log(allImages); */
+
+                            ContenedorSitios.innerHTML += `
+                                <div class="modal fade" id="modal${e.id_sitio}" tabindex="-1" aria-labelledby="exampleModalLabel${e.id_sitio}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header border border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex flex-column">
+    
+                                                <div class="carouselModal">
+                                                    <div class="carousel-images carousel${e.id_sitio}">
+                                                        
+                                                    </div>
+                                                    <button class="buttonCarrouselModal prev"><i class="bi bi-arrow-left-circle"></i></button>
+                                                    <button class="buttonCarrouselModal next"><i class="bi bi-arrow-right-circle"></i></button>
+                                                </div>
+    
+                                                <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
+                                                    <div>
+                                                        <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
+    
+                                                        <div class="valoracion d-flex flex-row mx-2 align-items-center valoracion-promedio${e.id_sitio}"></div>
+    
+                                                    </div>
+    
+                                                    <p class="categoria-lugar rounded-pill text-white m-0 fs-5 ${bg}" style="line-height: 3rem;">${estadoAprobacion}</p>
+    
+                                                </div>
                                                 <div>
-                                                    <h3 class="ms-2 modal-title" id="exampleModalLabel${e.id_sitio}">${e.nombre}</h3>
-
-                                                    <div class="valoracion d-flex flex-row mx-2 align-items-center"></div>
-
+                                                    <p class="categoria-lugar">${e.titulo_categoria}</p>
                                                 </div>
-
-                                                <p class="categoria-lugar rounded-pill text-white m-0 fs-5 ${e.estado == 0 ?'bg-primary' :'bg-secondary'}">${e.estado == 0 ?'aprobado' :'En revisión'}</p>
-
-                                            </div>
-                                            <div>
-                                                <p class="categoria-lugar">${e.titulo}</p>
-                                            </div>
-                                            <p class="ms-2">${e.descripcion}</p>
-                                            <p class="ms-2">Direccion: (Campo localidad)</p>
-                                        </div>
-
-                                        <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
-                                            <div class="w-100 p-3 mx-auto border-top">
-
-                                                <h3 class="text-center m-2">Opiniones</h3>
-
-                                                <div class="row">
-                                                        <div class="col-md-8 mx-auto">
-                                                            <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
-                                                            <!-- Formulario para agregar comentarios -->
-                                                            <form method="post" class="comentarios-form">
-                                                                <div class="form-group">
-
-                                                                    <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
-                                                                
-                                                                </div>
-                                                                <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
-                                                                <div class="my-1 d-flex flex-row justify-content-between align-items-center">
-                                                                    <div class="valoracion" data-value="0">
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
-                                                                        <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
-                                                                    </div>
-                                                                    <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
-                                                                    <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
-                                                                </div>
-
-                                                                <div class="d-flex justify-content-center">
-                                                                    <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
-                                                                </div>
-
-                                                            </form>
+                                                <div class="p-3 mt-0">
+                                                    <p class="ms-2 textoModal">${e.descripcion}</p>
+                                                </div>
+                                                <div class="contaniner-fluid row">
+                                                    <div class="col-lg-6">
+                                                        <p class="ms-2 textoModal">Localidad: ${e.localidad}</p>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+                                                    </div>
+                                                    <div class="position-relative mt-3 mb-3 p-2">
+                                                        <div class="position-absolute top-0 start-50 translate-middle">
+                                                            <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: </p>
                                                         </div>
+                                                    </div>
                                                 </div>
-
-                                                <div class="comentarios-container border-top">
-                                                    <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                            </div>
+    
+                                            <div id="seccion-comentarios-${e.id_sitio}" class="w-100">
+                                                <div class="w-100 p-3 mx-auto border-top">
+    
+                                                    <h3 class="text-center m-2">Opiniones</h3>
+    
+                                                    <div class="row">
+                                                            <div class="col-md-8 mx-auto">
+                                                                <span class="text-danger" id="comment-error-msg${e.id_sitio}"></span>
+                                                                <!-- Formulario para agregar comentarios -->
+                                                                <form method="post" class="comentarios-form">
+                                                                    <div class="form-group">
+    
+                                                                        <textarea class="form-control border border-info-subtle" name="descripcion" maxlength="255" rows="4" cols="50" placeholder="¿Qué opinas sobre este sitio?" data-inputpublicacion${e.id_sitio} required></textarea>
+                                                                    
+                                                                    </div>
+                                                                    <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
+                                                                    <div class="my-1 d-flex flex-row justify-content-between align-items-center">
+                                                                        <div class="valoracion" data-value="0">
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="1">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="2">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="3">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="4">&#9733;</span>
+                                                                            <span class="estrella estrella-sitio${e.id_sitio}" data-value="5">&#9733;</span>
+                                                                        </div>
+                                                                        <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
+                                                                        <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
+                                                                    </div>
+    
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <button type="submit" class="btn btn-primary mb-3">Publicar mi opinión</button>
+                                                                    </div>
+    
+                                                                </form>
+                                                            </div>
+                                                    </div>
+    
+                                                    <div class="comentarios-container border-top">
+                                                        <ul id="lista-comentarios-${e.id_sitio}" class="list-unstyled"></ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
+    
+                            document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
 
-                        document.querySelector(`.valoracion-promedio${e.id_sitio}`).appendChild(ContenedorValoracion);
+                            const carousel = document.querySelector(`.carousel${e.id_sitio}`);
+                            
+                            allImages.forEach( (e, index) => {
+                                carousel.innerHTML += `<img src="data:image/jpeg;base64,${e.bin_imagen}" class="img-fluid" alt="Imagen del sitio ${index+1}">`;
+                            });
+                        });
+
 
                     })
                     .catch(error => {
