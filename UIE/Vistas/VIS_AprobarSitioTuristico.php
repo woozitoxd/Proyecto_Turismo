@@ -1,3 +1,26 @@
+<?php
+$sitiosAgrupados = [];
+
+foreach ($sitios as $sitio) {
+    $idSitio = $sitio['id_sitio'];
+    if (!isset($sitiosAgrupados[$idSitio])) {
+        $sitiosAgrupados[$idSitio] = [
+            'datos' => $sitio,
+            'imagenes' => [],
+            'etiquetas' => [],
+        ];
+    }
+
+    if (!empty($sitio['bin_imagen']) && !in_array($sitio['bin_imagen'], $sitiosAgrupados[$idSitio]['imagenes'])) {
+        $sitiosAgrupados[$idSitio]['imagenes'][] = $sitio['bin_imagen'];
+    }
+
+    if (!empty($sitio['etiqueta']) && !in_array($sitio['etiqueta'], $sitiosAgrupados[$idSitio]['etiquetas'])) {
+        $sitiosAgrupados[$idSitio]['etiquetas'][] = $sitio['etiqueta'];
+    }
+}
+?>
+
 <div class="modal fade" id="sitiosModal" tabindex="-1" aria-labelledby="sitiosModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -19,48 +42,63 @@
                         </tr>
                     </thead>
                     <tbody id="sitiosTableBody">
-                        <?php foreach ($sitios as $sitio): ?>
-
-                            <tr id="sitio-row-<?= $sitio['id_sitio'] ?>">
-                                <td><?= htmlspecialchars($sitio['nombre']) ?></td>
-                                <td><?= htmlspecialchars($sitio['descripcion'] ?? 'Sin descripción') ?></td>
+                        <?php foreach ($sitiosAgrupados as $sitio): ?>
+                            <?php
+                            $datosSitio = $sitio['datos'];
+                            $imagenes = $sitio['imagenes'];
+                            ?>
+                            <tr id="sitio-row-<?= $datosSitio['id_sitio'] ?>">
+                                <td><?= htmlspecialchars($datosSitio['nombre']) ?></td>
+                                <td><?= htmlspecialchars($datosSitio['descripcion'] ?? 'Sin descripción') ?></td>
                                 <td>
-                                    <?php if (!empty($sitio['bin_imagen'])): ?>
-                                        <img src="data:image/jpeg;base64,<?= base64_encode($sitio['bin_imagen']) ?>"
-                                            alt="<?= htmlspecialchars($sitio['titulo']) ?>" width="50">
-                                    <?php else: ?>
-                                        Sin imagen
-                                    <?php endif; ?>
+                                <img src="<?= 'data:image/jpeg;base64,' . base64_encode(string: $imagenes[0]) ?>" alt="Imagen de destino"
+                                style="width:60px;">
                                 </td>
-                                <td><?= htmlspecialchars($sitio['etiqueta'] ?? 'Sin etiqueta') ?></td>
-                                <td><?= htmlspecialchars($sitio['localidad'] ?? 'Desconocida') ?></td>
+                                <td> <?php
+                                // Mostrar las etiquetas del sitio agrupadas
+                                if (!empty($datosSitio['etiquetas'])):
+                                    foreach ($datosSitio['etiquetas'] as $etiqueta):
+                                        ?>
+                                            <span class="etiqueta-lugar"><?= htmlspecialchars($etiqueta) ?></span>
+                                            <?php
+                                    endforeach;
+                                else:
+                                    // Si no tiene etiquetas, mostrar "Sin etiquetas"
+                                    echo '<span class="etiqueta-lugar">Sin etiquetas</span>';
+                                endif;
+                                ?>
+
+                                </td>
+                                <td><?= htmlspecialchars($datosSitio['localidad'] ?? 'Desconocida') ?></td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#modalVistaPreviaSitio" data-bs-id="<?= $sitio['id_sitio'] ?>"
-                                        data-categoria="<?= htmlspecialchars($sitio['titulo'] ?? 'Sin categoria') ?>"
-                                        data-nombre="<?= htmlspecialchars($sitio['nombre']) ?>"
-                                        data-descripcion="<?= htmlspecialchars($sitio['descripcion'] ?? 'Sin descripción') ?>"
-                                        data-localidad="<?= htmlspecialchars($sitio['localidad'] ?? 'Desconocida') ?>"
-                                        data-arancelado="<?= $sitio['tarifa'] ? 'Sí' : 'No' ?>"
-                                        data-horarios="<?= htmlspecialchars($sitio['horarios'] ?? 'No especificados') ?>"
-                                        data-imagen="<?= isset($sitio['bin_imagen']) && !empty($sitio['bin_imagen']) ? 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) : '' ?>"
-                                        data-etiqueta="<?= htmlspecialchars($sitio['etiqueta'] ?? 'Sin etiqueta') ?>">
+                                        data-bs-target="#modalVistaPreviaSitio" data-bs-id="<?= $datosSitio['id_sitio'] ?>"
+                                        data-categoria="<?= htmlspecialchars($datosSitio['titulo'] ?? 'Sin categoria') ?>"
+                                        data-nombre="<?= htmlspecialchars($datosSitio['nombre']) ?>"
+                                        data-descripcion="<?= htmlspecialchars($datosSitio['descripcion'] ?? 'Sin descripción') ?>"
+                                        data-localidad="<?= htmlspecialchars($datosSitio['localidad'] ?? 'Desconocida') ?>"
+                                        data-arancelado="<?= $datosSitio['tarifa'] ? 'Sí' : 'No' ?>"
+                                        data-horarios="<?= htmlspecialchars($datosSitio['horarios'] ?? 'No especificados') ?>"
+                                        data-imagen="<?= isset($imagenes[0]) && !empty($imagenes[0]) ? 'data:image/jpeg;base64,' . base64_encode($datosSitio['bin_imagen']) : '' ?>"
+                                        data-etiqueta="<?= htmlspecialchars(implode(', ', $datosSitio['etiquetas'] ?? ['Sin etiqueta'])) ?>">
                                         <i class="bi bi-eye"></i>
                                     </button>
 
+
                                     <button class="btn btn-warning btn-sm mt-3" data-bs-dismiss="modal"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarSitioTuristico"
-                                        data-bs-id="<?= $sitio['id_sitio'] ?>"
-                                        data-categoria="<?= htmlspecialchars(string: $sitio['titulo'] ?? 'Sin categoria') ?>"
-                                        data-nombre="<?= htmlspecialchars($sitio['nombre']) ?>"
-                                        data-descripcion="<?= htmlspecialchars($sitio['descripcion'] ?? 'Sin descripción') ?>"
-                                        data-localidad="<?= htmlspecialchars($sitio['localidad'] ?? 'Desconocida') ?>"
-                                        data-arancelado="<?= $sitio['tarifa'] ? 'Sí' : 'No' ?>"
-                                        data-horarios="<?= htmlspecialchars($sitio['horarios'] ?? 'No especificados') ?>"
-                                        data-imagen="<?= isset($sitio['bin_imagen']) && !empty($sitio['bin_imagen']) ? 'data:image/jpeg;base64,' . base64_encode($sitio['bin_imagen']) : '' ?>"
-                                        data-etiqueta="<?= htmlspecialchars($sitio['etiqueta'] ?? 'Sin etiqueta') ?>">
+                                        data-bs-id="<?= $datosSitio['id_sitio'] ?>"
+                                        data-categoria="<?= htmlspecialchars($datosSitio['titulo'] ?? 'Sin categoria') ?>"
+                                        data-nombre="<?= htmlspecialchars($datosSitio['nombre']) ?>"
+                                        data-descripcion="<?= htmlspecialchars($datosSitio['descripcion'] ?? 'Sin descripción') ?>"
+                                        data-localidad="<?= htmlspecialchars($datosSitio['localidad'] ?? 'Desconocida') ?>"
+                                        data-arancelado="<?= $datosSitio['tarifa'] ? 'Sí' : 'No' ?>"
+                                        data-horarios="<?= htmlspecialchars($datosSitio['horarios'] ?? 'No especificados') ?>"
+                                        data-imagen="<?= isset($imagenes[0]) && !empty($imagenes[0]) ? 'data:image/jpeg;base64,' . base64_encode($datosSitio['bin_imagen']) : '' ?>"
+                                        data-etiqueta="<?= htmlspecialchars(implode(', ', $datosSitio['etiquetas'] ?? ['Sin etiqueta'])) ?>">
                                         <i class="bi bi-pencil"></i>
                                     </button>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>
