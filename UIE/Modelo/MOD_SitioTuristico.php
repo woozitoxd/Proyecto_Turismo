@@ -505,7 +505,7 @@ class SitioTuristico
     
             // Preparar la llamada al procedimiento de edición
             $SPEditarSitio = $conn->prepare(query: "CALL EditarSitioTuristico(
-                :id_sitio, :nombre, :descripcion,:categoria)");
+                :id_sitio, :nombre, :descripcion, :categoria)");
     
             // Asignar los parámetros para la llamada al SP
             $SPEditarSitio->bindParam(':id_sitio', $id_sitio, PDO::PARAM_INT);
