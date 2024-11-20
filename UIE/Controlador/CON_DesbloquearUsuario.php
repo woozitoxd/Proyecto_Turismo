@@ -14,11 +14,6 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
     $usuarioID = $_SESSION['id'];
 }
 
-if (!Permisos::tienePermiso('Bloquear Usuario', $usuarioID) || !Permisos::esRol('administrador', $usuarioID)) {
-    echo json_encode(['success' => false, 'error' => 'Error, no posee el permiso para bloquear un usuario.']);
-    exit();
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos JSON de la solicitud
     $data = json_decode(file_get_contents('php://input'), true);
@@ -30,12 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $modelo = new perfilUser();
-    $resultado = $modelo->BorradoLogicoCuenta($IDUsuario);
+    $resultado = $modelo->DesbloquearCuenta($IDUsuario);
     // Comprobación de éxito o error
     if ($resultado === true) {
         echo json_encode(['success' => true]);
-        session_destroy();
-        exit();
     } else {
         echo json_encode(['success' => false, 'error' => $resultado]);
     }

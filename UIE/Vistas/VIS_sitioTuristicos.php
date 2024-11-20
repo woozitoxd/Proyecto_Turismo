@@ -33,7 +33,9 @@ foreach ($sitios as $sitio) {
     <?php
     $datosSitio = $sitio['datos'];
     $imagenes = $sitio['imagenes'];
-    $ValoracionDeSitio = SitioTuristico::ObtenerValoracionPromedioSitio($datosSitio['id_sitio'])['valoracion_promedio'];
+    $ValoracionDeSitio = SitioTuristico::ObtenerValoracionPromedioSitio($datosSitio['id_sitio']);
+    $PromedioValoracion = $ValoracionDeSitio['valoracion_promedio'];
+    $CantValoraciones = $ValoracionDeSitio['cant_valoraciones'];
     ?>
 
     <div class="tarjeta-turistica card" data-sitio-id="<?= $datosSitio['id_sitio'] ?>"
@@ -57,17 +59,17 @@ foreach ($sitios as $sitio) {
 
                 <?php
                 for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= floor($ValoracionDeSitio)) {
+                    if ($i <= floor($PromedioValoracion)) {
                         ?><span class="star full"></span><?php
-                    } else if ($i == ceil($ValoracionDeSitio) && $ValoracionDeSitio - floor($ValoracionDeSitio) > 0) {
+                    } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
                         ?><span class="star half"></span><?php
                     } else {
                         ?><span class="star"></span><?php
                     }
                 }
                 ?>
-
-                <span class="text-secondary ms-2"><?php echo number_format($ValoracionDeSitio, 1) ?></span>
+                <span class="text-secondary ms-2"><?php echo number_format($PromedioValoracion, 1) ?></span>
+                <span class="text-secondary ms-2"><?php if($CantValoraciones == 1) echo '('.$CantValoraciones.' reseña)'; else echo '('.$CantValoraciones.' reseñas)'; ?></span>
 
             </div>
         </div>
@@ -103,16 +105,17 @@ foreach ($sitios as $sitio) {
 
                                 <?php
                                 for ($i = 1; $i <= 5; $i++) {
-                                    if ($i <= floor($ValoracionDeSitio)) {
+                                    if ($i <= floor($PromedioValoracion)) {
                                         ?><span class="star full"></span><?php
-                                    } else if ($i == ceil($ValoracionDeSitio) && $ValoracionDeSitio - floor($ValoracionDeSitio) > 0) {
+                                    } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
                                         ?><span class="star half"></span><?php
                                     } else {
                                         ?><span class="star"></span><?php
                                     }
                                 }
                                 ?>
-                                <span class="text-secondary ms-2"><?php echo number_format($ValoracionDeSitio, 1) ?></span>
+                                <span class="text-secondary ms-2"><?php echo number_format($PromedioValoracion, 1) ?></span>
+                                <span class="text-secondary ms-2"><?php if($CantValoraciones == 1) echo '('.$CantValoraciones.' reseña)'; else echo '('.$CantValoraciones.' reseñas)'; ?></span>
 
                             </div>
                         </div>
@@ -153,11 +156,11 @@ foreach ($sitios as $sitio) {
                             <p class="ms-2 textoModal">Localidad: <?= $datosSitio['localidad'] ?></p>
                         </div>
                         <div class="col-lg-6">
-                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: <?= $datosSitio['tarifa'] ?></p>
                         </div>
                         <div class="position-relative mt-3 mb-3 p-2">
                             <div class="position-absolute top-0 start-50 translate-middle">
-                                <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: </p>
+                                <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: <?= $datosSitio['horarios'] ?></p>
                             </div>
                         </div>
                     </div>

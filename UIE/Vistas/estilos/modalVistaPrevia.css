@@ -13,3 +13,14 @@
     max-width: 1200px; 
     width: 100%; 
 }
+/* Clases para usuarios */
+
+.estado-bloqueado {
+    color: red !important; 
+    font-weight: bold;
+}
+
+.estado-activo {
+    color: green !important;
+    font-weight: bold;
+}

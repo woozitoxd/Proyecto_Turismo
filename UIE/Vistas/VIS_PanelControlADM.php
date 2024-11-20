@@ -98,7 +98,7 @@ if ($indexPosition !== false) {
                             <i class="bi bi-people" style="font-size:15rem;"></i>
                             <h5 class="card-title">Usuarios Activos</h5>
                             <p class="card-text">Gestión de usuarios registrados en la plataforma.</p>
-                            <button class="btn btn-light" id="verDetallesBtn">Ver Detalles</button>
+                            <button class="btn btn-light" id="verDetallesBtn" data-bs-toggle="modal" data-bs-target="#usuariosModal">Ver Detalles</button>
                         </div>
                     </div>
                 </div>
@@ -123,6 +123,7 @@ if ($indexPosition !== false) {
                                                 <th>Nombre</th>
                                                 <th>Rol</th>
                                                 <th>Email</th>
+                                                <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -139,8 +140,34 @@ if ($indexPosition !== false) {
 
 
 
+                <!-- --------- Modal para cambiar rol -------- -->
 
-
+                <div class="modal fade" id="cambiarRolModal" tabindex="-1" aria-labelledby="cambiarRolModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cambiarRolModalLabel">Cambiar Rol</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="cambiarRolForm">
+                                    <input type="hidden" id="idUsuario" name="idUsuario">
+                                    <div class="mb-3">
+                                        <label for="nuevoRol" class="form-label">Selecciona un nuevo rol:</label>
+                                        <select id="nuevoRol" class="form-select" name="nuevoRol" placeholder="Cambiar rol">
+                                            <option value="1">Administrador</option>
+                                            <option value="2">Usuario</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" onclick="guardarNuevoRol()">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 

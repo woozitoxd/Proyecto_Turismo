@@ -178,8 +178,8 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-2">
-                    <strong class="text-primary">TURI</strong><span class="text-danger">SMO</span>
-                    <p>© Proyecto Turismo 2024</p>
+                    <strong class="text-primary">TUORI</strong><span class="text-danger">SMO</span>
+                    <p>© Proyecto Tuorismo 2024</p>
                 </div>
                 <div class="col-md-4">
                 <h5 class="font-weight-bold mb-2">Contactanos</h5>

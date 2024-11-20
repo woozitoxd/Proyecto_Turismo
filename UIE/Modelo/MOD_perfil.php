@@ -175,6 +175,46 @@ class perfilUser //clase perfil usuario que trabaja con las consultas que me ini
             return $e->getMessage();
         }
     }
+
+    public function BloquearCuenta($idUsuario){
+        try{
+            $updatesql = 'UPDATE usuario SET estado = 0 WHERE id = :idUsuario';
+            $updateStmt = $this->conexion->prepare($updatesql);
+            $updateStmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $updateStmt->execute();
+            return true;
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    public function DesbloquearCuenta($idUsuario){
+        try{
+            $updatesql = 'UPDATE usuario SET estado = 1 WHERE id = :idUsuario';
+            $updateStmt = $this->conexion->prepare($updatesql);
+            $updateStmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $updateStmt->execute();
+            return true;
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+
+    public function CambiarRolUsuario($idUsuario, $idRol) {
+        try {
+            $updateSql = 'UPDATE usuario SET id_rol = :idRol WHERE id = :idUsuario';
+            $updateStmt = $this->conexion->prepare($updateSql);
+            $updateStmt->bindParam(':idRol', $idRol, PDO::PARAM_INT);
+            $updateStmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $updateStmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    
     
 
 

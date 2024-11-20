@@ -72,6 +72,19 @@
 }
 
 /* ----- Ajustes para pantallas pequeñas ----- */
+@media (max-width: 992px) {
+
+    #section-title{
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .tarjeta-turistica{
+        width: 100%;
+    }
+}
+
+/* ----- Ajustes para pantallas pequeñas ----- */
 @media (max-width: 768px) {
     .estructura-principal {
         flex-direction: column;
@@ -84,5 +97,17 @@
 
     .zona-mapa-izquierda {
         height: 300px;
+    }
+
+    .tarjeta-turistica{
+        width: 45%;
+    }
+}
+
+/* ----- Ajustes para pantallas xs ----- */
+@media (max-width: 576px) {
+
+    .tarjeta-turistica{
+        width: 100%;
     }
 }

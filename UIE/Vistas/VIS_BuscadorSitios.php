@@ -41,16 +41,16 @@ if ($indexPosition !== false) {
 
 ?>
 
-<nav class="navbar-color">
+<nav id="header-main" class="navbar-color">
     <div class="container-fluid">
         <div class="row mt-4 justify-content-between">
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center order-element-1">
                 <a class="navbar-brand fs-2" href="index.php">
                     <strong class="text-primary">TOURI</strong><span class="text-danger">SMO</span>
                 </a>
             </div>
 
-            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '5'; else echo'7'; ?> d-flex flex-column justify-content-center">
+            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '5'; else echo'7'; ?> d-flex flex-column justify-content-center order-element-2">
                 <form class="d-flex ms-3 search-form justify-content-center" id="form-busqueda">
                     <input class="form-control custom-input" id="buscador" type="search" placeholder="Buscar">
                     <button class="btn custom-search-btn" type="submit"><i class="bi bi-trash3"></i></button>
@@ -62,7 +62,7 @@ if ($indexPosition !== false) {
                             id="dropdownCategorias" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Categorías
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($categorias as $categoria): ?>
                                 <li><a class="dropdown-item filtro filtro-categoria"
                                         data-filtro="<?= $categoria['titulo'] ?>" href="#"><?= $categoria['titulo'] ?></a>
@@ -70,12 +70,12 @@ if ($indexPosition !== false) {
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                    <div class="dropdown me-2">
+                    <div class="dropdown me-2 ">
                         <button class="btn custom-filter-btn dropdown-toggle w-100 filtro-etiqueta" type="button"
                             id="dropdownEtiquetas" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Etiquetas
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($etiquetas as $etiqueta): ?>
                                 <li><a class="dropdown-item filtro filtro-etiqueta" data-filtro="<?= $etiqueta['titulo'] ?>"
                                         href="#"><?= $etiqueta['titulo'] ?></a></li>
@@ -87,7 +87,7 @@ if ($indexPosition !== false) {
                             id="dropdownLocalidad" data-bs-toggle="dropdown"> <!-- Cambié el id -->
                             Localidad
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($localidades as $localidad): ?>
                                 <li><a class="dropdown-item filtro filtro-localidad"
                                         data-filtro="<?= $localidad['nombre'] ?>" href="#"><?= $localidad['nombre'] ?></a>
@@ -98,44 +98,71 @@ if ($indexPosition !== false) {
                 </div>
             </div>
 
-            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '4'; else echo'2'; ?>">
-                <ul class="d-flex justify-content-around ">
-                    <?php
-                    if (isset($_SESSION['usuario'])) {
-                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#favoritos">Favoritos</a></li>';
-                        echo '<li class="nav-item nav-decoracion navbar-nav"><a class="nav-link" href="#MisSitios">Mis sitios</a></li>';
-                    }
-                    ?>
-                    <div class="dropdown">
-                    <button class="btn custom-hamburger-btn dropdown-toggle fs-5 text-light" type="button" id="hamburgerMenu"
-                        data-bs-toggle="dropdown">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            echo '<i class="bi bi-person-fill"></i> <strong class="text-light" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
-                        } else {
-                            echo '<i class="bi bi-person-fill"></i> Cuenta ';
-                        }
-                        ?>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <?php
-                        if (isset($_SESSION['usuario'])) {
-                            if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
-                                echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
-                            }
-                            echo '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPerfil">Perfil</a></li>';
-                            echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
-                            echo '<li><hr class="dropdown-divider"></li>';
-                            echo '<li><a class="dropdown-item text-danger-emphasis" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
-                        } else {
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
-                            echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                            echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
-                        }
-                        ?>
-                    </ul>
-                </div>
-                </ul>
+            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '4'; else echo'2'; ?> order-element-3">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <div class="container-fluid justify-content-end">
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                            <div class="offcanvas-body">
+                                <ul id="nav-header" class="d-flex justify-content-around">
+                                    <?php
+                                        if (isset($_SESSION['usuario'])) {
+
+                                            if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
+                                                echo '<li class="hidden-option"><a class="nav-link" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
+                                            }
+                                            echo '<li class="hidden-option nav-link nav-decoracion navbar-nav fw-medium" data-bs-toggle="modal" data-bs-target="#modalPerfil">PERFIL</li>';
+                                            echo '<li class="hidden-option nav-link nav-decoracion navbar-nav"><a class="nav-link" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
+                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link link-seccion" href="#favoritos">Favoritos</a></li>';
+                                            echo '<li class="nav-item nav-decoracion navbar-nav" data-bs-dismiss="offcanvas" aria-label="Close"><a class="nav-link link-seccion" href="#MisSitios">Mis sitios</a></li>';
+                                            echo '<li class="hidden-option nav-link nav-decoracion navbar-nav"><a class="text-danger-emphasis nav-link" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
+                                        }else{
+                                            echo '<li class="hidden-option nav-item nav-decoracion navbar-nav fw-medium my-2" data-bs-toggle="modal" data-bs-target="#myModalInicio">INICIAR SESIÓN</li>';
+                                            echo '<li class="hidden-option nav-item nav-decoracion navbar-nav fw-medium my-2" data-bs-toggle="modal" data-bs-target="#myModalRegistro">REGISTRARSE</li>';
+                                            echo '<li class="hidden-option nav-item nav-decoracion navbar-nav my-2"><a class="nav-link" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
+                                        }
+                                    ?>
+                                    <div class="dropdown">
+                                        <button class="btn custom-hamburger-btn dropdown-toggle fs-5 text-light" type="button" id="hamburgerMenu"
+                                            data-bs-toggle="dropdown">
+                                            <?php
+                                            if (isset($_SESSION['usuario'])) {
+                                                echo '<i class="bi bi-person-fill"></i> <strong class="text-light" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
+                                            } else {
+                                                echo '<i class="bi bi-person-fill"></i> Cuenta ';
+                                            }
+                                            ?>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <?php
+                                            if (isset($_SESSION['usuario'])) {
+                                                if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
+                                                    echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
+                                                }
+                                                echo '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPerfil">Perfil</a></li>';
+                                                echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
+                                                echo '<li><hr class="dropdown-divider"></li>';
+                                                echo '<li><a class="dropdown-item text-danger-emphasis" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
+                                            } else {
+                                                echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
+                                                echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
+                                                echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </nav>
+
+                
             </div>
 
         </div>
