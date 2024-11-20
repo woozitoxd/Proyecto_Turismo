@@ -3,3 +3,15 @@
     max-width: 400px;
     height: auto;
 }
+
+/* Clases para usuarios */
+
+.estado-bloqueado {
+    color: red !important; 
+    font-weight: bold;
+}
+
+.estado-activo {
+    color: green !important;
+    font-weight: bold;
+}
