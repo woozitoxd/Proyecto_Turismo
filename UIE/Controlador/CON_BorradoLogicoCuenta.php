@@ -4,6 +4,7 @@
 //require_once('../controlador/CON_VerificarPermisos.php'); // averiguar lo de la logica de permisos.
 
 use Google\Service\CloudSearch\Id;
+require_once('../controlador/CON_VerificarPermisos.php');
 
 require_once("../Modelo/MOD_Perfil.php");
 session_start();

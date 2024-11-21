@@ -41,7 +41,7 @@ function aprobarSitio(id_sitio) {
                 const sitiosModal = new bootstrap.Modal(document.getElementById('sitiosModal'));
                 sitiosModal.show();
             } else {
-                alert('Error al aprobar el sitio');
+                alert('Error al aprobar el sitio: ' + data.error);
             }
         })
         .catch(error => console.error('Error:', error));

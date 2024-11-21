@@ -3,16 +3,17 @@ use Google\Service\CloudSearch\Id;
 
 
 require_once("../Modelo/MOD_Perfil.php");
-session_start();
+require_once('../controlador/CON_VerificarPermisos.php');
 
+session_start();
 
 $usuarioID = null; 
 if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
     $usuarioID = $_SESSION['id'];
 }
 
-if (!Permisos::tienePermiso('Cambiar Rol', $usuarioID) || !Permisos::esRol('administrador', $usuarioID)) {
-    echo json_encode(['success' => false, 'error' => 'Error, no posee el permiso para cambiar roles de un usuario.']);
+if (!Permisos::esRol('administrador', $usuarioID)) {
+    echo json_encode(['success' => false, 'error' => 'Credenciales requeridas.']);
     exit();
 }
 
