@@ -9,6 +9,9 @@ if (isset($_SESSION['mensaje'])) {
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>
 <script defer src="../Vistas//javascript/AJAX_EliminarComentario.js"></script>
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
+<link rel="stylesheet" href="../Vistas/estilos/style.css"></head>
+
+
 <?php $sitiosAgrupados = [];
 $sitiosAgrupados = [];
 foreach ($sitios as $sitio) {
@@ -60,11 +63,11 @@ foreach ($sitios as $sitio) {
                 <?php
                 for ($i = 1; $i <= 5; $i++) {
                     if ($i <= floor($PromedioValoracion)) {
-                        ?><span class="star full"></span><?php
+                        ?><span class="icon-mate-tea-filled full"><?php
                     } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
-                        ?><span class="star half"></span><?php
+                        ?><span class="icon-mate-tea-half-filled half"><?php
                     } else {
-                        ?><span class="star"></span><?php
+                        ?><span class="icon-mate-tea-filled star"></span><?php
                     }
                 }
                 ?>
@@ -110,7 +113,7 @@ foreach ($sitios as $sitio) {
                                     } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
                                         ?><span class="star half"></span><?php
                                     } else {
-                                        ?><span class="star"></span><?php
+                                        ?><span class="icon-mate-tea-filled"></span><?php
                                     }
                                 }
                                 ?>
@@ -190,16 +193,16 @@ foreach ($sitios as $sitio) {
                                         <!-- Campo oculto para el id_sitio -->
                                         <div class="my-1 d-flex flex-row justify-content-between align-items-center">
                                             <div class="valoracion" data-value="0">
-                                                <span class="estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
-                                                    data-value="1">&#9733;</span>
-                                                <span class="estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
-                                                    data-value="2">&#9733;</span>
-                                                <span class="estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
-                                                    data-value="3">&#9733;</span>
-                                                <span class="estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
-                                                    data-value="4">&#9733;</span>
-                                                <span class="estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
-                                                    data-value="5">&#9733;</span>
+                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                    data-value="1"></span>
+                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                    data-value="2"></span>
+                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                    data-value="3"></span>
+                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                    data-value="4"></span>
+                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                    data-value="5"></span>
                                             </div>
                                             <input type="hidden" name="valoracion"
                                                 class="valoracion-sitio<?= $datosSitio['id_sitio'] ?>" value="0">
