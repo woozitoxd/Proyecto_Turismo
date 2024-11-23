@@ -4,6 +4,7 @@
 //require_once('../controlador/CON_VerificarPermisos.php'); // averiguar lo de la logica de permisos.
 
 use Google\Service\CloudSearch\Id;
+require_once('../controlador/CON_VerificarPermisos.php');
 
 require_once("../Modelo/MOD_Perfil.php");
 session_start();
@@ -14,8 +15,8 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
     $usuarioID = $_SESSION['id'];
 }
 
-if (!Permisos::tienePermiso('Bloquear Usuario', $usuarioID) || !Permisos::esRol('administrador', $usuarioID)) {
-    echo json_encode(['success' => false, 'error' => 'Error, no posee el permiso para bloquear un usuario.']);
+if (!Permisos::tienePermiso('Eliminar Cuenta', $usuarioID)) {
+    echo json_encode(['success' => false, 'error' => 'Error, no posee el permiso para eliminar su cuenta.']);
     exit();
 }
 

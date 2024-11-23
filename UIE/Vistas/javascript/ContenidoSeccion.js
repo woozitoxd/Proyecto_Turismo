@@ -242,7 +242,7 @@ async function obtenerSitiosFavoritos(){
 
                 ContenedorSitios.innerHTML = `<div class="w-100 h-75 align-content-center text-center"><h3>Aún no tienes sitios favoritos</h3></div>`;
 
-                const map = new google.maps.Map(document.getElementById("map"), {
+                globalMap = new google.maps.Map(document.getElementById("map"), {
                     zoom: 10,
                     center: { lat: -34.64877586247709, lng: -58.444786860971085 }
                 });
@@ -259,9 +259,28 @@ async function obtenerSitiosFavoritos(){
                 /* console.log('Resultado de sitios favoritos:', data); */
 
                 // Inicializar el mapa
-                const map = new google.maps.Map(document.getElementById("map"), {
+                globalMap = new google.maps.Map(document.getElementById("map"), {
                     zoom: 6,
                     center: { lat: 0, lng: 0 },
+                    styles: [
+                        {
+                            featureType: "poi",
+                            elementType: "all",
+                            stylers: [
+                                { visibility: "off" } // Ocultar puntos de interés
+                            ]
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "geometry",
+                            stylers: [{ visibility: "on" }, { color: "#green" }]
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "labels",
+                            stylers: [{ visibility: "off" }]
+                        }
+                    ]
                 });
 
                 const marcadoresActuales = [];
@@ -276,7 +295,7 @@ async function obtenerSitiosFavoritos(){
 
                     const marker = new google.maps.Marker({
                         position,
-                        map,
+                        map: globalMap,
                         title: e.descripcion,
                         label: {
                             text: "♥",
@@ -289,7 +308,7 @@ async function obtenerSitiosFavoritos(){
                     bounds.extend(marker.position);
 
                     // Agregar un listener de clic para cada marcador y configurar la ventana de información
-                    agregarListenerMarcador(marker, e.id_sitio, e.descripcion, e.nombre, map);
+                    agregarListenerMarcador(marker, e.id_sitio);
 
                     let valoracionTotal = 0;
 
@@ -481,7 +500,7 @@ async function obtenerSitiosFavoritos(){
 
                 await Promise.all(PromesasFetch);
 
-                map.fitBounds(bounds, {
+                globalMap.fitBounds(bounds, {
                     top: 50,    // Padding superior
                     bottom: 150, // Padding inferior
                     left: 50,   // Padding izquierdo
@@ -629,9 +648,28 @@ async function obtenerPublicacionesPropias(){
                 console.log('Resultado de sitios propios:', data);
 
                 // Inicializar el mapa
-                const map = new google.maps.Map(document.getElementById("map"), {
+                globalMap = new google.maps.Map(document.getElementById("map"), {
                     zoom: 6,
                     center: { lat: 0, lng: 0 },
+                    styles: [
+                        {
+                            featureType: "poi",
+                            elementType: "all",
+                            stylers: [
+                                { visibility: "off" } // Ocultar puntos de interés
+                            ]
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "geometry",
+                            stylers: [{ visibility: "on" }, { color: "#green" }]
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "labels",
+                            stylers: [{ visibility: "off" }]
+                        }
+                    ]
                 });
 
                 const marcadoresActuales = [];
@@ -646,7 +684,7 @@ async function obtenerPublicacionesPropias(){
 
                     const marker = new google.maps.Marker({
                         position,
-                        map,
+                        map: globalMap,
                         title: e.descripcion,
                         label: {
                             text: `★`,
@@ -659,7 +697,7 @@ async function obtenerPublicacionesPropias(){
                     bounds.extend(marker.position);
 
                     // Agregar un listener de clic para cada marcador y configurar la ventana de información
-                    agregarListenerMarcador(marker, e.id_sitio, e.descripcion, e.nombre, map);
+                    agregarListenerMarcador(marker, e.id_sitio);
 
                     let valoracionTotal = 0;
 
@@ -798,11 +836,11 @@ async function obtenerPublicacionesPropias(){
                                                         <p class="ms-2 textoModal">Localidad: ${e.localidad}</p>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: </p>
+                                                        <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">Es arancelado: ${e.tarifa == 1 ?'Si' :'No'} </p>
                                                     </div>
                                                     <div class="position-relative mt-3 mb-3 p-2">
                                                         <div class="position-absolute top-0 start-50 translate-middle">
-                                                            <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: </p>
+                                                            <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: ${e.horarios}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -872,7 +910,7 @@ async function obtenerPublicacionesPropias(){
 
                 await Promise.all(PromesasFetch);
 
-                map.fitBounds(bounds, {
+                globalMap.fitBounds(bounds, {
                     top: 50,    // Padding superior
                     bottom: 150, // Padding inferior
                     left: 50,   // Padding izquierdo

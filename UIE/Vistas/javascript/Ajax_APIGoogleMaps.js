@@ -1,6 +1,7 @@
 // Crear una ventana de información para compartir entre los marcadores
 
-//const infoWindow = new google.maps.InfoWindow();
+let globalMap;
+let currentInfoWindow = null; // Variable global para rastrear la ventana abierta
 
 function iniciarmapa() {
     // Obtener la URL actual y crear la URL cortada para la petición
@@ -15,7 +16,7 @@ function iniciarmapa() {
     }
 
     // Inicializar el mapa
-    const map = new google.maps.Map(document.getElementById("map"), {
+    globalMap = new google.maps.Map(document.getElementById("map"), {
         zoom: 6,
         center: { lat: 0, lng: 0 },
         styles: [
@@ -64,7 +65,7 @@ function iniciarmapa() {
 
                 const marker = new google.maps.Marker({
                     position,
-                    map,
+                    map: globalMap,
                     title: title,
                     label: {
                         text: (location.hash == "#favoritos" ?'♥' :`★`),
@@ -78,10 +79,10 @@ function iniciarmapa() {
                 bounds.extend(marker.position);
 
                 // Agregar un listener de clic para cada marcador y configurar la ventana de información
-                agregarListenerMarcador(marker, sitio.id_sitio, title, sitio.nombre, map);
+                agregarListenerMarcador(marker, sitio.id_sitio);
             });
 
-            map.fitBounds(bounds, {
+            globalMap.fitBounds(bounds, {
                 top: 50,    // Padding superior
                 bottom: 150, // Padding inferior
                 left: 50,   // Padding izquierdo
@@ -93,7 +94,7 @@ function iniciarmapa() {
         });
 }
 
-function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
+function agregarListenerMarcador(marker, idSitio) {
 
     console.log("Cargando mapa para el sitio con ID:", idSitio);
 
@@ -101,8 +102,8 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
         console.log(`ID del sitio: ${idSitio}`); // Verificar el ID del sitio
 
         // Mover el mapa a la posición del marcador al hacer clic
-        map.setCenter(marker.getPosition());
-        map.setZoom(15); // Ajustar el zoom si es necesario
+        /* globalMap.setCenter(marker.getPosition()); */
+        globalMap.setZoom(15); // Ajustar el zoom si es necesario
 
         // Obtener las coordenadas del servidor usando una petición POST
         fetch('../Controlador/CON_ObtenerCOOR.php', {
@@ -168,10 +169,15 @@ function agregarListenerMarcador(marker, idSitio, descripcion, nombre, map) {
                     </button>
                 </div>`;
             
-            
+                // Cerrar la ventana de información abierta actualmente, si existe
+                if (currentInfoWindow) {
+                    currentInfoWindow.close();
+                }
+
                 infoWindow.close();
                 infoWindow.setContent(divContainerDetalles);
                 infoWindow.open(marker.getMap(), marker);
+                currentInfoWindow = infoWindow;
 
             })
             .catch(error => {
@@ -220,35 +226,10 @@ function cargarMapaDesdeTarjeta(elemento) {
 
             const position = { lat: latitud, lng: longitud };
 
-            // Mover el mapa a la posición del sitio y ajustar el zoom
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 15,
-                center: position,
-                styles: [
-                    {
-                        featureType: "poi",
-                        elementType: "all",
-                        stylers: [
-                            { visibility: "off" } // Ocultar puntos de interés
-                        ]
-                    },
-                    {
-                        featureType: "poi.park",
-                        elementType: "geometry",
-                        stylers: [{ visibility: "on" }, { color: "#green" }]
-                    },
-                    {
-                        featureType: "poi.park",
-                        elementType: "labels",
-                        stylers: [{ visibility: "off" }]
-                    }
-                ]
-            });
-
             // Agregar un marcador en la posición del sitio
             const marker = new google.maps.Marker({
                 position: position,
-                map: map,
+                map: globalMap,
                 label: {
                     text: (location.hash == "#favoritos" ?'♥' :'★'),
                     color: "white",
@@ -256,6 +237,10 @@ function cargarMapaDesdeTarjeta(elemento) {
                 },
                 title: 'Sitio ' + idSitio,
             });
+
+            // Mover el mapa a la posición del marcador
+            globalMap.setCenter(marker.getPosition());
+            globalMap.setZoom(15); // Ajustar el zoom si es necesario
 
             fetch('../Controlador/CON_ObtenerImagenSitio.php', {
                 method: "POST",
@@ -292,14 +277,20 @@ function cargarMapaDesdeTarjeta(elemento) {
                 </div>
                 `;
                 
+                // Cerrar la ventana de información abierta actualmente, si existe
+                if (currentInfoWindow) {
+                    currentInfoWindow.close();
+                }
+
                 infoWindow.close();
                 infoWindow.setContent(divContainer);
                 infoWindow.open(marker.getMap(), marker);
+                currentInfoWindow = infoWindow;
 
                 marker.addListener("click", function (){
                     // Mover el mapa a la posición del marcador al hacer clic
-                    map.setCenter(marker.getPosition());
-                    map.setZoom(15); // Ajustar el zoom si es necesario
+                    globalMap.setCenter(marker.getPosition());
+                    globalMap.setZoom(15); // Ajustar el zoom si es necesario
     
                     const infoWindow = new google.maps.InfoWindow();
             
@@ -326,10 +317,16 @@ function cargarMapaDesdeTarjeta(elemento) {
                     </button>
                 </div>
                     `;
-            
+
+                    // Cerrar la ventana de información abierta actualmente, si existe
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+
                     infoWindow.close();
                     infoWindow.setContent(divContainerDetalles);
                     infoWindow.open(marker.getMap(), marker);
+                    currentInfoWindow = infoWindow;
                 });
         
                 

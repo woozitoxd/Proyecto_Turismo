@@ -1,12 +1,25 @@
 <?php
 //require_once('../Modelo/conexion_bbdd.php');
 require_once '../Modelo/MOD_SitioTuristico.php'; 
+require_once('../controlador/CON_VerificarPermisos.php');
 
 header('Content-Type: application/json');
 
 // Capturar errores y evitar que interfieran en el JSON
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+
+session_start();
+
+$usuarioID = null; 
+if (isset($_SESSION['usuario']) && $_SESSION['usuario']){
+    $usuarioID = $_SESSION['id'];
+}
+
+if (!Permisos::esRol('administrador', $usuarioID)) {
+    echo json_encode(['success' => false, 'error' => 'Credenciales requeridas.']);
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
