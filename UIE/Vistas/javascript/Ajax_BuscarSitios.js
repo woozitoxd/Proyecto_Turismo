@@ -1,112 +1,107 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const inputBuscador = document.getElementById("buscador");
-    const tarjetas = document.querySelectorAll(".tarjeta-turistica");
-    const dropdownItems = document.querySelectorAll(".dropdown-item.filtro");
-    const botonLimpiar = document.querySelector(".custom-search-btn");
+document.querySelector('.custom-search-btn').addEventListener('click', function() {
+    // Limpiar el valor del input
+    document.getElementById('buscador').value = '';
+    const categoriaTexto = document.getElementById('dropdownCategorias');
+    const etiquetaTexto = document.getElementById('dropdownEtiquetas');
+    const localidadTexto = document.getElementById('dropdownLocalidad');
 
-    // Seleccionar solo los dropdowns dentro del div específico
-    const dropdownsContainer = document.querySelector(".d-flex.justify-content-between"); // Selecciona el contenedor específico
-    const dropdowns = dropdownsContainer ? dropdownsContainer.querySelectorAll(".dropdown") : []; // Dropdowns dentro del contenedor
-
-    // Guardar el texto original de cada dropdown para restablecerlo luego
-    const dropdownOriginalTexts = {};
-    dropdowns.forEach(dropdown => {
-        const button = dropdown.querySelector("button"); // Selecciona el botón dentro de cada dropdown
-        const buttonId = button ? button.id : null; // Obtiene el id del botón, si existe
-
-        if (buttonId) { // Verifica si el botón tiene un id
-            dropdownOriginalTexts[buttonId] = button.textContent;
-            console.log("Texto original guardado para", buttonId, ":", button.textContent);
-        } else {
-            console.log("No se encontró un id único para el botón dentro de este dropdown.");
-        }
+    // Ejecutar la lógica de filtrado para mostrar todas las tarjetas
+    var tarjetas = document.querySelectorAll('.tarjeta-turistica');
+    tarjetas.forEach(function(tarjeta) {
+        tarjeta.style.display = 'block'; // Mostrar todas las tarjetas
+        limpiarResaltado(tarjeta); // Limpiar el resaltado en las tarjetas
     });
 
-    // Filtrar por texto de búsqueda
-    inputBuscador.addEventListener("input", function() {
-        const query = inputBuscador.value.toLowerCase();
-        
-        tarjetas.forEach(tarjeta => {
-            const nombreSitio = tarjeta.dataset.nombreSitio ? tarjeta.dataset.nombreSitio.toLowerCase() : '';
-            const categoriaSitio = tarjeta.dataset.categoria ? tarjeta.dataset.categoria.toLowerCase() : '';
-            const descripcionSitio = tarjeta.dataset.descripcionLugar ? tarjeta.dataset.descripcionLugar.toLowerCase() : '';
-            const etiquetaSitio = tarjeta.dataset.etiqueta ? tarjeta.dataset.etiqueta.toLowerCase() : '';
-            const localidadSitio = tarjeta.dataset.localidad ? tarjeta.dataset.localidad.toLowerCase() : '';
-            const descripcionElemento = tarjeta.querySelector(".descripcion-lugar");
+    // Restablecer el texto de los botones del dropdown a su valor inicial
+    document.querySelectorAll('.dropdown button').forEach(function(button) {
+        categoriaTexto.textContent="Categorías";
+        etiquetaTexto.textContent="Etiquetas";
+        localidadTexto.textContent="Localidad";
+        button.classList.remove('btn-warning');
+    });
 
-            // Mostrar tarjeta si coincide
-            if (nombreSitio.includes(query) || categoriaSitio.includes(query) || descripcionSitio.includes(query) || etiquetaSitio.includes(query) || localidadSitio.includes(query)) {
+    // Opcionalmente, también puedes eliminar cualquier clase activa en los dropdowns
+    document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+        dropdown.classList.remove('btn-warning');
+    });
+});
+
+
+// Función que maneja la búsqueda en tiempo real
+// Filtrar por categoría, etiqueta o localidad desde el dropdown
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener("click", function(event) {
+        event.preventDefault();
+        const filtro = item.getAttribute("data-filtro").toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""); // Normalizar filtro
+        const dropdownParent = item.closest('.dropdown');
+        const dropdownButton = dropdownParent.querySelector("button");
+        const categoriaTexto = document.getElementById('dropdownCategorias');
+        const etiquetaTexto = document.getElementById('dropdownEtiquetas');
+        const localidadTexto = document.getElementById('dropdownLocalidad');
+        // Cambiar el texto del botón del dropdown a la opción seleccionada
+        dropdownButton.textContent = item.textContent;
+
+        // Obtener todas las tarjetas
+        const tarjetas = document.querySelectorAll('.tarjeta-turistica');
+
+        tarjetas.forEach(tarjeta => {
+            const categoriaSitio = tarjeta.dataset.categoria ? tarjeta.dataset.categoria.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+            const etiquetaSitio = tarjeta.dataset.etiqueta ? tarjeta.dataset.etiqueta.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+            const localidadSitio = tarjeta.dataset.localidad ? tarjeta.dataset.localidad.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+
+            // Verifica el filtro correspondiente
+            if (item.classList.contains("filtro-categoria") && categoriaSitio.includes(filtro)) {
                 tarjeta.style.display = "block";
-
-                // Resaltar palabra buscada
-                if (query !== '') {
-                    const regex = new RegExp(`(${query})`, 'gi');
-                    const descripcionOriginal = tarjeta.dataset.descripcionLugar;
-                    const descripcionResaltada = descripcionOriginal.replace(regex, '<span class="highlight">$1</span>');
-                    descripcionElemento.innerHTML = descripcionResaltada;
-                } else {
-                    descripcionElemento.textContent = tarjeta.dataset.descripcionLugar;
-                }
+                categoriaTexto.classList.add("btn-warning");
+            } else if (item.classList.contains("filtro-etiqueta") && etiquetaSitio.includes(filtro)) {
+                tarjeta.style.display = "block";
+                etiquetaTexto.classList.add("btn-warning");
+            } else if (item.classList.contains("filtro-localidad") && localidadSitio.includes(filtro)) {
+                tarjeta.style.display = "block";
+                localidadTexto.classList.add("btn-warning");
             } else {
-                tarjeta.style.display = "none";
+                tarjeta.style.display = "none"; // Oculta la tarjeta si no coincide
             }
-        });
-    });
-
-    // Filtrar por categoría, etiqueta o localidad desde el dropdown
-    dropdownItems.forEach(item => {
-        item.addEventListener("click", function(event) {
-            event.preventDefault();
-            const filtro = item.getAttribute("data-filtro").toLowerCase();
-            const dropdownParent = item.closest('.dropdown');
-            const dropdownButton = dropdownParent.querySelector("button");
-
-            // Cambiar el texto del botón del dropdown a la opción seleccionada
-            dropdownButton.textContent = item.textContent;
-
-            tarjetas.forEach(tarjeta => {
-                const categoriaSitio = tarjeta.dataset.categoria ? tarjeta.dataset.categoria.toLowerCase() : '';
-                const etiquetaSitio = tarjeta.dataset.etiqueta ? tarjeta.dataset.etiqueta.toLowerCase() : '';
-                const localidadSitio = tarjeta.dataset.localidad ? tarjeta.dataset.localidad.toLowerCase() : '';
-
-                // Verifica el filtro correspondiente
-                if (item.classList.contains("filtro-categoria") && categoriaSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    dropdownParent.classList.add("dropdown-active");
-                } else if (item.classList.contains("filtro-etiqueta") && etiquetaSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    dropdownParent.classList.add("dropdown-active");
-                } else if (item.classList.contains("filtro-localidad") && localidadSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    dropdownParent.classList.add("dropdown-active");
-                } else {
-                    tarjeta.style.display = "none"; // Oculta la tarjeta si no coincide
-                }
-            });
-        });
-    });
-
-    // Evento click para limpiar la búsqueda
-    botonLimpiar.addEventListener("click", function(event) {
-        event.preventDefault(); 
-
-        // Limpiar input y mostrar todas las tarjetas
-        inputBuscador.value = "";
-        tarjetas.forEach(tarjeta => {
-            tarjeta.style.display = "block";
-            const descripcionElemento = tarjeta.querySelector(".descripcion-lugar");
-            descripcionElemento.textContent = tarjeta.dataset.descripcionLugar;
-        });
-
-        // Restablecer texto original de cada dropdown
-        dropdowns.forEach(dropdown => {
-            const button = dropdown.querySelector("button"); // Selecciona el botón dentro del dropdown
-            const buttonId = button ? button.id : null; // Obtén el id del botón
-
-            if (buttonId && dropdownOriginalTexts[buttonId]) {
-                button.textContent = dropdownOriginalTexts[buttonId]; // Restablece el texto original
-            }
-            dropdown.classList.remove("dropdown-active"); // Remueve la clase activa
         });
     });
 });
+
+// Función que maneja la búsqueda en tiempo real
+document.getElementById('buscador').addEventListener('input', function() {
+    var searchTerm = this.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""); // Eliminar tildes
+
+    var tarjetas = document.querySelectorAll('.tarjeta-turistica');
+    tarjetas.forEach(function(tarjeta) {
+        var nombreSitio = tarjeta.getAttribute('data-nombre-sitio').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        var descripcionSitio = tarjeta.querySelector('.descripcion-lugar').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        if (nombreSitio.includes(searchTerm) || descripcionSitio.includes(searchTerm)) {
+            tarjeta.style.display = 'block';
+            resaltarTexto(tarjeta, searchTerm);
+        } else {
+            tarjeta.style.display = 'none';
+            limpiarResaltado(tarjeta);
+        }
+    });
+});
+
+
+// Función para resaltar el texto en la descripción
+function resaltarTexto(tarjeta, searchTerm) {
+    var descripcionElemento = tarjeta.querySelector('.descripcion-lugar');
+    var descripcionTexto = descripcionElemento.textContent;
+
+    var regex = new RegExp('(' + searchTerm + ')', 'gi');
+    var nuevoHtml = descripcionTexto.replace(regex, function(match) {
+        return '<span class="highlight">' + match + '</span>';
+    });
+
+    descripcionElemento.innerHTML = nuevoHtml;
+}
+
+// Función para limpiar el resaltado
+function limpiarResaltado(tarjeta) {
+    var descripcionElemento = tarjeta.querySelector('.descripcion-lugar');
+    descripcionElemento.innerHTML = descripcionElemento.textContent; // Limpiar cualquier texto resaltado
+}
+    // Filtrar por categoría, etiqueta o localidad desde el dropdown
