@@ -47,7 +47,7 @@ if ($indexPosition !== false) {
             <div class="col-md-3 text-center order-element-1">
                 <a class="navbar-brand fs-2" href="index.php">
                     <img src="./media/Logo-MateAR.svg" alt="Logo MateAR" class="img-fluid" style="width: 70px; height: auto;">
-                    <strong style="color:#0078be;">MATE</strong><strong style="color:#fff;">AR</strong><strong style="color:#0078be;">CAMINOS</strong><span style="color:#fcb415; font-size:1.2em;">☀</span>
+                    <strong style="color:#0078be;">MATE</strong><strong style="color:#fff;">AR</strong><strong style="color:#0078be;">CAMINOS</strong>
                 </a>
             </div>
 
