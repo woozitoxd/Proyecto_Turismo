@@ -55,12 +55,12 @@ function cargarComentario(idSitio) {
 
                             const estrella = document.createElement("span");
 
-                            estrella.innerHTML = "&#9733;";
+                            estrella.innerHTML = "";
 
                             if (index <= comentario.valoracion) {
-                                estrella.className = "estrella hover fs-5"
+                                estrella.className = "icon-mate-tea-filled full hover fs-5"
                             }else{
-                                estrella.className = "estrella fs-5";
+                                estrella.className = "icon-mate-tea-filled star fs-5";
                             }
 
                             ContenedorValoracion.appendChild(estrella);
@@ -302,12 +302,12 @@ document.addEventListener("submit", function (e){
     
                         const estrella = document.createElement("span");
     
-                        estrella.innerHTML = "&#9733;";
+                        estrella.innerHTML = "";
     
                         if (index <= data.valoracion) {
-                            estrella.className = "estrella hover fs-5"
+                            estrella.className = "icon-mate-tea-filled full hover fs-5"
                         }else{
-                            estrella.className = "estrella fs-5";
+                            estrella.className = "icon-mate-tea-filled star fs-5";
                         }
                         ContenedorValoracion.appendChild(estrella);
                     }

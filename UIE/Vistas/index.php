@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./estilos/cards.css">
     <link rel="stylesheet" href="./estilos/ModalPerfil.css">
     <link rel="stylesheet" href="./estilos/estiloCarrousel.css">
+    <link rel="stylesheet" href="../Vistas/estilos/style.css"></head>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

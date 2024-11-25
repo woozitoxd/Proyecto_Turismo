@@ -109,11 +109,11 @@ foreach ($sitios as $sitio) {
                                 <?php
                                 for ($i = 1; $i <= 5; $i++) {
                                     if ($i <= floor($PromedioValoracion)) {
-                                        ?><span class="star full"></span><?php
+                                        ?><span class="icon-mate-tea-filled full"></span><?php
                                     } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
-                                        ?><span class="star half"></span><?php
+                                        ?><span class="icon-mate-tea-half-filled half"></span><?php
                                     } else {
-                                        ?><span class="icon-mate-tea-filled"></span><?php
+                                        ?><span class="icon-mate-tea-filled star"></span><?php
                                     }
                                 }
                                 ?>
