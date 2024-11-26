@@ -114,6 +114,31 @@ footer {
         display: inline;
     }
 
+    .order-element-2{
+        margin-top: 2rem !important;
+    }
+
+}
+
+@media (max-width: 1400px) {
+
+    .order-element-1{
+        order: 1;
+    }
+
+    .order-element-2{
+        order: 3;
+        width: 50%;
+    }
+
+    .order-element-2 > form, .order-element-2 > div{
+        align-self: center !important;
+        width: 75% !important;
+    }
+
+    .order-element-3{
+        order: 2;
+    }
 }
 
 @media (max-width: 768px) {

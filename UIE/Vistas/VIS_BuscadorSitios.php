@@ -44,14 +44,14 @@ if ($indexPosition !== false) {
 <nav id="header-main" class="navbar-color">
     <div class="container-fluid">
         <div class="row mt-4 justify-content-between">
-            <div class="col-md-3 text-center order-element-1">
+            <div class="col-md-6 col-xxl-4 text-center order-element-1">
                 <a class="navbar-brand fs-2" href="index.php">
                     <img src="./media/Logo-MateAR.svg" alt="Logo MateAR" class="img-fluid" style="width: 70px; height: auto;">
                     <strong style="color:#0078be;">MATE</strong><strong style="color:#fff;">AR</strong><strong style="color:#0078be;">CAMINOS</strong>
                 </a>
             </div>
 
-            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '5'; else echo'7'; ?> d-flex flex-column justify-content-center order-element-2">
+            <div class="col-xl-12 col-xxl-4 d-flex flex-column justify-content-center order-element-2">
                 <form class="d-flex ms-3 search-form justify-content-center" id="form-busqueda">
                     <input class="form-control custom-input" id="buscador" type="search" placeholder="Buscar">
                     <button class="btn custom-search-btn" type="submit"><i class="bi bi-trash3"></i></button>
@@ -99,7 +99,7 @@ if ($indexPosition !== false) {
                 </div>
             </div>
 
-            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '4'; else echo'2'; ?> order-element-3">
+            <div class="col-md-<?php if(isset($_SESSION['usuario'])) echo '6'; else echo'3'; ?> col-xxl-4 order-element-3">
                 <nav class="navbar navbar-expand-lg navbar-dark">
                     <div class="container-fluid justify-content-end">
 
@@ -108,6 +108,11 @@ if ($indexPosition !== false) {
                         </button>
 
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+                            <div class="offcanvas-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+
                             <div class="offcanvas-body">
                                 <ul id="nav-header" class="d-flex justify-content-around">
                                     <?php
@@ -149,7 +154,7 @@ if ($indexPosition !== false) {
                                                             <i class="bi bi-tools"></i>Panel de Control
                                                         </a></li>';
                                                 }
-                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalPerfil">
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" role="button" data-bs-toggle="modal" data-bs-target="#modalPerfil">
                                                         <i class="bi bi-person-circle"></i>Perfil
                                                     </a></li>';
                                                 echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="../Vistas/SugerirSitio.PHP">

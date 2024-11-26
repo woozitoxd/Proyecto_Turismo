@@ -38,14 +38,20 @@ $idComentario = $_GET['idComentario'] ?? null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-<hr>
-    <?php
-        require_once '../Controlador/CON_SitioTuristico.php';
-        $controlador = new SitioTuristicoContoller();
-        $controlador->TraerCategorias();
-    ?>
+    <nav id="header-main" class="navbar-color">
+        <div class="container-fluid">
+            <div class="row mt-4 justify-content-center">
+                <div class="text-center order-element-1">
+                    <div class="navbar-brand fs-2">
+                        <img src="./media/Logo-MateAR.svg" alt="Logo MateAR" class="img-fluid" style="width: 70px; height: auto;">
+                        <strong style="color:#0078be;">MATE</strong><strong style="color:#fff;">AR</strong><strong style="color:#0078be;">CAMINOS</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     <main>
-        <div class="container mt-5">
+        <div class="container">
             <h1 class="text-center">Denunciar Comentario</h1>
             <div id="mensaje" class="alert" style="display:none;"></div>
             <div class="card">
