@@ -15,9 +15,8 @@ function iniciarmapa() {
         urlCortada = urlActual.substring(0, indice + palabraClave.length);
     }
 
-    // Inicializar el mapa
     globalMap = new google.maps.Map(document.getElementById("map"), {
-        zoom: 6,
+        zoom: 16,
         center: { lat: 0, lng: 0 },
         styles: [
             {
@@ -36,9 +35,37 @@ function iniciarmapa() {
                 featureType: "poi.park",
                 elementType: "labels",
                 stylers: [{ visibility: "off" }]
-            }
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry",
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "labels",
+                "stylers": [
+                    { "visibility": "off" }
+                ]
+            },
+            {
+                "featureType": "transit.station.bus",
+                "stylers": [{ "visibility": "off" }] // Ocultar paradas de colectivo
+            },
+            {
+                "featureType": "transit.station.rail",
+                "stylers": [{ "visibility": "on" }] // Mostrar estaciones de tren
+            },
+            
         ]
     });
+
+// Ruta relativa al ícono en el directorio local
+const customIcon = {
+    url: "./media/icongenerico.png", // Ruta relativa al ícono
+    scaledSize: new google.maps.Size(50, 50), // Tamaño del ícono
+    origin: new google.maps.Point(0, 0), // Origen de la imagen
+    anchor: new google.maps.Point(25, 50) // Punto de anclaje
+};
 
     const marcadoresActuales = [];
 
@@ -74,6 +101,8 @@ function iniciarmapa() {
                         fontSize: "15px"
                     },
                     optimized: false,
+                    icon: customIcon,
+
                 });
 
                 bounds.extend(marker.position);
@@ -236,6 +265,8 @@ function cargarMapaDesdeTarjeta(elemento) {
                     fontSize: "15px"
                 },
                 title: 'Sitio ' + idSitio,
+                icon: customIcon,
+
             });
 
             // Mover el mapa a la posición del marcador
