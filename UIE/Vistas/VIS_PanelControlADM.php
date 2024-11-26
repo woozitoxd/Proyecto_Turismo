@@ -29,11 +29,24 @@ if ($indexPosition !== false) {
         $urlVariable = $scheme . "://" . $host . '/';
     }
 }
+// Verifica si el usuario ha iniciado sesión
+if (isset($_SESSION['id'])) {
+    $usuarioID = $_SESSION['id']; // Aquí obtienes el ID del usuario desde la sesión
+} else {
+    // Si no hay una sesión activa, puedes redirigir al usuario a la página de inicio de sesión
+    header("Location: index.php");
+    exit();
+}
 
+require_once('../Controlador/CON_VerificarPermisos.php');
+$esAdministrador = Permisos::esRol('administrador', $usuarioID);
 ?>
 <!DOCTYPE html>
 <html lang="es">
+<?php
 
+
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +95,7 @@ if ($indexPosition !== false) {
             </div>
         </div>
     </nav>
-
+    <?php if ($esAdministrador): ?>
     <!-- Main Content -->
     <main>
         <div class="content">
@@ -165,7 +178,8 @@ if ($indexPosition !== false) {
                         </div>
                     </div>
                 </div>
-
+             
+           
 
 
 
@@ -181,7 +195,7 @@ if ($indexPosition !== false) {
                         </div>
                     </div>
                 </div>
-
+               
                 <!-- Modal para mostrar denuncias -->
                 <div class="modal fade" id="denunciasModal" tabindex="-1" aria-labelledby="denunciasModalLabel"
                     aria-hidden="true">
@@ -246,6 +260,13 @@ if ($indexPosition !== false) {
                 ?>
             </div>
         </div>
+        <?php else: ?>
+            <!-- Mostrar mensaje de error si no tiene permisos -->
+            <div class="alert alert-danger text-center mt-5" role="alert">
+                <h4 class="alert-heading">Acceso denegado</h4>
+                <p>No tienes los permisos necesarios para acceder a esta página.</p>
+            </div>
+        <?php endif; ?>
     </main>
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 
