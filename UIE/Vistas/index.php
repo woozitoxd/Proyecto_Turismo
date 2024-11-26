@@ -179,8 +179,9 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-2">
-                    <strong class="text-primary">TUORI</strong><span class="text-danger">SMO</span>
-                    <p>© Proyecto Tuorismo 2024</p>
+                    <img src="./media/Logo-MateAR.svg" alt="Logo MateAR" class="img-fluid" style="width: 70px; height: auto;">
+                    <strong style="color:#0078be;">MATE</strong><strong style="color:#fff;">AR</strong><strong style="color:#0078be;">CAMINOS</strong>
+                    <p>© MateAR Caminos 2024</p>
                 </div>
                 <div class="col-md-4">
                 <h5 class="font-weight-bold mb-2">Contactanos</h5>
