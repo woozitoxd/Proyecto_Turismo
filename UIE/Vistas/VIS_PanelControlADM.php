@@ -76,10 +76,7 @@ if ($indexPosition !== false) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./index.php">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Salir</a>
+                        <a class="nav-link active" aria-current="page" href="./index.php">Volver al Inicio</a>
                     </li>
                 </ul>
             </div>
@@ -90,7 +87,7 @@ if ($indexPosition !== false) {
     <main>
         <div class="content">
             <h1>Bienvenido, Administrador</h1>
-            <p>Aquí puedes gestionar los usuarios, comentarios y destinos turísticos.</p>
+            <p>Panel de Control Administrativo de MateAR Caminos.</p>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card text-white bg-primary mb-3">

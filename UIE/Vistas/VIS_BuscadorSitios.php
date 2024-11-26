@@ -128,34 +128,54 @@ if ($indexPosition !== false) {
                                         }
                                     ?>
                                     <div class="dropdown">
-                                        <button class="btn custom-hamburger-btn dropdown-toggle fs-5 text-light" type="button" id="hamburgerMenu"
-                                            data-bs-toggle="dropdown">
-                                            <?php
-                                            if (isset($_SESSION['usuario'])) {
-                                                echo '<i class="bi bi-person-fill"></i> <strong class="text-light" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
-                                            } else {
-                                                echo '<i class="bi bi-person-fill"></i> Cuenta ';
-                                            }
-                                            ?>
+                                        <button class="btn custom-hamburger-btn dropdown-toggle fs-5 text-light d-flex align-items-center gap-2" 
+                                            type="button" id="hamburgerMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person-fill"></i>
+                                            <span>
+                                                <?php
+                                                if (isset($_SESSION['usuario'])) {
+                                                    echo '<strong class="text-light" id="NombreEnMenu">' . $_SESSION["nombre"] . '</strong>';
+                                                } else {
+                                                    echo 'Cuenta';
+                                                }
+                                                ?>
+                                            </span>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm p-2">
                                             <?php
                                             if (isset($_SESSION['usuario'])) {
                                                 if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
-                                                    echo '<li><a class="dropdown-item" href="VIS_PanelControlADM.php">Panel de Control</a></li>';
+                                                    echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="VIS_PanelControlADM.php">
+                                                            <i class="bi bi-tools"></i>Panel de Control
+                                                        </a></li>';
                                                 }
-                                                echo '<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPerfil">Perfil</a></li>';
-                                                echo '<li><a class="dropdown-item" href="../Vistas/SugerirSitio.PHP">Sugerir Nuevo Sitio</a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalPerfil">
+                                                        <i class="bi bi-person-circle"></i>Perfil
+                                                    </a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="../Vistas/SugerirSitio.PHP">
+                                                        <i class="bi bi-plus-circle"></i>Sugerir Nuevo Sitio
+                                                    </a></li>';
                                                 echo '<li><hr class="dropdown-divider"></li>';
-                                                echo '<li><a class="dropdown-item text-danger-emphasis" href="../controlador/CON_CerrarSesion.php">Cerrar Sesión</a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2 text-danger" href="../controlador/CON_CerrarSesion.php">
+                                                        <i class="bi bi-box-arrow-right"></i>Cerrar Sesión
+                                                    </a></li>';
                                             } else {
-                                                echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">Iniciar Sesión</a></li>';
-                                                echo '<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">Registrarse</a></li>';
-                                                echo '<li><a class="dropdown-item" href="' . $authUrl . '"><img alt="Google Logo" src="./media/google_logo.webp" class="google-logo"> Ingresar con Google</a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="#" data-bs-toggle="modal" data-bs-target="#myModalInicio">
+                                                        <i class="bi bi-box-arrow-in-right"></i>Iniciar Sesión
+                                                    </a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="#" data-bs-toggle="modal" data-bs-target="#myModalRegistro">
+                                                        <i class="bi bi-person-plus"></i>Registrarse
+                                                    </a></li>';
+                                                echo '<li><a class="nav-link px-3 py-2 d-flex align-items-center gap-2" href="' . $authUrl . '">
+                                                        <img alt="Google Logo" src="./media/google_logo.webp" class="google-logo" style="width: 20px; height: 20px;">
+                                                        Ingresar con Google
+                                                    </a></li>';
                                             }
                                             ?>
                                         </ul>
                                     </div>
+
+
                                 </ul>
                             </div>
                         </div>
