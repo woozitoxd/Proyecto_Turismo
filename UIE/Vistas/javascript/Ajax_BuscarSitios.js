@@ -1,9 +1,10 @@
+const categoriaTexto = document.getElementById('dropdownCategorias');
+const etiquetaTexto = document.getElementById('dropdownEtiquetas');
+const localidadTexto = document.getElementById('dropdownLocalidad');
 document.querySelector('.custom-search-btn').addEventListener('click', function() {
     // Limpiar el valor del input
     document.getElementById('buscador').value = '';
-    const categoriaTexto = document.getElementById('dropdownCategorias');
-    const etiquetaTexto = document.getElementById('dropdownEtiquetas');
-    const localidadTexto = document.getElementById('dropdownLocalidad');
+
 
     // Ejecutar la lógica de filtrado para mostrar todas las tarjetas
     var tarjetas = document.querySelectorAll('.tarjeta-turistica');
@@ -26,50 +27,43 @@ document.querySelector('.custom-search-btn').addEventListener('click', function(
 
 // Filtrar por categoría, etiqueta o localidad desde el dropdown
 document.querySelectorAll('.dropdown-item').forEach(item => {
-    // Asegurarse de que solo se manejan los dropdowns de filtros, no los de sesión u otros
-    if (item.closest('.dropdown').id === 'dropdownCategorias' ||
-        item.closest('.dropdown').id === 'dropdownEtiquetas' ||
-        item.closest('.dropdown').id === 'dropdownLocalidad') {
+    item.addEventListener("click", function(event) {
+        event.preventDefault();
+        const filtro = item.getAttribute("data-filtro")?.toLowerCase()?.normalize('NFD').replace(/[\u0300-\u036f]/g, ""); // Normalizar filtro
+        const dropdownParent = item.closest('.dropdown');
+        const dropdownButton = dropdownParent.querySelector("button");
 
-        item.addEventListener("click", function(event) {
-            event.preventDefault();
-            const filtro = item.getAttribute("data-filtro").toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""); // Normalizar filtro
-            const dropdownParent = item.closest('.dropdown');
-            const dropdownButton = dropdownParent.querySelector("button");
+        // Cambiar el texto del botón del dropdown a la opción seleccionada
+        dropdownButton.textContent = item.textContent;
 
-            // Variables para los filtros específicos
-            const categoriaTexto = document.getElementById('dropdownCategorias');
-            const etiquetaTexto = document.getElementById('dropdownEtiquetas');
-            const localidadTexto = document.getElementById('dropdownLocalidad');
+        // Obtener todas las tarjetas
+        const tarjetas = document.querySelectorAll('.tarjeta-turistica');
 
-            // Cambiar el texto del botón del dropdown a la opción seleccionada
-            dropdownButton.textContent = item.textContent;
+        tarjetas.forEach(tarjeta => {
+            const etiquetasSitio = tarjeta.dataset.etiqueta?.toLowerCase()?.split(',') || []; // Divide el string en un array
+            const categoriaSitio = tarjeta.dataset.categoria?.toLowerCase()?.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+            const localidadSitio = tarjeta.dataset.localidad?.toLowerCase()?.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-            // Obtener todas las tarjetas
-            const tarjetas = document.querySelectorAll('.tarjeta-turistica');
+            let mostrarTarjeta = true;
 
-            tarjetas.forEach(tarjeta => {
-                const categoriaSitio = tarjeta.dataset.categoria ? tarjeta.dataset.categoria.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
-                const etiquetaSitio = tarjeta.dataset.etiqueta ? tarjeta.dataset.etiqueta.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
-                const localidadSitio = tarjeta.dataset.localidad ? tarjeta.dataset.localidad.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+            if (item.classList.contains("filtro-categoria")) {
+                mostrarTarjeta = categoriaSitio.includes(filtro);
+                categoriaTexto.classList.add('btn-warning');
+            } else if (item.classList.contains("filtro-etiqueta")) {
+                mostrarTarjeta = etiquetasSitio.some(etiqueta => etiqueta.includes(filtro)); // Verifica si alguna etiqueta coincide
+                etiquetaTexto.classList.add('btn-warning');
+            } else if (item.classList.contains("filtro-localidad")) {
+                mostrarTarjeta = localidadSitio.includes(filtro);
+                localidadTexto.classList.add('btn-warning');
 
-                // Verifica el filtro correspondiente y muestra/oculta las tarjetas según el filtro
-                if (item.classList.contains("filtro-categoria") && categoriaSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    categoriaTexto.classList.add("btn-warning");
-                } else if (item.classList.contains("filtro-etiqueta") && etiquetaSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    etiquetaTexto.classList.add("btn-warning");
-                } else if (item.classList.contains("filtro-localidad") && localidadSitio.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                    localidadTexto.classList.add("btn-warning");
-                } else {
-                    tarjeta.style.display = "none"; // Oculta la tarjeta si no coincide
-                }
-            });
+            }
+
+            tarjeta.style.display = mostrarTarjeta ? "block" : "none";
         });
-    }
+    });
 });
+
+
 
 // Función para manejar la búsqueda en tiempo real
 document.getElementById('buscador').addEventListener('input', function() {

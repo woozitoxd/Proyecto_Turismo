@@ -9,7 +9,8 @@ if (isset($_SESSION['mensaje'])) {
 <script defer src="../Vistas/javascript/Ajax_MostrarComentarios.js"></script>
 <script defer src="../Vistas//javascript/AJAX_EliminarComentario.js"></script>
 <link rel="stylesheet" href="../Vistas/estilos/comentarios.css">
-<link rel="stylesheet" href="../Vistas/estilos/style.css"></head>
+<link rel="stylesheet" href="../Vistas/estilos/style.css">
+</head>
 
 
 <?php $sitiosAgrupados = [];
@@ -41,21 +42,34 @@ foreach ($sitios as $sitio) {
     $CantValoraciones = $ValoracionDeSitio['cant_valoraciones'];
     ?>
 
-    <div class="tarjeta-turistica card" data-sitio-id="<?= $datosSitio['id_sitio'] ?>"
-        data-nombre-sitio="<?= $datosSitio['nombre'] ?>" data-categoria="<?= $datosSitio['titulo'] ?>"
-        data-etiqueta="<?= $datosSitio['etiqueta'] ?>" data-des ripcion-lugar="<?= $datosSitio['descripcion'] ?>"
-        data-localidad="<?= $datosSitio['localidad'] ?>" onclick="cargarMapaDesdeTarjeta(this);">
+        <div class="tarjeta-turistica card"
+            data-sitio-id="<?= htmlspecialchars($datosSitio['id_sitio']) ?>"
+            data-nombre-sitio="<?= htmlspecialchars($datosSitio['nombre']) ?>"
+            data-categoria="<?= htmlspecialchars($datosSitio['titulo']) ?>"
+            data-etiqueta="<?= implode(',', array_map('htmlspecialchars', $sitio['etiquetas'])) ?>"
+            data-descripcion-lugar="<?= htmlspecialchars($datosSitio['descripcion']) ?>"
+            data-localidad="<?= htmlspecialchars($datosSitio['localidad']) ?>"
+            onclick="cargarMapaDesdeTarjeta(this);">
 
-        <img src="<?= 'data:image/jpeg;base64,' . base64_encode(string: $imagenes[0]) ?>" alt="Imagen de destino"
-            class="card-img-top">
+
+        <?php if (!empty($imagenes[0])): ?>
+            <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagenes[0]) ?>" alt="Imagen de destino"
+                class="card-img-top">
+        <?php else: ?>
+            <img src="ruta_a_imagen_por_defecto.jpg" alt="Imagen no disponible" class="card-img-top">
+        <?php endif; ?>
+
         <div class="contenido-tarjeta">
             <h5 class="titulo-lugar"><?= $datosSitio['nombre'] ?></h5>
             <p class="categoria-lugar"><?= $datosSitio['titulo'] ?></p>
 
             <!-- Mostrar la etiqueta solo si existe -->
-            <?php foreach ($sitio['etiquetas'] as $etiqueta): ?>
-                <span class="etiqueta-lugar"><?= htmlspecialchars($etiqueta) ?></span>
-            <?php endforeach; ?>
+            <?php if (!empty($sitio['etiquetas']) && is_array($sitio['etiquetas'])): ?>
+                <?php foreach ($sitio['etiquetas'] as $etiqueta): ?>
+                    <span class="etiqueta-lugar"><?= htmlspecialchars($etiqueta) ?></span>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
             <p class="descripcion-lugar"><?= $datosSitio['descripcion'] ?></p>
 
             <div class="valoracion d-flex flex-row mx-2 align-items-center">
@@ -71,8 +85,11 @@ foreach ($sitios as $sitio) {
                     }
                 }
                 ?>
-                <span class="text-secondary ms-2"><?php echo number_format($PromedioValoracion, 1) ?></span>
-                <span class="text-secondary ms-2"><?php if($CantValoraciones == 1) echo '('.$CantValoraciones.' reseña)'; else echo '('.$CantValoraciones.' reseñas)'; ?></span>
+                        <span class="text-secondary ms-2"><?php echo number_format($PromedioValoracion, 1) ?></span>
+                        <span class="text-secondary ms-2"><?php if ($CantValoraciones == 1)
+                            echo '(' . $CantValoraciones . ' reseña)';
+                        else
+                            echo '(' . $CantValoraciones . ' reseñas)'; ?></span>
 
             </div>
         </div>
@@ -87,16 +104,16 @@ foreach ($sitios as $sitio) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex flex-column">
-                <div class="carouselModal">
-                    <div class="carousel-images">
+                    <div class="carouselModal">
+                        <div class="carousel-images">
                             <?php foreach ($imagenes as $index => $imagen): ?>
-                                    <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagen) ?>" class="img-fluid"
-                                        alt="Imagen del sitio <?= $index + 1 ?>">
+                                <img src="<?= 'data:image/jpeg;base64,' . base64_encode($imagen) ?>" class="img-fluid"
+                                    alt="Imagen del sitio <?= $index + 1 ?>">
                             <?php endforeach; ?>
                         </div>
                         <button class="buttonCarrouselModal prev"><i class="bi bi-arrow-left-circle"></i></button>
                         <button class="buttonCarrouselModal next"><i class="bi bi-arrow-right-circle"></i></button>
-                </div>
+                    </div>
 
                     <div class="mt-3 d-flex align-content-start flex-wrap justify-content-between">
                         <div>
@@ -118,7 +135,10 @@ foreach ($sitios as $sitio) {
                                 }
                                 ?>
                                 <span class="text-secondary ms-2"><?php echo number_format($PromedioValoracion, 1) ?></span>
-                                <span class="text-secondary ms-2"><?php if($CantValoraciones == 1) echo '('.$CantValoraciones.' reseña)'; else echo '('.$CantValoraciones.' reseñas)'; ?></span>
+                                <span class="text-secondary ms-2"><?php if ($CantValoraciones == 1)
+                                    echo '(' . $CantValoraciones . ' reseña)';
+                                else
+                                    echo '(' . $CantValoraciones . ' reseñas)'; ?></span>
 
                             </div>
                         </div>
@@ -151,7 +171,7 @@ foreach ($sitios as $sitio) {
                         <?php endforeach; ?>
                     </div>
                     <div class="p-3 mt-0">
-                    <p class="ms-2 textoModal"><?= $datosSitio['descripcion'] ?></p>
+                        <p class="ms-2 textoModal"><?= $datosSitio['descripcion'] ?></p>
                     </div>
                     <hr>
                     <div class="contaniner-fluid row">
@@ -159,15 +179,19 @@ foreach ($sitios as $sitio) {
                             <p class="ms-2 textoModal">Localidad: <?= $datosSitio['localidad'] ?></p>
                         </div>
                         <div class="col-lg-6">
-                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">¿Es rancelado?: <?= $datosSitio['tarifa']== 1 ?'Si' :'No' ?></p>
+                            <p class="ms-2 textoModal" id="IDArancelamientoSitioModal">¿Es rancelado?:
+                                <?= $datosSitio['tarifa'] == 1 ? 'Si' : 'No' ?>
+                            </p>
                         </div>
                         <div class="position-relative mt-3 mb-3 p-2">
                             <div class="position-absolute top-0 start-50 translate-middle">
-                                <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios: <?= $datosSitio['horarios'] ?></p>
+                                <p class="ms-2 textoModal" id="IDHorariosSitioModal">Horarios:
+                                    <?= $datosSitio['horarios'] ?>
+                                </p>
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
 
                 <div id="seccion-comentarios-<?= $datosSitio['id_sitio'] ?>" class="w-100">
@@ -193,15 +217,20 @@ foreach ($sitios as $sitio) {
                                         <!-- Campo oculto para el id_sitio -->
                                         <div class="my-1 d-flex flex-row justify-content-between align-items-center">
                                             <div class="valoracion" data-value="0">
-                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                <span
+                                                    class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
                                                     data-value="1"></span>
-                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                <span
+                                                    class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
                                                     data-value="2"></span>
-                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                <span
+                                                    class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
                                                     data-value="3"></span>
-                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                <span
+                                                    class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
                                                     data-value="4"></span>
-                                                <span class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
+                                                <span
+                                                    class="icon-mate-tea-filled estrella estrella-sitio<?= $datosSitio['id_sitio'] ?>"
                                                     data-value="5"></span>
                                             </div>
                                             <input type="hidden" name="valoracion"
