@@ -2,7 +2,8 @@
 
 let globalMap;
 let currentInfoWindow = null; // Variable global para rastrear la ventana abierta
-
+// Ruta relativa al ícono en el directorio local
+let customIcon ;
 function iniciarmapa() {
     // Obtener la URL actual y crear la URL cortada para la petición
     let urlActual = window.location.href;
@@ -59,13 +60,12 @@ function iniciarmapa() {
         ]
     });
 
-// Ruta relativa al ícono en el directorio local
-const customIcon = {
-    url: "./media/icongenerico.png", // Ruta relativa al ícono
-    scaledSize: new google.maps.Size(50, 50), // Tamaño del ícono
-    origin: new google.maps.Point(0, 0), // Origen de la imagen
-    anchor: new google.maps.Point(25, 50) // Punto de anclaje
-};
+    customIcon = {
+        url: "./media/icongenerico.png", // Ruta relativa al ícono
+        scaledSize: new google.maps.Size(50, 50), // Tamaño del ícono
+        origin: new google.maps.Point(0, 0), // Origen de la imagen
+        anchor: new google.maps.Point(25, 50) // Punto de anclaje
+    };
 
     const marcadoresActuales = [];
 
