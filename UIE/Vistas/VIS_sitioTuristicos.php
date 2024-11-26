@@ -79,7 +79,7 @@ foreach ($sitios as $sitio) {
                     if ($i <= floor($PromedioValoracion)) {
                         ?><span class="icon-mate-tea-filled full"><?php
                     } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
-                        ?><span class="icon-mate-tea-half-filled half"><?php
+                        ?><span class="icon-mate-tea-half-filled full"><?php
                     } else {
                         ?><span class="icon-mate-tea-filled star"></span><?php
                     }
@@ -128,7 +128,7 @@ foreach ($sitios as $sitio) {
                                     if ($i <= floor($PromedioValoracion)) {
                                         ?><span class="icon-mate-tea-filled full"></span><?php
                                     } else if ($i == ceil($PromedioValoracion) && $PromedioValoracion - floor($PromedioValoracion) > 0) {
-                                        ?><span class="icon-mate-tea-half-filled half"></span><?php
+                                        ?><span class="icon-mate-tea-half-filled full"></span><?php
                                     } else {
                                         ?><span class="icon-mate-tea-filled star"></span><?php
                                     }

@@ -353,7 +353,7 @@ async function obtenerSitiosFavoritos(){
                             if (index  <= Math.floor(valoracionTotal)) {
                                 estrella.className = "icon-mate-tea-filled full"
                             }else if(index === Math.ceil(valoracionTotal) && (valoracionTotal - Math.floor(valoracionTotal)) > 0){
-                                estrella.className = "icon-mate-tea-half-filled half";
+                                estrella.className = "icon-mate-tea-half-filled full";
                             }else{
                                 estrella.className = "icon-mate-tea-filled star";
                             }
@@ -455,11 +455,11 @@ async function obtenerSitiosFavoritos(){
                                                                     <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
                                                                     <div class="my-1 d-flex flex-row justify-content-between align-items-center">
                                                                         <div class="valoracion" data-value="0">
-                                                                            <span class="icon-mate-tea-half-filled estrella-sitio${e.id_sitio}" data-value="1"></span>
-                                                                            <span class="icon-mate-tea-half-filled estrella-sitio${e.id_sitio}" data-value="2"></span>
-                                                                            <span class="icon-mate-tea-half-filled estrella-sitio${e.id_sitio}" data-value="3"></span>
-                                                                            <span class="icon-mate-tea-half-filled estrella-sitio${e.id_sitio}" data-value="4"></span>
-                                                                            <span class="icon-mate-tea-half-filled estrella-sitio${e.id_sitio}" data-value="5"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="1"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="2"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="3"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="4"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="5"></span>
                                                                         </div>
                                                                         <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
                                                                         <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>
@@ -555,13 +555,13 @@ async function obtenerSitiosFavoritos(){
 
 function iluminarEstrellas(rating, Estrellas) {
     for (let i = 0; i < rating; i++) {
-        Estrellas[i].classList.add('hover');
+        Estrellas[i].classList.add('full');
     }
 }
 
 function resetEstrellas(Estrellas) {
     Estrellas.forEach(estrella => {
-        estrella.classList.remove('hover');
+        estrella.classList.remove('full');
     });
 }
 
@@ -687,7 +687,7 @@ async function obtenerPublicacionesPropias(){
                         map: globalMap,
                         title: e.descripcion,
                         label: {
-                            text: ``,
+                            text: `★`,
                             color: "white",
                             fontSize: "15px"
                         },
@@ -767,7 +767,7 @@ async function obtenerPublicacionesPropias(){
                             if (index  <= Math.floor(valoracionTotal)) {
                                 estrella.className = "icon-mate-tea-filled full"
                             }else if(index === Math.ceil(valoracionTotal) && (valoracionTotal - Math.floor(valoracionTotal)) > 0){
-                                estrella.className = "icon-mate-tea-half-filled half";
+                                estrella.className = "icon-mate-tea-half-filled full";
                             }else{
                                 estrella.className = "icon-mate-tea-filled star";
                             }
@@ -864,11 +864,11 @@ async function obtenerPublicacionesPropias(){
                                                                     <input type="hidden" name="id_sitio" value="${e.id_sitio}"> <!-- Campo oculto para el id_sitio -->
                                                                     <div class="my-1 d-flex flex-row justify-content-between align-items-center">
                                                                         <div class="valoracion" data-value="0">
-                                                                            <span class="icon-mate-tea-filled estrella-sitio${e.id_sitio}" data-value="1"></span>
-                                                                            <span class="icon-mate-tea-filled estrella-sitio${e.id_sitio}" data-value="2</span>
-                                                                            <span class="icon-mate-tea-filled estrella-sitio${e.id_sitio}" data-value="3"></span>
-                                                                            <span class="icon-mate-tea-filled estrella-sitio${e.id_sitio}" data-value="4"></span>
-                                                                            <span class="icon-mate-tea-filled estrella-sitio${e.id_sitio}" data-value="5"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="1"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="2"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="3"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="4"></span>
+                                                                            <span class="icon-mate-tea-filled estrella estrella-sitio${e.id_sitio}" data-value="5"></span>
                                                                         </div>
                                                                         <input type="hidden" name="valoracion" class="valoracion-sitio${e.id_sitio}" value="0">
                                                                         <p class="ms-3 m-0" data-contadorchar${e.id_sitio}>Límite de caracteres: 0/255</p>

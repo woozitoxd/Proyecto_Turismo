@@ -214,10 +214,10 @@ function guardarComentario(idComentario) {
                 estrellas.forEach((estrella, index) => {
                     // Establecer la clase para cada estrella basada en la nueva valoración
                     if (index < valoracionActual) {
-                        estrella.classList.remove('hover'); // Quitar la clase hover para las estrellas seleccionadas
+                        estrella.classList.remove('full'); // Quitar la clase hover para las estrellas seleccionadas
                         estrella.classList.add('fs-5'); // Asegurarse de que la clase fs-5 esté presente
                     } else {
-                        estrella.classList.add('hover'); // Agregar clase hover para las estrellas no seleccionadas
+                        estrella.classList.add('full'); // Agregar clase hover para las estrellas no seleccionadas
                         estrella.classList.remove('fs-5'); // Eliminar la clase fs-5 si no está seleccionada
                     }
                 });
@@ -305,7 +305,7 @@ document.addEventListener("submit", function (e){
                         estrella.innerHTML = "";
     
                         if (index <= data.valoracion) {
-                            estrella.className = "icon-mate-tea-filled full hover fs-5"
+                            estrella.className = "icon-mate-tea-filled full fs-5"
                         }else{
                             estrella.className = "icon-mate-tea-filled star fs-5";
                         }
