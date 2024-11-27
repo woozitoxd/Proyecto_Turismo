@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function (){
 
     verificarSeccion();
@@ -19,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function (){
     });
 
 });
+
+let customIconsss;
 
 function limpiarNavHeader() {
     const enlacesMenu = document.querySelectorAll('.link-seccion');
@@ -282,7 +285,13 @@ async function obtenerSitiosFavoritos(){
                         }
                     ]
                 });
-
+                customIconsss = {
+                    url: "./media/IconoSitio5.png", // Ruta relativa al ícono
+                    scaledSize: new google.maps.Size(50, 50), // Tamaño del ícono
+                    origin: new google.maps.Point(0, 0), // Origen de la imagen
+                    anchor: new google.maps.Point(25, 50) // Punto de anclaje
+            
+                };
                 const marcadoresActuales = [];
 
                 const bounds = new google.maps.LatLngBounds();
@@ -303,6 +312,10 @@ async function obtenerSitiosFavoritos(){
                             fontSize: "15px"
                         },
                         optimized: false,
+                        icon: customIconsss,
+                        label: null 
+
+                        
                     });
 
                     bounds.extend(marker.position);
@@ -692,6 +705,8 @@ async function obtenerPublicacionesPropias(){
                             fontSize: "15px"
                         },
                         optimized: false,
+                        icon: customIconsss,
+                        label: null 
                     });
 
                     bounds.extend(marker.position);

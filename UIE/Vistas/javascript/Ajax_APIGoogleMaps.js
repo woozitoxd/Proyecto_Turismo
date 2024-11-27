@@ -61,10 +61,11 @@ function iniciarmapa() {
     });
 
     customIcon = {
-        url: "./media/icongenerico.png", // Ruta relativa al ícono
+        url: "./media/IconoSitio5.png", // Ruta relativa al ícono
         scaledSize: new google.maps.Size(50, 50), // Tamaño del ícono
         origin: new google.maps.Point(0, 0), // Origen de la imagen
         anchor: new google.maps.Point(25, 50) // Punto de anclaje
+
     };
 
     const marcadoresActuales = [];
@@ -102,6 +103,7 @@ function iniciarmapa() {
                     },
                     optimized: false,
                     icon: customIcon,
+                    label: null 
 
                 });
 
@@ -266,7 +268,7 @@ function cargarMapaDesdeTarjeta(elemento) {
                 },
                 title: 'Sitio ' + idSitio,
                 icon: customIcon,
-
+                label: null
             });
 
             // Mover el mapa a la posición del marcador
